@@ -14,7 +14,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Header & Logos */
 .header {
   display: flex;
   align-items: center;
@@ -26,22 +25,21 @@ body {
 }
 
 .logo img, .title-logo {
-  width: 100%;       
-  max-width: 380px;  
+  width: 100%;
+  max-width: 380px;
   height: auto;
-  flex-shrink: 0;    
+  flex-shrink: 0;
   display: block;
   margin: 0 auto;
 }
 
 @media (min-width: 681px) {
   .logo img, .title-logo {
-    max-width: 500px;   
-    width: auto;        
+    max-width: 500px;
+    width: auto;
   }
 }
 
-/* Menu Cards */
 .menu {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -96,7 +94,6 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
 }
 #total { margin-top: 6px; font-weight: 800; color: #fff; }
 
-/* Clouds */
 .mario-cloud {
   position: fixed;
   top: 40px;
@@ -121,7 +118,6 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
   100% { left: 110%; transform: translateY(0); }
 }
 
-/* Modals */
 #modal, #checkoutModal {
   display: none;
   position: fixed;
@@ -148,13 +144,17 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
   right: 10px;
   cursor: pointer;
   font-size: 22px;
+  font-weight: bold;
 }
 
-.modal-body label, #checkoutContent label { display: block; margin-bottom: 6px; }
+.modal-body label { display: block; margin-bottom: 6px; }
 
 .hidden { display: none; }
 
-.closeX { font-weight: bold; }
+@media (max-width: 680px) {
+  .header { gap: 12px; padding: 10px; }
+  .qtyInput { width: 60px; }
+}
 
 
 
