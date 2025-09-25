@@ -10,15 +10,19 @@ document.addEventListener("DOMContentLoaded", () => {
   const menuDiv = document.getElementById("menu");
   const cartUl = document.getElementById("cart");
   const totalP = document.getElementById("total");
-  const checkoutDiv = document.getElementById("checkout");
   const checkoutBtn = document.getElementById("checkoutBtn");
-  const orderForm = document.getElementById("orderForm");
-  const methodSelect = document.getElementById("method");
-  const addressInput = document.getElementById("address");
   const modal = document.getElementById("modal");
   const modalTitle = document.getElementById("modalTitle");
   const modalBody = document.querySelector(".modal-body");
   const closeModal = document.getElementById("closeModal");
+  const checkoutModal = document.getElementById("checkoutModal");
+  const checkoutCart = document.getElementById("checkoutCart");
+  const checkoutTotal = document.getElementById("checkoutTotal");
+  const checkoutName = document.getElementById("checkoutName");
+  const checkoutPhone = document.getElementById("checkoutPhone");
+  const confirmOrderBtn = document.getElementById("confirmOrderBtn");
+  const cancelOrderBtn = document.getElementById("cancelOrderBtn");
+  const closeCheckout = document.getElementById("closeCheckout");
   const coinSound = document.getElementById("coinSound");
 
   let cart = [];
@@ -30,9 +34,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.removeEventListener('touchstart', unlockAudio);
   });
 
-  function playCoin(){
-    try { coinSound.currentTime = 0; coinSound.play(); } catch(err) {}
-  }
+  function playCoin(){ try { coinSound.currentTime = 0; coinSound.play(); } catch(err) {} }
 
   function renderMenu() {
     menuDiv.innerHTML = "";
@@ -96,36 +98,25 @@ document.addEventListener("DOMContentLoaded", () => {
     const noComboCheck=document.getElementById("noComboCheck");
     const modalQty=document.getElementById("modalQty");
     const confirmBtn=document.getElementById("confirmBtn");
-    const drinks = modal.querySelectorAll('input[name="drink"]');
-
-    // LOCK drinks by default
-    drinks.forEach(rb => rb.disabled = true);
 
     comboCheck.addEventListener("change",()=>{ 
-      drinks.forEach(rb=>rb.disabled = !comboCheck.checked);
+      modal.querySelectorAll('input[name="drink"]').forEach(rb=>rb.disabled=!comboCheck.checked); 
       if(comboCheck.checked) noComboCheck.checked=false; 
-      modal.querySelector('#modalPrice').textContent=`Price: ${comboCheck.checked ? item.combo : item.price} DH`; 
+      modal.querySelector('#modalPrice').textContent=`Price: ${item.combo} DH`; 
     });
-
     noComboCheck.addEventListener("change",()=>{ 
-      if(noComboCheck.checked){
-        comboCheck.checked=false;
-        drinks.forEach(rb=>rb.disabled=true);
-        drinks.forEach(rb=>rb.checked=false);
-        modal.querySelector('#modalPrice').textContent=`Price: ${item.price} DH`; 
-      }
+      if(noComboCheck.checked) comboCheck.checked=false; 
+      modal.querySelector('#modalPrice').textContent=`Price: ${item.price} DH`; 
     });
 
     confirmBtn.addEventListener("click",()=>{
       const qty=parseInt(modalQty.value)||1;
-      const extras=[];
-      modal.querySelectorAll('input[type="checkbox"]:not(#comboCheck):not(#noComboCheck):checked').forEach(cb=>extras.push(cb.value));
+      const extras=[]; modal.querySelectorAll('input[type="checkbox"]:not(#comboCheck):not(#noComboCheck):checked').forEach(cb=>extras.push(cb.value));
       const selectedDrink=modal.querySelector('input[name="drink"]:checked');
       let drink=""; if(selectedDrink) drink=selectedDrink.value;
       const price=(comboCheck.checked?item.combo:item.price);
       for(let i=0;i<qty;i++){
-        cart.push({name:item.name+(comboCheck.checked?" Combo":""), price:price, details:(extras.length?extras.join(", "):"")+(drink? (extras.length?" | Drink: ":"Drink: ")+drink:"")||"No extras"});
-      }
+        cart.push({name:item.name+(comboCheck.checked?" Combo":""), price:price, details:(extras.length?extras.join(", "):"")+(drink? (extras.length?" | Drink: ":"Drink: ")+drink:"")||"No extras"});}
       renderCart(); modal.style.display="none"; playCoin();
     });
 
@@ -149,23 +140,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
   window.removeFromCart=function(index){ cart.splice(index,1); renderCart(); }
 
-  checkoutBtn.addEventListener("click",()=>checkoutDiv.classList.toggle("hidden"));
-  methodSelect.addEventListener("change",()=>{addressInput.classList.toggle("hidden",methodSelect.value!=="delivery");});
-
-  orderForm.addEventListener("submit",(e)=>{
-    e.preventDefault();
+  checkoutBtn.addEventListener("click",()=>{
     if(cart.length===0){alert("🛑 Your cart is empty!"); return;}
-    const customerName=document.getElementById("name").value;
-    const customerPhone=document.getElementById("phone").value;
-    const method=document.getElementById("method").value;
-    const address=document.getElementById("address").value;
-    const orderItems=cart.map(i=>`${i.name} (${i.details}) - ${i.price} DH`).join('%0A');
-    const total=cart.reduce((sum,i)=>sum+i.price,0);
-    const waUrl=`https://wa.me/212724680135?text=New Order from ${encodeURIComponent(customerName)}%0APhone: ${encodeURIComponent(customerPhone)}%0AMethod: ${encodeURIComponent(method)}%0AAddress: ${encodeURIComponent(address)}%0AItems:%0A${encodeURIComponent(orderItems)}%0ATotal: ${total} DH`;
+    checkoutCart.innerHTML="";
+    cart.forEach(it=>{
+      const li = document.createElement("li");
+      li.textContent=`${it.name} (${it.details}) - ${it.price} DH`;
+      checkoutCart.appendChild(li);
+    });
+    checkoutTotal.textContent=`Total: ${cart.reduce((sum,i)=>sum+i.price,0)} DH`;
+    checkoutModal.style.display="flex";
+  });
+
+  cancelOrderBtn.addEventListener("click",()=>{checkoutModal.style.display="none";});
+  closeCheckout.addEventListener("click",()=>{checkoutModal.style.display="none";});
+
+  confirmOrderBtn.addEventListener("click",()=>{
+    const name = checkoutName.value.trim();
+    const phone = checkoutPhone.value.trim();
+    if(!name || !phone){alert("Please enter Name and Phone Number"); return;}
+    const items = cart.map(i=>`${i.name} (${i.details}) - ${i.price} DH`).join('%0A');
+    const total = cart.reduce((sum,i)=>sum+i.price,0);
+    const waUrl = `https://wa.me/212724680135?text=New Order from ${encodeURIComponent(name)}%0APhone: ${encodeURIComponent(phone)}%0AItems:%0A${encodeURIComponent(items)}%0ATotal: ${total} DH`;
     window.open(waUrl,"_blank");
-    cart=[]; renderCart(); checkoutDiv.classList.add("hidden");
+    cart = [];
+    renderCart();
+    checkoutModal.style.display="none";
   });
 });
+
 
 
 
