@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -32,16 +32,7 @@
   <p id="total">Total: 0 DH</p>
   <button id="checkoutBtn" class="btn red">Proceed to Checkout</button>
 
-  <!-- Modal for customizing items -->
-  <div id="modal">
-    <div id="modalContent">
-      <span id="closeModal">&times;</span>
-      <h3 id="modalTitle"></h3>
-      <div class="modal-body"></div>
-    </div>
-  </div>
-
-  <!-- Modal for checkout -->
+  <!-- Checkout modal -->
   <div id="checkoutModal" class="hidden">
     <div id="checkoutContent">
       <span id="closeCheckout" class="closeX">&times;</span>
@@ -52,6 +43,15 @@
       <input type="tel" id="checkoutPhone" placeholder="Phone Number" required>
       <button id="confirmOrderBtn" class="btn green">Confirm & Send WhatsApp</button>
       <button id="cancelOrderBtn" class="btn red">Cancel</button>
+    </div>
+  </div>
+
+  <!-- Modal for customizing items -->
+  <div id="modal">
+    <div id="modalContent">
+      <span id="closeModal">&times;</span>
+      <h3 id="modalTitle"></h3>
+      <div class="modal-body"></div>
     </div>
   </div>
 
