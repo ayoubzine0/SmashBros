@@ -25,7 +25,6 @@ body {
   text-align: center;
 }
 
-/* Logo images: responsive + Safari fix */
 .logo img, .title-logo {
   width: 100%;       
   max-width: 380px;  
@@ -35,7 +34,6 @@ body {
   margin: 0 auto;
 }
 
-/* Desktop logos bigger */
 @media (min-width: 681px) {
   .logo img, .title-logo {
     max-width: 500px;   
@@ -70,7 +68,6 @@ body {
 
 .qtyInput { width: 72px; padding: 6px; border-radius: 6px; border: 1px solid #ccc; }
 
-/* Buttons */
 .btn {
   border: none;
   padding: 8px 12px;
@@ -99,52 +96,7 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
 }
 #total { margin-top: 6px; font-weight: 800; color: #fff; }
 
-.checkout {
-  margin-top: 18px;
-  background: rgba(255,255,255,0.95);
-  padding: 12px;
-  border-radius: 8px;
-  color: #111;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
-}
-.checkout input, .checkout select {
-  width: 100%;
-  padding: 8px;
-  margin: 6px 0;
-  border-radius: 6px;
-  border: 1px solid #ccc;
-}
-
-.hidden { display: none; }
-
-/* Modal */
-#modal {
-  display: none;
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.55);
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-}
-#modalContent {
-  background: #fff;
-  color: #111;
-  padding: 18px;
-  border-radius: 10px;
-  width: 340px;
-  position: relative;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-}
-#closeModal {
-  position: absolute;
-  top: 6px;
-  right: 10px;
-  cursor: pointer;
-  font-size: 22px;
-}
-.modal-body label { display: block; margin-bottom: 6px; }
-
+/* Clouds */
 .mario-cloud {
   position: fixed;
   top: 40px;
@@ -169,10 +121,40 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
   100% { left: 110%; transform: translateY(0); }
 }
 
-@media (max-width: 680px) {
-  .header { gap: 12px; padding: 10px; }
-  .qtyInput { width: 60px; }
+/* Modals */
+#modal, #checkoutModal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.55);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
 }
+
+#modalContent, #checkoutContent {
+  background: #fff;
+  color: #111;
+  padding: 18px;
+  border-radius: 10px;
+  width: 340px;
+  position: relative;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+#closeModal, #closeCheckout {
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.modal-body label, #checkoutContent label { display: block; margin-bottom: 6px; }
+
+.hidden { display: none; }
+
+.closeX { font-weight: bold; }
 
 
 
