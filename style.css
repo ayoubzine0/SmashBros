@@ -156,23 +156,32 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
   .qtyInput { width: 60px; }
 }
 
-/* 🟢 Mario Peeking */
+/* 🟢 Mario Peeking - ADDED */
 .mario-peek {
   position: fixed;
   bottom: 40px;
-  left: -60px; /* partly hidden */
+  left: -60px; /* partly off-screen so Mario is peeking */
   width: 120px;
   height: 120px;
-  background: url("https://i.imgur.com/hvY3G6t.gif") no-repeat center/contain; /* replace with your Mario GIF */
-  z-index: 10000;
-  pointer-events: none;
+  /* Replace the URL below with your Mario GIF if you have one */
+  background: url("https://i.imgur.com/hvY3G6t.gif") no-repeat center/contain;
+  z-index: 9998; /* below modals (9999) so it won't cover them */
+  pointer-events: none; /* won't block clicks */
   transition: left 0.6s ease;
 }
 
-/* Hover effect: Mario peeks more */
-body:hover .mario-peek {
-  left: 10px;
+/* On hover (desktop) Mario peeks more */
+@media (hover: hover) {
+  body:hover .mario-peek {
+    left: 10px;
+  }
 }
+
+/* On small screens: allow a small automatic peek (mobile doesn't have hover) */
+@media (max-width: 680px) {
+  .mario-peek { left: -30px; width: 90px; height: 90px; }
+}
+
 
 
 
