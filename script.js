@@ -1,3 +1,4 @@
+JavaScript (script.js)
 document.addEventListener("DOMContentLoaded", () => {
   const menuItems = [
     { id: 1, name: "Simple Smash Burger", price: 35, combo: 50, img: "https://i.imgur.com/C8oaoZU.png" },
@@ -24,7 +25,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let cart = [];
   let currentItem = null;
 
-  // Unlock audio on iOS
   document.body.addEventListener('touchstart', function unlockAudio(){
       coinSound.play().catch(()=>{});
       coinSound.pause();
@@ -35,7 +35,6 @@ document.addEventListener("DOMContentLoaded", () => {
     try { coinSound.currentTime = 0; coinSound.play(); } catch(err) {}
   }
 
-  // Render Menu
   function renderMenu() {
     menuDiv.innerHTML = "";
     menuItems.forEach(item => {
@@ -55,7 +54,7 @@ document.addEventListener("DOMContentLoaded", () => {
         right.style.display="flex"; right.style.gap="8px"; right.style.alignItems="center";
         const qtyInput=document.createElement("input"); qtyInput.type="number"; qtyInput.min="1"; qtyInput.value="1"; qtyInput.className="qtyInput";
         const addBtn=document.createElement("button"); addBtn.className="btn green"; addBtn.textContent="Add to Cart";
-        addBtn.addEventListener("click",()=>{
+        addBtn.addEventListener("click",()=>{ 
           const qty=parseInt(qtyInput.value)||1; 
           for(let i=0;i<qty;i++){ cart.push({name:item.name,price:item.price,details:"x1"}); } 
           renderCart(); qtyInput.value=1; playCoin(); 
@@ -68,7 +67,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderMenu();
 
-  // Modal
   function openModal(item){
     currentItem=item;
     modalTitle.textContent=`Customize ${item.name}`;
@@ -100,24 +98,37 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalQty=document.getElementById("modalQty");
     const confirmBtn=document.getElementById("confirmBtn");
 
-    comboCheck.addEventListener("change",()=>{ 
-      modal.querySelectorAll('input[name="drink"]').forEach(rb=>rb.disabled=!comboCheck.checked); 
-      if(comboCheck.checked) noComboCheck.checked=false; 
-      modal.querySelector('#modalPrice').textContent=`Price: ${item.combo} DH`; 
-    });
-    noComboCheck.addEventListener("change",()=>{ 
-      if(noComboCheck.checked) comboCheck.checked=false; 
-      modal.querySelector('#modalPrice').textContent=`Price: ${item.price} DH`; 
+    comboCheck.addEventListener("change", () => {
+      modal.querySelectorAll('input[name="drink"]').forEach(rb => rb.disabled = !comboCheck.checked);
+      if(comboCheck.checked){
+        noComboCheck.checked = false;
+        modal.querySelector('#modalPrice').textContent = `Price: ${item.combo} DH`;
+      } else {
+        modal.querySelector('#modalPrice').textContent = `Price: ${item.price} DH`;
+      }
     });
 
-    confirmBtn.addEventListener("click",()=>{
+    noComboCheck.addEventListener("change", () => {
+      if(noComboCheck.checked){
+        comboCheck.checked = false;
+        modal.querySelectorAll('input[name="drink"]').forEach(rb => rb.disabled = true);
+        modal.querySelector('#modalPrice').textContent = `Price: ${item.price} DH`;
+      }
+    });
+
+    confirmBtn.addEventListener("click", () => {
       const qty=parseInt(modalQty.value)||1;
-      const extras=[]; modal.querySelectorAll('input[type="checkbox"]:not(#comboCheck):not(#noComboCheck):checked').forEach(cb=>extras.push(cb.value));
+      const extras=[];
+      modal.querySelectorAll('input[type="checkbox"]:not(#comboCheck):not(#noComboCheck):checked').forEach(cb=>extras.push(cb.value));
       const selectedDrink=modal.querySelector('input[name="drink"]:checked');
       let drink=""; if(selectedDrink) drink=selectedDrink.value;
       const price=(comboCheck.checked?item.combo:item.price);
       for(let i=0;i<qty;i++){
-        cart.push({name:item.name+(comboCheck.checked?" Combo":""), price:price, details:(extras.length?extras.join(", "):"")+(drink? (extras.length?" | Drink: ":"Drink: ")+drink:"")||"No extras"});
+        cart.push({
+          name:item.name+(comboCheck.checked?" Combo":""),
+          price:price,
+          details:(extras.length?extras.join(", "):"")+(drink? (extras.length?" | Drink: ":"Drink: ")+drink:"")||"No extras"
+        });
       }
       renderCart(); modal.style.display="none"; playCoin();
     });
