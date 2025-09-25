@@ -28,17 +28,17 @@ body {
 /* Logo images: responsive + Safari fix */
 .logo img, .title-logo {
   width: 100%;       /* scale inside container */
-  max-width: 200px;  /* mobile size */
+  max-width: 300px;  /* mobile size */
   height: auto;
   flex-shrink: 0;    /* prevent Safari from shrinking */
   display: block;
   margin: 0 auto;
 }
 
-/* Desktop logos ~400px */
+/* Desktop logos 600px */
 @media (min-width: 681px) {
   .logo img, .title-logo {
-    max-width: 400px;  /* desktop size */
+    max-width: 600px;  /* desktop size */
   }
 }
 
@@ -172,6 +172,7 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
   .header { gap: 12px; padding: 10px; }
   .qtyInput { width: 60px; }
 }
+
 
 
 
