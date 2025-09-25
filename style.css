@@ -26,8 +26,12 @@ body {
   text-align: center;
 }
 
-.logo img { max-width: 120px; height: auto; display: block; }
-.title-logo { max-width: 260px; height: auto; display: block; margin: 0 auto; }
+/* Mobile sizes (phones) */
+.logo img { max-width: 200px; }       /* increased from 120px */
+.title-logo { max-width: 300px; }     /* increased from 260px */
+height: auto; 
+display: block;
+margin: 0 auto;
 
 /* Desktop logos ~400px */
 @media (min-width: 681px) {
