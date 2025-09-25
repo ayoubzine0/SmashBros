@@ -5,7 +5,7 @@ html, body { height: 100%; margin: 0; padding: 0; }
 
 body {
   font-family: 'Poppins', system-ui, Arial, sans-serif;
-  background: url("https://i.imgur.com/pOtikxU.jpeg") no-repeat center center fixed;
+  background: url("https://i.imgur.com/YtV9REM.jpeg") no-repeat center center fixed;
   background-size: cover;
   padding: 20px;
   margin: 0 auto;
@@ -181,6 +181,7 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
 @media (max-width: 680px) {
   .mario-peek { left: -30px; width: 90px; height: 90px; }
 }
+
 
 
 
