@@ -29,7 +29,7 @@ body {
 }
 
 .logo img {
-  max-width: 650px;
+  max-width: 1200px;
   height: auto;
   display: block;
 }
@@ -40,7 +40,7 @@ body {
 }
 
 .title-logo {
-  max-width: 650px;
+  max-width: 1200px;
   height: auto;
   display: block;
   margin: 0 auto;
@@ -205,4 +205,5 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
   .logo img { max-width: 120px; }
   .title-logo { max-width: 260px; }
   .qtyInput { width: 60px; }
+
 }
