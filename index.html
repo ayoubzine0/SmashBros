@@ -5,7 +5,9 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Smash Bro's Restaurant</title>
 
+  <!-- Font -->
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -21,7 +23,7 @@
     </div>
   </div>
 
-  <!-- Floating Clouds -->
+  <!-- Floating Mario Clouds -->
   <div class="mario-cloud" aria-hidden="true"></div>
   <div class="mario-cloud small" aria-hidden="true"></div>
 
@@ -49,16 +51,37 @@
     </form>
   </div>
 
-  <!-- Modal for customization -->
+  <!-- Modal -->
   <div id="modal">
     <div id="modalContent">
       <span id="closeModal">&times;</span>
       <h3 id="modalTitle"></h3>
-      <div class="modal-body"></div>
+      <div class="modal-body">
+        <label><input type="checkbox" value="Tomato"> Tomato</label>
+        <label><input type="checkbox" value="Onion"> Onion</label>
+        <label><input type="checkbox" value="Lettuce"> Lettuce</label>
+        <label><input type="checkbox" value="Cheese"> Cheese</label>
+
+        <p>Sauces:</p>
+        <label><input type="checkbox" value="Mayo" class="sauce"> Mayo</label>
+        <label><input type="checkbox" value="Ketchup" class="sauce"> Ketchup</label>
+        <label><input type="checkbox" value="Mustard" class="sauce"> Mustard</label>
+
+        <p>Drinks:</p>
+        <label><input type="radio" name="drink" value="Coke" disabled> Coke</label>
+        <label><input type="radio" name="drink" value="Sprite" disabled> Sprite</label>
+        <label><input type="radio" name="drink" value="Hawai" disabled> Hawai</label>
+
+        <p>Quantity: <input type="number" min="1" value="1" id="modalQty"></p>
+        <p><label><input type="checkbox" id="comboCheck"> Add Combo</label></p>
+        <p id="modalPrice"></p>
+        <button id="confirmBtn" class="btn green">Add to Cart</button>
+      </div>
     </div>
   </div>
 
   <audio id="coinSound" src="https://themushroomkingdom.net/sounds/wav/smb/smb_coin.wav" preload="auto"></audio>
+
   <script src="script.js"></script>
 </body>
 </html>
