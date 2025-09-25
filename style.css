@@ -1,6 +1,8 @@
 :root { --max-width: 900px; }
+
 * { box-sizing: border-box; }
 html, body { height: 100%; margin: 0; padding: 0; }
+
 body {
   font-family: 'Poppins', system-ui, Arial, sans-serif;
   background: url("https://i.imgur.com/R4mMpY0.jpeg") no-repeat center center fixed;
@@ -11,6 +13,8 @@ body {
   text-shadow: 1px 1px 2px rgba(0,0,0,0.6);
   overflow-x: hidden;
 }
+
+/* Header & Logos */
 .header {
   display: flex;
   align-items: center;
@@ -20,6 +24,8 @@ body {
   flex-wrap: wrap;
   text-align: center;
 }
+
+/* Logo images: responsive + Safari fix */
 .logo img, .title-logo {
   width: 100%;       
   max-width: 380px;  
@@ -28,18 +34,23 @@ body {
   display: block;
   margin: 0 auto;
 }
+
+/* Desktop logos bigger */
 @media (min-width: 681px) {
   .logo img, .title-logo {
     max-width: 500px;   
     width: auto;        
   }
 }
+
+/* Menu Cards */
 .menu {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 16px;
   margin-bottom: 20px;
 }
+
 .card {
   color: white;
   padding: 14px;
@@ -53,9 +64,13 @@ body {
   background-position: 50% 20%;
   text-shadow: 1px 1px 2px black;
 }
+
 .card h3 { margin: 0 0 8px 0; font-size: 1.15rem; }
 .card p { margin: 0 0 12px 0; font-weight: 700; }
+
 .qtyInput { width: 72px; padding: 6px; border-radius: 6px; border: 1px solid #ccc; }
+
+/* Buttons */
 .btn {
   border: none;
   padding: 8px 12px;
@@ -68,6 +83,7 @@ body {
 .btn.green:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
 .btn.red { background: #ff3333; color: white; }
 .btn.red:hover { transform: translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.18); }
+
 h2 { margin-top: 26px; font-size: 1.4rem; }
 .cart { list-style: none; padding: 0; margin-bottom: 10px; }
 .cart li {
@@ -82,6 +98,7 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
   font-weight: 700;
 }
 #total { margin-top: 6px; font-weight: 800; color: #fff; }
+
 .checkout {
   margin-top: 18px;
   background: rgba(255,255,255,0.95);
@@ -97,7 +114,10 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
   border-radius: 6px;
   border: 1px solid #ccc;
 }
+
 .hidden { display: none; }
+
+/* Modal */
 #modal {
   display: none;
   position: fixed;
@@ -124,6 +144,7 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
   font-size: 22px;
 }
 .modal-body label { display: block; margin-bottom: 6px; }
+
 .mario-cloud {
   position: fixed;
   top: 40px;
@@ -147,6 +168,7 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
   50% { transform: translateY(-4px); }
   100% { left: 110%; transform: translateY(0); }
 }
+
 @media (max-width: 680px) {
   .header { gap: 12px; padding: 10px; }
   .qtyInput { width: 60px; }
