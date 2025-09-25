@@ -29,7 +29,7 @@ body {
 }
 
 .logo img {
-  max-width: 1200px;
+  max-width: 500px;   /* Desktop size */
   height: auto;
   display: block;
 }
@@ -40,7 +40,7 @@ body {
 }
 
 .title-logo {
-  max-width: 1200px;
+  max-width: 700px;   /* Desktop size */
   height: auto;
   display: block;
   margin: 0 auto;
@@ -64,14 +64,13 @@ body {
   flex-direction: column;
   justify-content: space-between;
   background-size: cover;
-  background-position: 50% 20%;  /* Adjust image vertical position */
+  background-position: 50% 20%;
   text-shadow: 1px 1px 2px black;
 }
 
 .card h3 { margin: 0 0 8px 0; font-size: 1.15rem; }
 .card p { margin: 0 0 12px 0; font-weight: 700; }
 
-/* Qty input on card */
 .qtyInput { width: 72px; padding: 6px; border-radius: 6px; border: 1px solid #ccc; }
 
 /* ---------- Buttons ---------- */
@@ -164,7 +163,6 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
   margin-bottom: 6px;
 }
 
-/* Combo / No Combo layout */
 #comboContainer {
   display: flex;
   gap: 12px;
@@ -202,8 +200,7 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
 /* ---------- Responsive ---------- */
 @media (max-width: 680px) {
   .header { gap: 12px; padding: 10px; }
-  .logo img { max-width: 120px; }
-  .title-logo { max-width: 260px; }
+  .logo img { max-width: 280px; }   /* bigger on mobile */
+  .title-logo { max-width: 420px; } /* bigger on mobile */
   .qtyInput { width: 60px; }
-
 }
