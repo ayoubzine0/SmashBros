@@ -35,10 +35,11 @@ body {
   margin: 0 auto;
 }
 
-/* Desktop logos 600px */
+/* Desktop logos bigger */
 @media (min-width: 681px) {
   .logo img, .title-logo {
-    max-width: 600px;  /* desktop size */
+    max-width: 500px;   /* new desktop size */
+    width: auto;        /* prevents shrinking inside flex */
   }
 }
 
@@ -172,6 +173,7 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
   .header { gap: 12px; padding: 10px; }
   .qtyInput { width: 60px; }
 }
+
 
 
 
