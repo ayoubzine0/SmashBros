@@ -28,7 +28,7 @@ body {
   text-align: center;
 }
 
-/* Default (mobile sizes) */
+/* Mobile-first: logos fill phone nicely */
 .logo img {
   max-width: 120px;
   height: auto;
@@ -47,12 +47,9 @@ body {
   margin: 0 auto;
 }
 
-/* Larger screens: cap both logos at 400px */
+/* Desktop: cap both logos at 400px */
 @media (min-width: 681px) {
-  .logo img {
-    max-width: 400px;
-  }
-  .title-logo {
+  .logo img, .title-logo {
     max-width: 400px;
   }
 }
@@ -75,7 +72,7 @@ body {
   flex-direction: column;
   justify-content: space-between;
   background-size: cover;
-  background-position: 50% 20%;  /* Adjust image vertical position */
+  background-position: 50% 20%;
   text-shadow: 1px 1px 2px black;
 }
 
