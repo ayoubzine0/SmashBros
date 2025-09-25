@@ -26,15 +26,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Unlock audio on iOS
   document.body.addEventListener('touchstart', function unlockAudio(){
-    coinSound.play().catch(()=>{});
-    coinSound.pause();
-    document.body.removeEventListener('touchstart', unlockAudio);
+      coinSound.play().catch(()=>{});
+      coinSound.pause();
+      document.body.removeEventListener('touchstart', unlockAudio);
   });
 
   function playCoin(){
     try { coinSound.currentTime = 0; coinSound.play(); } catch(err) {}
   }
 
+  // Render Menu
   function renderMenu() {
     menuDiv.innerHTML = "";
     menuItems.forEach(item => {
@@ -42,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
       card.className = "card";
       card.style.backgroundImage = `url(${item.img})`;
       card.innerHTML = `<div><h3>${item.name}</h3><p>${item.price} DH</p></div>`;
+
       if(item.combo){
         const btn = document.createElement("button");
         btn.className = "btn green";
@@ -66,6 +68,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   renderMenu();
 
+  // Modal
   function openModal(item){
     currentItem=item;
     modalTitle.textContent=`Customize ${item.name}`;
@@ -156,3 +159,4 @@ document.addEventListener("DOMContentLoaded", () => {
     cart=[]; renderCart(); checkoutDiv.classList.add("hidden");
   });
 });
+
