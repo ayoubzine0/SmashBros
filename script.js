@@ -24,7 +24,7 @@ document.addEventListener("DOMContentLoaded", () => {
   let cart = [];
   let currentItem = null;
 
-  // Unlock audio on first touch for iPhone
+  // Unlock audio on iOS
   document.body.addEventListener('touchstart', function unlockAudio(){
     coinSound.play().catch(()=>{});
     coinSound.pause();
@@ -32,10 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   function playCoin(){
-    try {
-      coinSound.currentTime = 0;
-      coinSound.play();
-    } catch(err) {}
+    try { coinSound.currentTime = 0; coinSound.play(); } catch(err) {}
   }
 
   function renderMenu() {
@@ -45,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
       card.className = "card";
       card.style.backgroundImage = `url(${item.img})`;
       card.innerHTML = `<div><h3>${item.name}</h3><p>${item.price} DH</p></div>`;
-
       if(item.combo){
         const btn = document.createElement("button");
         btn.className = "btn green";
@@ -57,7 +53,11 @@ document.addEventListener("DOMContentLoaded", () => {
         right.style.display="flex"; right.style.gap="8px"; right.style.alignItems="center";
         const qtyInput=document.createElement("input"); qtyInput.type="number"; qtyInput.min="1"; qtyInput.value="1"; qtyInput.className="qtyInput";
         const addBtn=document.createElement("button"); addBtn.className="btn green"; addBtn.textContent="Add to Cart";
-        addBtn.addEventListener("click",()=>{ const qty=parseInt(qtyInput.value)||1; for(let i=0;i<qty;i++){ cart.push({name:item.name,price:item.price,details:"x1"});} renderCart(); qtyInput.value=1; playCoin(); });
+        addBtn.addEventListener("click",()=>{
+          const qty=parseInt(qtyInput.value)||1; 
+          for(let i=0;i<qty;i++){ cart.push({name:item.name,price:item.price,details:"x1"}); } 
+          renderCart(); qtyInput.value=1; playCoin(); 
+        });
         right.appendChild(qtyInput); right.appendChild(addBtn); card.appendChild(right);
       }
       menuDiv.appendChild(card);
