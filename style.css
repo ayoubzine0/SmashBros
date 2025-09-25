@@ -28,7 +28,7 @@ body {
 /* Logo images: responsive + Safari fix */
 .logo img, .title-logo {
   width: 100%;       /* scale inside container */
-  max-width: 300px;  /* mobile size */
+  max-width: 380px;  /* mobile size */
   height: auto;
   flex-shrink: 0;    /* prevent Safari from shrinking */
   display: block;
@@ -173,6 +173,7 @@ h2 { margin-top: 26px; font-size: 1.4rem; }
   .header { gap: 12px; padding: 10px; }
   .qtyInput { width: 60px; }
 }
+
 
 
 
