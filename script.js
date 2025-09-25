@@ -76,7 +76,6 @@ document.addEventListener("DOMContentLoaded", () => {
       <label><input type="checkbox" value="Tomato"> Tomato</label>
       <label><input type="checkbox" value="Onion"> Onion</label>
       <label><input type="checkbox" value="Lettuce"> Lettuce</label>
-      <label><input type="checkbox" value="Cheese"> Cheese</label>
       <p>Sauces:</p>
       <label><input type="checkbox" value="Mayo" class="sauce"> Mayo</label>
       <label><input type="checkbox" value="Ketchup" class="sauce"> Ketchup</label>
@@ -177,3 +176,4 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
 });
+
