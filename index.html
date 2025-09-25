@@ -2,9 +2,8 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Smash Bro's Restaurant</title>
-
   <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -15,15 +14,14 @@
     <div class="logo">
       <img src="https://i.imgur.com/pR0TdNc.png" alt="Main Logo">
     </div>
-
     <div class="title logo-with-effects">
       <img src="https://i.imgur.com/n6dGNk2.png" alt="Smash Bro's Logo" class="title-logo">
     </div>
   </div>
 
-  <!-- Floating Clouds -->
-  <div class="mario-cloud" aria-hidden="true"></div>
-  <div class="mario-cloud small" aria-hidden="true"></div>
+  <!-- Clouds -->
+  <div class="mario-cloud"></div>
+  <div class="mario-cloud small"></div>
 
   <!-- Menu -->
   <div id="menu" class="menu"></div>
@@ -59,10 +57,13 @@
   </div>
 
   <!-- Coin Sound -->
-  <audio id="coinSound" src="https://raw.githubusercontent.com/username/repo/main/coin.mp3" preload="auto"></audio>
+  <audio id="coinSound" preload="auto">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-video-game-mystery-coin-2063.mp3" type="audio/mpeg">
+  </audio>
 
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
