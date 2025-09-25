@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="utf-8" />
@@ -8,54 +8,60 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+
+  <!-- Header -->
   <div class="header">
     <div class="logo">
-      <img src="https://i.imgur.com/YOUR_LOGO.png" alt="Smash Bro's Logo">
+      <img src="https://i.imgur.com/pR0TdNc.png" alt="Main Logo">
     </div>
-    <img class="title-logo" src="https://i.imgur.com/YOUR_TITLE.png" alt="Smash Bro's Title">
-  </div>
-
-  <div class="menu">
-    <div class="card" style="background-image:url('https://i.imgur.com/YOUR_BURGER_IMAGE.jpg')">
-      <h3>Classic Smash Burger</h3>
-      <p>50 MAD</p>
-      <input type="number" min="1" value="1" class="qtyInput">
-      <button class="btn green addBtn">Add</button>
+    <div class="title logo-with-effects">
+      <img src="https://i.imgur.com/n6dGNk2.png" alt="Smash Bro's Logo" class="title-logo">
     </div>
-    <!-- Add more menu items here -->
   </div>
-
-  <h2>Your Cart</h2>
-  <ul class="cart" id="cart"></ul>
-  <p id="total">Total: 0 MAD</p>
-  <button class="btn red" id="checkoutBtn">Checkout</button>
 
   <!-- Clouds -->
   <div class="mario-cloud"></div>
   <div class="mario-cloud small"></div>
 
-  <!-- Mario peeking -->
-  <div class="mario-peek"></div>
+  <!-- Mario peeking (ADDED) -->
+  <div class="mario-peek" aria-hidden="true"></div>
 
-  <!-- Modals -->
+  <!-- Menu -->
+  <div id="menu" class="menu"></div>
+
+  <!-- Cart -->
+  <h2>🛒 Your Order</h2>
+  <ul id="cart" class="cart"></ul>
+  <p id="total">Total: 0 DH</p>
+  <button id="checkoutBtn" class="btn red">Proceed to Checkout</button>
+
+  <!-- Modal for customizing items -->
   <div id="modal">
     <div id="modalContent">
       <span id="closeModal">&times;</span>
-      <div class="modal-body">
-        <h3>Extra Options</h3>
-        <label><input type="checkbox" id="addSoda"> Add Soda (10 MAD)</label>
-        <button class="btn green" id="confirmExtras">Confirm</button>
-      </div>
+      <h3 id="modalTitle"></h3>
+      <div class="modal-body"></div>
     </div>
   </div>
 
-  <div id="checkoutModal">
+  <!-- Checkout modal -->
+  <div id="checkoutModal" class="hidden">
     <div id="checkoutContent">
-      <span id="closeCheckout">&times;</span>
-      <h3>Checkout</h3>
-      <p>Your order is being processed...</p>
+      <span id="closeCheckout" class="closeX">&times;</span>
+      <h2>Confirm Your Order</h2>
+      <ul id="checkoutCart"></ul>
+      <p id="checkoutTotal"></p>
+      <input type="text" id="checkoutName" placeholder="Your Name" required>
+      <input type="tel" id="checkoutPhone" placeholder="Phone Number" required>
+      <button id="confirmOrderBtn" class="btn green">Confirm & Send WhatsApp</button>
+      <button id="cancelOrderBtn" class="btn red">Cancel</button>
     </div>
   </div>
+
+  <!-- Coin Sound -->
+  <audio id="coinSound" preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2024/10/31/audio_9f88ea50ad.mp3?filename=coin-257878.mp3" type="audio/mpeg">
+  </audio>
 
   <script src="script.js"></script>
 </body>
