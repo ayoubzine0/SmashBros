@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", () => {
       modal.querySelector('#modalPrice').textContent=`Price: ${noComboCheck.checked ? item.price : item.combo} DH`; 
     });
 
-    confirmBtn.addEventListener("click",()=>{
+    confirmBtn.addEventListener("click",()=> {
       const qty=parseInt(modalQty.value)||1;
       const extras=[];
       modal.querySelectorAll('input[type="checkbox"]:not(#comboCheck):not(#noComboCheck):checked').forEach(cb=>extras.push(cb.value));
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", () => {
   window.removeFromCart=function(index){ cart.splice(index,1); renderCart(); }
 
   // Checkout modal
-  checkoutBtn.addEventListener("click",()=>{
+  checkoutBtn.addEventListener("click",()=> {
     if(cart.length===0){alert("🛑 Your cart is empty!"); return;}
     checkoutCart.innerHTML="";
     cart.forEach(it=>{
@@ -163,7 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
   cancelOrderBtn.addEventListener("click",()=>{checkoutModal.style.display="none";});
   closeCheckout.addEventListener("click",()=>{checkoutModal.style.display="none";});
 
-  confirmOrderBtn.addEventListener("click",()=>{
+  confirmOrderBtn.addEventListener("click",()=> {
     const name = checkoutName.value.trim();
     const phone = checkoutPhone.value.trim();
     if(!name || !phone){alert("Please enter Name and Phone Number"); return;}
@@ -175,5 +175,5 @@ document.addEventListener("DOMContentLoaded", () => {
     renderCart();
     checkoutModal.style.display="none";
   });
-});
 
+});
