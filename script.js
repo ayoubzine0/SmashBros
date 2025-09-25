@@ -1,4 +1,3 @@
-JS (script.js)
 document.addEventListener("DOMContentLoaded", () => {
   const menuItems = [
     { id: 1, name: "Simple Smash Burger", price: 35, combo: 50, img: "https://i.imgur.com/C8oaoZU.png" },
@@ -177,3 +176,4 @@ document.addEventListener("DOMContentLoaded", () => {
     checkoutModal.style.display="none";
   });
 });
+
