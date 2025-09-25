@@ -24,6 +24,20 @@ document.addEventListener("DOMContentLoaded", () => {
   let cart = [];
   let currentItem = null;
 
+  // Unlock audio on first touch for iPhone
+  document.body.addEventListener('touchstart', function unlockAudio(){
+    coinSound.play().catch(()=>{});
+    coinSound.pause();
+    document.body.removeEventListener('touchstart', unlockAudio);
+  });
+
+  function playCoin(){
+    try {
+      coinSound.currentTime = 0;
+      coinSound.play();
+    } catch(err) {}
+  }
+
   function renderMenu() {
     menuDiv.innerHTML = "";
     menuItems.forEach(item => {
@@ -83,8 +97,15 @@ document.addEventListener("DOMContentLoaded", () => {
     const modalQty=document.getElementById("modalQty");
     const confirmBtn=document.getElementById("confirmBtn");
 
-    comboCheck.addEventListener("change",()=>{ modal.querySelectorAll('input[name="drink"]').forEach(rb=>rb.disabled=!comboCheck.checked); if(comboCheck.checked) noComboCheck.checked=false; modal.querySelector('#modalPrice').textContent=`Price: ${item.combo} DH`; });
-    noComboCheck.addEventListener("change",()=>{ if(noComboCheck.checked) comboCheck.checked=false; modal.querySelector('#modalPrice').textContent=`Price: ${item.price} DH`; });
+    comboCheck.addEventListener("change",()=>{ 
+      modal.querySelectorAll('input[name="drink"]').forEach(rb=>rb.disabled=!comboCheck.checked); 
+      if(comboCheck.checked) noComboCheck.checked=false; 
+      modal.querySelector('#modalPrice').textContent=`Price: ${item.combo} DH`; 
+    });
+    noComboCheck.addEventListener("change",()=>{ 
+      if(noComboCheck.checked) comboCheck.checked=false; 
+      modal.querySelector('#modalPrice').textContent=`Price: ${item.price} DH`; 
+    });
 
     confirmBtn.addEventListener("click",()=>{
       const qty=parseInt(modalQty.value)||1;
@@ -107,7 +128,12 @@ document.addEventListener("DOMContentLoaded", () => {
   function renderCart(){
     cartUl.innerHTML="";
     let total=0;
-    cart.forEach((it,idx)=>{ total+=it.price; const li=document.createElement("li"); li.innerHTML=`${it.name} (${it.details}) - ${it.price} DH <button class="btn red" onclick="removeFromCart(${idx})">Remove</button>`; cartUl.appendChild(li); });
+    cart.forEach((it,idx)=>{ 
+      total+=it.price; 
+      const li=document.createElement("li"); 
+      li.innerHTML=`${it.name} (${it.details}) - ${it.price} DH <button class="btn red" onclick="removeFromCart(${idx})">Remove</button>`; 
+      cartUl.appendChild(li); 
+    });
     totalP.textContent=`Total: ${total} DH`;
   }
 
@@ -129,6 +155,4 @@ document.addEventListener("DOMContentLoaded", () => {
     window.open(waUrl,"_blank");
     cart=[]; renderCart(); checkoutDiv.classList.add("hidden");
   });
-
-  function playCoin(){ try{coinSound.currentTime=0; coinSound.play();}catch(err){} }
 });
