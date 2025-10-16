@@ -12,14 +12,14 @@ const totalText = document.getElementById("total");
 const checkoutBtn = document.getElementById("checkout-btn");
 
 const products = [
-  {id:1, name:"Motorcycle Helmet", price:850, stock:5, img:"https://images.unsplash.com/photo-1600803907087-f56d462fd26b"},
-  {id:2, name:"Car Brake Pads", price:600, stock:12, img:"https://images.unsplash.com/photo-1616222593965-4a1ad908b240"},
-  {id:3, name:"Engine Oil 5L", price:350, stock:20, img:"https://images.unsplash.com/photo-1601924994987-69a3c8d6e9f0"},
-  {id:4, name:"LED Headlight", price:250, stock:15, img:"https://images.unsplash.com/photo-1580196969807-cc6de06c05f8"},
-  {id:5, name:"Racing Gloves", price:150, stock:8, img:"https://images.unsplash.com/photo-1611078484730-5c7a5f3a26bb"},
-  {id:6, name:"Exhaust Pipe", price:950, stock:6, img:"https://images.unsplash.com/photo-1615463603178-b2ad4f9a8fbb"},
-  {id:7, name:"Motor Oil Filter", price:120, stock:30, img:"https://images.unsplash.com/photo-1603714223985-4d5fdc54a876"},
-  {id:8, name:"Car Battery", price:1100, stock:4, img:"https://images.unsplash.com/photo-1620917669754-1a93761a53d1"}
+  {id:1, name:"Cylender", price:850, stock:5, img:"https://i.imgur.com/KHFhKuJ.jpeg"},
+  {id:2, name:"chain kit", price:600, stock:12, img:"https://i.imgur.com/N18ldZS.jpeg"},
+  {id:3, name:"Spark Plug", price:350, stock:20, img:"https://i.imgur.com/ilbC97V.jpeg"},
+  {id:4, name:"Clutch Kit", price:250, stock:15, img:"https://i.imgur.com/GCKdTrL.jpeg"},
+  {id:5, name:"Sanya Leather Seat", price:150, stock:8, img:"https://i.imgur.com/JqNDT4P.jpeg"},
+  {id:6, name:"Exhaust Pipe", price:950, stock:6, img:"https://i.imgur.com/ragV47h.png"},
+  {id:7, name:"Motorcycle Alarm System", price:120, stock:30, img:"https://i.imgur.com/5kijwUc.jpeg"},
+  {id:8, name:"Motorcycle Phone Support", price:1100, stock:4, img:"https://i.imgur.com/J6l8Ln2.jpeg"}
 ];
 
 let cart = [];
@@ -89,3 +89,4 @@ checkoutBtn.onclick = () => {
   const text = encodeURIComponent(`Hello Bee Auto Parts, I'd like to order:\n${msg}\n\nTotal: ${total} MAD`);
   window.open(`https://wa.me/?text=${text}`, "_blank");
 };
+
