@@ -1,26 +1,9 @@
 // === Product Data ===
-// Replace the img links with your own images
 const products = [
   { id: 1, name: "Cylender", price: 220, stock: 80, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
   { id: 2, name: "Chain Kit", price: 95, stock: 90, img: "https://i.imgur.com/N18ldZS.jpeg" },
   { id: 3, name: "Moroccan Tea Set", price: 250, stock: 5, img: "https://picsum.photos/id/1013/200" },
-  { id: 4, name: "Leather Wallet", price: 180, stock: 12, img: "https://picsum.photos/id/1014/200" },
-  { id: 5, name: "Argan Shampoo", price: 75, stock: 20, img: "https://picsum.photos/id/1015/200" },
-  { id: 6, name: "Traditional Slippers", price: 130, stock: 6, img: "https://picsum.photos/id/1016/200" },
-  { id: 7, name: "Cedarwood Perfume", price: 220, stock: 9, img: "https://picsum.photos/id/1018/200" },
-  { id: 8, name: "Berber Carpet", price: 650, stock: 3, img: "https://picsum.photos/id/1020/200" },
-  { id: 9, name: "Handmade Basket", price: 90, stock: 15, img: "https://picsum.photos/id/1021/200" },
-  { id: 10, name: "Mint Soap", price: 45, stock: 25, img: "https://picsum.photos/id/1022/200" },
-  { id: 11, name: "Leather Bag", price: 400, stock: 5, img: "https://picsum.photos/id/1023/200" },
-  { id: 12, name: "Ceramic Tagine", price: 300, stock: 4, img: "https://picsum.photos/id/1024/200" },
-  { id: 13, name: "Spice Box Set", price: 180, stock: 10, img: "https://picsum.photos/id/1025/200" },
-  { id: 14, name: "Cactus Oil", price: 150, stock: 8, img: "https://picsum.photos/id/1026/200" },
-  { id: 15, name: "Rose Water", price: 60, stock: 18, img: "https://picsum.photos/id/1027/200" },
-  { id: 16, name: "Moroccan Lamp", price: 280, stock: 5, img: "https://picsum.photos/id/1028/200" },
   { id: 17, name: "Shock Absorber", price: 50, stock: 100, img: "https://i.imgur.com/kEeBvLR.jpeg" },
-  { id: 18, name: "Traditional Hat", price: 70, stock: 10, img: "https://picsum.photos/id/1031/200" },
-  { id: 19, name: "Clay Pot", price: 85, stock: 9, img: "https://picsum.photos/id/1032/200" },
-  { id: 20, name: "Wooden Spoon Set", price: 40, stock: 30, img: "https://picsum.photos/id/1033/200" }
 ];
 
 // === DOM References ===
@@ -35,6 +18,7 @@ const quantitySelect = document.getElementById('quantity');
 const addToCartBtn = document.getElementById('add-to-cart');
 const cartItems = document.getElementById('cart-items');
 const totalText = document.getElementById('total');
+const checkoutBtn = document.getElementById('checkout-btn');
 
 let currentProduct = null;
 let cart = [];
@@ -99,3 +83,23 @@ function updateCart() {
   });
   totalText.textContent = `Total: ${total.toFixed(2)} MAD`;
 }
+
+// === WhatsApp Checkout ===
+checkoutBtn.addEventListener('click', () => {
+  if (cart.length === 0) {
+    alert("Your cart is empty!");
+    return;
+  }
+
+  const phone = "212724680135"; // ← put your WhatsApp number here
+  let message = "🛍 *Bee Shop Morocco Order*\n\n";
+  cart.forEach(item => {
+    message += `• ${item.name} x${item.quantity} = ${item.price * item.quantity} MAD\n`;
+  });
+  message += `\n💰 Total: ${totalText.textContent.replace('Total: ', '')}`;
+
+  const encoded = encodeURIComponent(message);
+  const url = `https://wa.me/${phone}?text=${encoded}`;
+  window.open(url, "_blank");
+});
+
