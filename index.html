@@ -1,67 +1,39 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Smash Bro's Restaurant</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bee Shop Morocco</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <header>
+    <h1>🐝 Bee Shop Morocco</h1>
+  </header>
 
-  <!-- Header -->
-  <div class="header">
-    <div class="logo">
-      <img src="https://i.imgur.com/pR0TdNc.png" alt="Main Logo">
-    </div>
-    <div class="title logo-with-effects">
-      <img src="https://i.imgur.com/n6dGNk2.png" alt="Smash Bro's Logo" class="title-logo">
-    </div>
-  </div>
+  <main>
+    <section id="product-list"></section>
 
-  <!-- Clouds -->
-  <div class="mario-cloud"></div>
-  <div class="mario-cloud small"></div>
+    <aside id="cart">
+      <h2>🛒 Cart</h2>
+      <ul id="cart-items"></ul>
+      <p id="total">Total: 0 MAD</p>
+    </aside>
+  </main>
 
-  <!-- Mario peeking (ADDED) -->
-  <div class="mario-peek" aria-hidden="true"></div>
-
-  <!-- Menu -->
-  <div id="menu" class="menu"></div>
-
-  <!-- Cart -->
-  <h2>🛒 Your Order</h2>
-  <ul id="cart" class="cart"></ul>
-  <p id="total">Total: 0 DH</p>
-  <button id="checkoutBtn" class="btn red">Proceed to Checkout</button>
-
-  <!-- Modal for customizing items -->
-  <div id="modal">
-    <div id="modalContent">
-      <span id="closeModal">&times;</span>
-      <h3 id="modalTitle"></h3>
-      <div class="modal-body"></div>
+  <!-- Popup -->
+  <div id="product-popup" class="popup hidden">
+    <div class="popup-content">
+      <span class="close">&times;</span>
+      <h2 id="popup-title"></h2>
+      <img id="popup-img" src="" alt="Product Image">
+      <p id="popup-price"></p>
+      <p id="popup-stock"></p>
+      <label for="quantity">Quantity:</label>
+      <select id="quantity"></select>
+      <button id="add-to-cart">Add to Cart</button>
     </div>
   </div>
-
-  <!-- Checkout modal -->
-  <div id="checkoutModal" class="hidden">
-    <div id="checkoutContent">
-      <span id="closeCheckout" class="closeX">&times;</span>
-      <h2>Confirm Your Order</h2>
-      <ul id="checkoutCart"></ul>
-      <p id="checkoutTotal"></p>
-      <input type="text" id="checkoutName" placeholder="Your Name" required>
-      <input type="tel" id="checkoutPhone" placeholder="Phone Number" required>
-      <button id="confirmOrderBtn" class="btn green">Confirm & Send WhatsApp</button>
-      <button id="cancelOrderBtn" class="btn red">Cancel</button>
-    </div>
-  </div>
-
-  <!-- Coin Sound -->
-  <audio id="coinSound" preload="auto">
-    <source src="https://cdn.pixabay.com/download/audio/2024/10/31/audio_9f88ea50ad.mp3?filename=coin-257878.mp3" type="audio/mpeg">
-  </audio>
 
   <script src="script.js"></script>
 </body>
