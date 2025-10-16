@@ -11,7 +11,7 @@ const cartItems = document.getElementById("cart-items");
 const totalText = document.getElementById("total");
 const checkoutBtn = document.getElementById("checkout-btn");
 
-let products = [
+const products = [
   {id:1, name:"Motorcycle Helmet", price:850, stock:5, img:"https://images.unsplash.com/photo-1600803907087-f56d462fd26b"},
   {id:2, name:"Car Brake Pads", price:600, stock:12, img:"https://images.unsplash.com/photo-1616222593965-4a1ad908b240"},
   {id:3, name:"Engine Oil 5L", price:350, stock:20, img:"https://images.unsplash.com/photo-1601924994987-69a3c8d6e9f0"},
@@ -89,4 +89,3 @@ checkoutBtn.onclick = () => {
   const text = encodeURIComponent(`Hello Bee Auto Parts, I'd like to order:\n${msg}\n\nTotal: ${total} MAD`);
   window.open(`https://wa.me/?text=${text}`, "_blank");
 };
-
