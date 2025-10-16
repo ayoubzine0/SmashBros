@@ -1,9 +1,13 @@
 // === Product Data ===
 const products = [
-  { id: 1, name: "Cylender", price: 220, stock: 80, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
+  { id: 1, name: "Motorcycle Cylinder", price: 220, stock: 80, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
   { id: 2, name: "Chain Kit", price: 95, stock: 90, img: "https://i.imgur.com/N18ldZS.jpeg" },
-  { id: 3, name: "Moroccan Tea Set", price: 250, stock: 5, img: "https://picsum.photos/id/1013/200" },
-  { id: 17, name: "Shock Absorber", price: 50, stock: 100, img: "https://i.imgur.com/kEeBvLR.jpeg" },
+  { id: 3, name: "Shock Absorber", price: 350, stock: 12, img: "https://i.imgur.com/kEeBvLR.jpeg" },
+  { id: 4, name: "Engine Oil 4T 1L", price: 110, stock: 25, img: "https://i.imgur.com/bSS5Mkb.jpeg" },
+  { id: 5, name: "Brake Pads", price: 80, stock: 40, img: "https://i.imgur.com/HJh9XzZ.jpeg" },
+  { id: 6, name: "Spark Plug", price: 50, stock: 60, img: "https://i.imgur.com/a4ZGR7U.jpeg" },
+  { id: 7, name: "Motorcycle Battery", price: 320, stock: 15, img: "https://i.imgur.com/dpXqxJg.jpeg" },
+  { id: 8, name: "Air Filter", price: 65, stock: 30, img: "https://i.imgur.com/DZcGdFZ.jpeg" },
 ];
 
 // === DOM References ===
@@ -86,20 +90,14 @@ function updateCart() {
 
 // === WhatsApp Checkout ===
 checkoutBtn.addEventListener('click', () => {
-  if (cart.length === 0) {
-    alert("Your cart is empty!");
-    return;
-  }
-
-  const phone = "212724680135"; // ← put your WhatsApp number here
-  let message = "🛍 *Bee Shop Morocco Order*\n\n";
+  if (cart.length === 0) return alert("Your cart is empty!");
+  const number = "212600000000"; // <-- replace with your WhatsApp number
+  let message = "🛒 *Bee Shop Morocco Order*\n\n";
   cart.forEach(item => {
-    message += `• ${item.name} x${item.quantity} = ${item.price * item.quantity} MAD\n`;
+    message += `${item.name} x${item.quantity} = ${item.price * item.quantity} MAD\n`;
   });
-  message += `\n💰 Total: ${totalText.textContent.replace('Total: ', '')}`;
-
+  const total = totalText.textContent;
+  message += `\n${total}\n\nPlease confirm my order.`;
   const encoded = encodeURIComponent(message);
-  const url = `https://wa.me/${phone}?text=${encoded}`;
-  window.open(url, "_blank");
+  window.open(`https://wa.me/${number}?text=${encoded}`, "_blank");
 });
-
