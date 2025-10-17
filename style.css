@@ -346,4 +346,31 @@ body.cart-open #product-list {
     margin-right: 0;
   }
 }
+/* --- FIX POPUP IMAGE OVERFLOW ON DESKTOP & SAFARI --- */
+.popup {
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content {
+  max-height: 90vh;           /* prevent it from going beyond screen height */
+  overflow-y: auto;           /* scroll if content too tall */
+  box-sizing: border-box;
+}
+
+.popup-content img {
+  width: 100%;
+  max-width: 300px;           /* controls width */
+  height: auto;               /* keeps correct ratio */
+  object-fit: contain;
+  display: block;
+  margin: 10px auto;
+}
+
+/* Fix for Safari flexbox scaling bug */
+@supports (-webkit-touch-callout: none) {
+  .popup-content {
+    max-height: 85vh !important;
+  }
+}
 
