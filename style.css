@@ -532,6 +532,17 @@ body.cart-open #product-list {
   font-weight: bold;
   margin-left: 5px;
 }
+/* ✅ Force the logo to scale properly */
+.logo {
+  width: 120px !important;
+  height: 120px !important;
+  object-fit: contain;
+}
+
+.brand img {
+  max-width: none !important;
+  max-height: none !important;
+}
 
 
 
