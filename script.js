@@ -23,24 +23,100 @@ document.getElementById("contact-link").onclick = () => contactPopup.classList.r
 document.querySelector(".close-about").onclick = () => aboutPopup.classList.add("hidden");
 document.querySelector(".close-contact").onclick = () => contactPopup.classList.add("hidden");
 
-// ----- All products by model -----
-const allProducts = {
-  sanya: [
-    { name: "Sanya Cylender", price: 850, stock: 5, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
-    { name: "Sanya Leather Seat", price: 150, stock: 8, img: "https://i.imgur.com/JqNDT4P.jpeg" }
-  ],
-  becane: [
-    { name: "Becane Clutch", price: 700, stock: 8, img: "https://i.imgur.com/GCKdTrL.jpeg" },
-    { name: "Becane Headlight", price: 250, stock: 10, img: "https://i.imgur.com/J6l8Ln2.jpeg" }
-  ],
-  c50: [
-    { name: "C50 Chain Kit", price: 500, stock: 12, img: "https://i.imgur.com/N18ldZS.jpeg" },
-    { name: "C50 Exhaust", price: 950, stock: 5, img: "https://i.imgur.com/ragV47h.png" }
-  ]
+// ----- Translation -----
+const translations = {
+  ar: {
+    brand: "قطع غيار النحل",
+    aboutTitle: "عن Bee Auto Parts",
+    aboutText: "Bee Auto Parts هو مصدر موثوق في المغرب لقطع غيار الدراجات والسيارات. نحن نجمع بين الموثوقية والأسعار العادلة والتوصيل السريع لمساعدة الدراجين والورش على تشغيل محركاتهم.",
+    contactTitle: "اتصل بنا",
+    contactPhone: "📞 الهاتف: +212 600-123456",
+    contactEmail: "📧 البريد: contact@beeautoparts.ma",
+    contactAddress: "📍 العنوان: الدار البيضاء، المغرب",
+    cartTitle: "🛒 سلة المشتريات",
+    checkoutBtn: "الدفع عبر واتساب",
+    quantityLabel: "الكمية:",
+    stockText: "المخزون: ",
+    totalText: "الإجمالي: "
+  },
+  en: {
+    brand: "Bee Auto Parts",
+    aboutTitle: "About Bee Auto Parts",
+    aboutText: "Bee Auto Parts is Morocco’s trusted source for quality motorcycle and car parts. We combine reliability, fair pricing, and fast delivery to help riders and garages keep their engines running.",
+    contactTitle: "Contact Us",
+    contactPhone: "📞 Phone: +212 600-123456",
+    contactEmail: "📧 Email: contact@beeautoparts.ma",
+    contactAddress: "📍 Address: Casablanca, Morocco",
+    cartTitle: "🛒 Cart",
+    checkoutBtn: "Checkout on WhatsApp",
+    quantityLabel: "Quantity:",
+    stockText: "In stock: ",
+    totalText: "Total: "
+  }
 };
 
-let model = "sanya"; // default page
+let currentLang = "en";
+document.getElementById("translate-btn").onclick = () => {
+  currentLang = currentLang === "en" ? "ar" : "en";
+  applyTranslations();
+};
+
+function applyTranslations() {
+  const t = translations[currentLang];
+
+  // Brand
+  document.querySelector(".brand h1").textContent = t.brand;
+
+  // About popup
+  document.querySelector("#about-popup h2").textContent = t.aboutTitle;
+  document.querySelector("#about-popup p").textContent = t.aboutText;
+
+  // Contact popup
+  document.querySelector("#contact-popup h2").textContent = t.contactTitle;
+  document.querySelector("#contact-popup p:nth-child(2)").textContent = t.contactPhone;
+  document.querySelector("#contact-popup p:nth-child(3)").textContent = t.contactEmail;
+  document.querySelector("#contact-popup p:nth-child(4)").textContent = t.contactAddress;
+
+  // Cart
+  document.querySelector("#cart h2").textContent = t.cartTitle;
+  checkoutBtn.textContent = t.checkoutBtn;
+
+  // Popup quantity label
+  document.querySelector('label[for="quantity"]').textContent = t.quantityLabel;
+
+  // Update stock text if popup is open
+  if (!popup.classList.contains("hidden") && popupStock.textContent) {
+    const productName = popupTitle.textContent;
+    const product = products.find(p => p.name === productName);
+    if (product) popupStock.textContent = `${t.stockText}${product.stock}`;
+  }
+
+  // Update total text
+  totalText.textContent = `${t.totalText}${cartData.reduce((s, i) => s + i.price * i.qty, 0)} MAD`;
+}
+
+// ----- Products per page -----
 let products = [];
+const path = window.location.pathname.toLowerCase();
+
+if (path.includes("becane")) {
+  products = [
+    { id: 1, name: "Becane Clutch", price: 700, stock: 8, img: "https://i.imgur.com/GCKdTrL.jpeg" },
+    { id: 2, name: "Becane Headlight", price: 250, stock: 10, img: "https://i.imgur.com/J6l8Ln2.jpeg" },
+  ];
+} else if (path.includes("c50")) {
+  products = [
+    { id: 1, name: "C50 Chain Kit", price: 500, stock: 12, img: "https://i.imgur.com/N18ldZS.jpeg" },
+    { id: 2, name: "C50 Exhaust", price: 950, stock: 5, img: "https://i.imgur.com/ragV47h.png" },
+  ];
+} else {
+  products = [
+    { id: 1, name: "Sanya Cylender", price: 850, stock: 5, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
+    { id: 2, name: "Sanya Leather Seat", price: 150, stock: 8, img: "https://i.imgur.com/JqNDT4P.jpeg" },
+  ];
+}
+
+// ----- Cart -----
 let cartData = [];
 
 // ----- Render products -----
@@ -54,27 +130,15 @@ function renderProducts() {
     productList.appendChild(div);
   });
 }
+renderProducts();
 
-// ----- Initialize first page products -----
-function loadModel(modelName) {
-  model = modelName;
-  products = allProducts[model].map((p, index) => ({
-    ...p,
-    id: `${model}-${index + 1}`, // unique id across models
-    model: model
-  }));
-  renderProducts();
-}
-
-// Load default model
-loadModel("sanya");
-
-// ----- Product Popup -----
+// ----- Product popup -----
 function openPopup(product) {
   popupTitle.textContent = product.name;
   popupImg.src = product.img;
   popupPrice.textContent = `Price: ${product.price} MAD`;
   popupStock.textContent = `In stock: ${product.stock}`;
+  if(currentLang === "ar") popupStock.textContent = `${translations.ar.stockText}${product.stock}`;
   quantitySelect.innerHTML = "";
   for (let i = 1; i <= product.stock; i++) {
     const option = document.createElement("option");
@@ -86,6 +150,7 @@ function openPopup(product) {
   popup.classList.remove("hidden");
 }
 closePopup.onclick = () => popup.classList.add("hidden");
+
 window.onclick = e => {
   if (e.target === popup) popup.classList.add("hidden");
   if (e.target === aboutPopup) aboutPopup.classList.add("hidden");
@@ -95,37 +160,34 @@ window.onclick = e => {
 // ----- Add to Cart -----
 function addToCart(product) {
   const qty = parseInt(quantitySelect.value);
-  const existing = cartData.find(i => i.id === product.id);
+  const existing = cartData.find(i => i.id === product.id && i.model === (product.model || path));
   if (existing) existing.qty += qty;
-  else cartData.push({ ...product, qty });
+  else cartData.push({ ...product, qty, model: product.model || path });
   updateCart();
   popup.classList.add("hidden");
 }
 
-// ----- Update Cart -----
 function updateCart() {
   cartItems.innerHTML = "";
   let total = 0;
   cartData.forEach(i => {
     const li = document.createElement("li");
-    li.innerHTML = `<span>[${i.model.toUpperCase()}] ${i.name} x${i.qty} = ${i.price * i.qty} MAD</span>
+    li.innerHTML = `<span>${i.name} x${i.qty} = ${i.price * i.qty} MAD</span>
       <button class="remove-item">🗑️</button>`;
-    li.querySelector(".remove-item").onclick = () => removeItem(i.id);
+    li.querySelector(".remove-item").onclick = () => removeItem(i.id, i.model);
     total += i.price * i.qty;
     cartItems.appendChild(li);
   });
-  totalText.textContent = `Total: ${total} MAD`;
+  totalText.textContent = `${translations[currentLang].totalText}${total} MAD`;
 
   if (cartData.length > 0) {
-    // Count total quantities
-    const totalQty = cartData.reduce((sum, item) => sum + item.qty, 0);
-    cartCount.textContent = totalQty;
+    cartCount.textContent = cartData.length;
     cartCount.classList.remove("hidden");
   } else cartCount.classList.add("hidden");
 }
 
-function removeItem(id) {
-  cartData = cartData.filter(i => i.id !== id);
+function removeItem(id, model) {
+  cartData = cartData.filter(i => !(i.id === id && i.model === model));
   updateCart();
 }
 
@@ -154,10 +216,10 @@ openCartBtn.addEventListener("click", () => {
   document.body.classList.add("cart-open");
 });
 
-// ----- Model navigation -----
+// ----- Model buttons navigation -----
 document.querySelectorAll(".model-btn").forEach(btn => {
   btn.addEventListener("click", () => {
-    const selectedModel = btn.getAttribute("data-model");
-    loadModel(selectedModel);
+    const model = btn.getAttribute("data-model");
+    window.location.href = `${model}.html`;
   });
 });
