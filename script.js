@@ -181,3 +181,42 @@ function applyTranslations() {
   // Re-render product list
   renderProducts();
 }
+// ----- Translation Toggle -----
+const translateBtn = document.getElementById("translate-btn");
+let currentLang = "en"; // default language
+
+translateBtn.addEventListener("click", () => {
+  currentLang = currentLang === "en" ? "ar" : "en";
+  applyTranslations();
+});
+
+function applyTranslations() {
+  // Header buttons
+  document.getElementById("about-link").textContent = currentLang === "en" ? "About" : "عن Bee Auto Parts";
+  document.getElementById("contact-link").textContent = currentLang === "en" ? "Contact" : "اتصل بنا";
+  translateBtn.textContent = currentLang === "en" ? "عربي" : "English";
+
+  // Cart
+  document.querySelector("#cart h2").textContent = currentLang === "en" ? "🛒 Cart" : "🛒 السلة";
+  checkoutBtn.textContent = currentLang === "en" ? "Checkout on WhatsApp" : "الدفع على واتساب";
+  totalText.textContent = currentLang === "en"
+    ? `Total: ${cartData.reduce((s, i) => s + i.price * i.qty, 0)} MAD`
+    : `المجموع: ${cartData.reduce((s, i) => s + i.price * i.qty, 0)} MAD`;
+
+  // Product list
+  productList.querySelectorAll(".product h3").forEach((h3, idx) => {
+    const product = products[idx];
+    h3.textContent = currentLang === "en" ? product.name : product.ar;
+  });
+
+  // Popup
+  if (!popup.classList.contains("hidden")) {
+    const selectedProduct = products.find(p => p.name === popupTitle.textContent || p.ar === popupTitle.textContent);
+    if (selectedProduct) {
+      popupTitle.textContent = currentLang === "en" ? selectedProduct.name : selectedProduct.ar;
+      popupStock.textContent = currentLang === "en" ? `In stock: ${selectedProduct.stock}` : `المخزون: ${selectedProduct.stock}`;
+      addToCartBtn.textContent = currentLang === "en" ? "Add to Cart" : "أضف إلى السلة";
+    }
+  }
+}
+
