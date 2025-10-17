@@ -193,5 +193,9 @@ function openModelPage(model) {
   // Optional: scroll to top when switching
   window.scrollTo({ top: 0, behavior: "smooth" });
 }
+// ✅ Navigation between categories
+document.getElementById("sanya-link").onclick = () => window.location.href = "index.html";
+document.getElementById("becane-link").onclick = () => window.location.href = "becane.html";
+document.getElementById("c50-link").onclick = () => window.location.href = "c50.html";
 
 
