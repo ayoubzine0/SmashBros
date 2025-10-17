@@ -11,9 +11,13 @@ const cartItems = document.getElementById("cart-items");
 const totalText = document.getElementById("total");
 const checkoutBtn = document.getElementById("checkout-btn");
 
+const cart = document.getElementById("cart");
+const closeCartBtn = document.getElementById("close-cart");
+const openCartBtn = document.getElementById("open-cart");
+
 const products = [
   {id:1, name:"Cylender", price:850, stock:5, img:"https://i.imgur.com/KHFhKuJ.jpeg"},
-  {id:2, name:"chain kit", price:600, stock:12, img:"https://i.imgur.com/N18ldZS.jpeg"},
+  {id:2, name:"Chain Kit", price:600, stock:12, img:"https://i.imgur.com/N18ldZS.jpeg"},
   {id:3, name:"Spark Plug", price:350, stock:20, img:"https://i.imgur.com/ilbC97V.jpeg"},
   {id:4, name:"Clutch Kit", price:250, stock:15, img:"https://i.imgur.com/GCKdTrL.jpeg"},
   {id:5, name:"Sanya Leather Seat", price:150, stock:8, img:"https://i.imgur.com/JqNDT4P.jpeg"},
@@ -22,7 +26,7 @@ const products = [
   {id:8, name:"Motorcycle Phone Support", price:1100, stock:4, img:"https://i.imgur.com/J6l8Ln2.jpeg"}
 ];
 
-let cart = [];
+let cartData = [];
 
 function renderProducts() {
   productList.innerHTML = "";
@@ -60,11 +64,11 @@ window.onclick = e => { if (e.target === popup) popup.classList.add("hidden"); }
 
 function addToCart(product) {
   const qty = parseInt(quantitySelect.value);
-  const existing = cart.find(i => i.id === product.id);
+  const existing = cartData.find(i => i.id === product.id);
   if (existing) {
     existing.qty += qty;
   } else {
-    cart.push({...product, qty});
+    cartData.push({...product, qty});
   }
   updateCart();
   popup.classList.add("hidden");
@@ -73,7 +77,7 @@ function addToCart(product) {
 function updateCart() {
   cartItems.innerHTML = "";
   let total = 0;
-  cart.forEach(i => {
+  cartData.forEach(i => {
     const li = document.createElement("li");
     li.textContent = `${i.name} x${i.qty} = ${i.price * i.qty} MAD`;
     total += i.price * i.qty;
@@ -83,10 +87,19 @@ function updateCart() {
 }
 
 checkoutBtn.onclick = () => {
-  if (cart.length === 0) return alert("Your cart is empty!");
-  const msg = cart.map(i => `${i.name} x${i.qty} = ${i.price * i.qty} MAD`).join("\n");
-  const total = cart.reduce((s,i)=>s+i.price*i.qty,0);
+  if (cartData.length === 0) return alert("Your cart is empty!");
+  const msg = cartData.map(i => `${i.name} x${i.qty} = ${i.price * i.qty} MAD`).join("\n");
+  const total = cartData.reduce((s,i)=>s+i.price*i.qty,0);
   const text = encodeURIComponent(`Hello Bee Auto Parts, I'd like to order:\n${msg}\n\nTotal: ${total} MAD`);
   window.open(`https://wa.me/?text=${text}`, "_blank");
 };
 
+// CART TOGGLE
+closeCartBtn.addEventListener("click", () => {
+  cart.classList.add("closed");
+  openCartBtn.classList.remove("hidden");
+});
+openCartBtn.addEventListener("click", () => {
+  cart.classList.remove("closed");
+  openCartBtn.classList.add("hidden");
+});
