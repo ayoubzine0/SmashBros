@@ -53,12 +53,13 @@ nav a:hover {
   color: #fff;
 }
 
-/* PRODUCT GRID */
+/* MAIN */
 main {
   display: flex;
   align-items: flex-start;
 }
 
+/* PRODUCT GRID */
 #product-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
@@ -101,26 +102,23 @@ main {
   padding: 15px;
   border-left: 2px solid #f1c40f33;
   width: 280px;
-  position: sticky;
-  top: 70px;
-  height: calc(100vh - 80px);
-  overflow-y: auto;
-  transition: transform 0.3s ease;
-}
-
-#cart.closed {
-  transform: translateX(100%);
   position: fixed;
   right: 0;
   top: 70px;
+  height: calc(100vh - 80px);
+  overflow-y: auto;
+  transform: translateX(100%);
+  transition: transform 0.3s ease;
+  z-index: 9;
 }
-
+#cart.open {
+  transform: translateX(0);
+}
 .cart-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 #close-cart {
   background: none;
   color: #f1c40f;
@@ -128,7 +126,6 @@ main {
   font-size: 18px;
   cursor: pointer;
 }
-
 #cart h2 {
   color: #f1c40f;
 }
@@ -161,7 +158,7 @@ main {
   background: #fff;
 }
 
-/* Open Cart Button */
+/* OPEN CART BUTTON */
 #open-cart {
   position: fixed;
   bottom: 20px;
@@ -175,7 +172,26 @@ main {
   font-weight: bold;
   z-index: 10;
 }
-#open-cart.hidden {
+#open-cart:hover {
+  background: #fff;
+}
+
+/* CART NOTIFICATION */
+#cart-count {
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background: red;
+  color: #fff;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+}
+#cart-count.hidden {
   display: none;
 }
 
@@ -222,21 +238,9 @@ main {
 
 /* MOBILE FIXES */
 @media (max-width: 768px) {
-  main {
-    flex-direction: column;
-  }
-  #cart {
-    position: fixed;
-    top: 70px;
-    right: 0;
-    height: calc(100vh - 70px);
-    width: 100%;
-    max-width: 320px;
-    border-left: none;
-    border-top: 2px solid #f1c40f33;
-  }
   #product-list {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     padding: 10px;
   }
 }
+
