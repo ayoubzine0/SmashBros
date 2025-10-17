@@ -409,7 +409,6 @@ body.cart-open #product-list {
   border-radius: 10px;
   background-color: #000;
 }
-
 /* Fix the ✖ close button not showing on Safari mobile */
 #close-cart,
 .close,
@@ -432,4 +431,5 @@ body.cart-open #product-list {
     max-height: 85vh !important;
   }
 }
+
 
