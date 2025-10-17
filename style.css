@@ -268,15 +268,16 @@ main {
   display: none;
 }
 
-.popup-content {
-  background: #1b1b1b;
-  padding: 20px;
+.popup-content img {
+  width: 100%;
+  max-width: 320px; /* ✅ keeps image smaller on big screens */
+  max-height: 250px; /* ✅ prevents stretching */
+  height: auto; /* ✅ maintains correct aspect ratio */
+  object-fit: contain;
   border-radius: 10px;
-  color: #fff;
-  width: 90%;
-  max-width: 400px;
-  text-align: center;
-  position: relative;
+  background-color: #000;
+  margin: 0 auto 10px; /* centers it and adds space below */
+  display: block;
 }
 
 .popup-content.small {
@@ -345,3 +346,4 @@ body.cart-open #product-list {
     margin-right: 0;
   }
 }
+
