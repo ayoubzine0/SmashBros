@@ -10,11 +10,18 @@ const closePopup = document.querySelector(".close");
 const cartItems = document.getElementById("cart-items");
 const totalText = document.getElementById("total");
 const checkoutBtn = document.getElementById("checkout-btn");
-
 const cart = document.getElementById("cart");
 const closeCartBtn = document.getElementById("close-cart");
 const openCartBtn = document.getElementById("open-cart");
 const cartCount = document.getElementById("cart-count");
+
+// About / Contact popups
+const aboutPopup = document.getElementById("about-popup");
+const contactPopup = document.getElementById("contact-popup");
+document.getElementById("about-link").onclick = () => aboutPopup.classList.remove("hidden");
+document.getElementById("contact-link").onclick = () => contactPopup.classList.remove("hidden");
+document.querySelector(".close-about").onclick = () => aboutPopup.classList.add("hidden");
+document.querySelector(".close-contact").onclick = () => contactPopup.classList.add("hidden");
 
 const products = [
   {id:1, name:"Cylender", price:850, stock:5, img:"https://i.imgur.com/KHFhKuJ.jpeg"},
@@ -61,7 +68,11 @@ function openPopup(product) {
   popup.classList.remove("hidden");
 }
 closePopup.onclick = () => popup.classList.add("hidden");
-window.onclick = e => { if (e.target === popup) popup.classList.add("hidden"); };
+window.onclick = e => {
+  if (e.target === popup) popup.classList.add("hidden");
+  if (e.target === aboutPopup) aboutPopup.classList.add("hidden");
+  if (e.target === contactPopup) contactPopup.classList.add("hidden");
+};
 
 function addToCart(product) {
   const qty = parseInt(quantitySelect.value);
@@ -78,19 +89,19 @@ function addToCart(product) {
 function updateCart() {
   cartItems.innerHTML = "";
   let total = 0;
-  let count = 0;
 
   cartData.forEach(i => {
     const li = document.createElement("li");
     li.textContent = `${i.name} x${i.qty} = ${i.price * i.qty} MAD`;
     total += i.price * i.qty;
-    count += i.qty;
     cartItems.appendChild(li);
   });
 
   totalText.textContent = `Total: ${total} MAD`;
-  if (count > 0) {
-    cartCount.textContent = count;
+
+  const uniqueCount = cartData.length; // 🔴 counts product types only
+  if (uniqueCount > 0) {
+    cartCount.textContent = uniqueCount;
     cartCount.classList.remove("hidden");
   } else {
     cartCount.classList.add("hidden");
@@ -105,7 +116,7 @@ checkoutBtn.onclick = () => {
   window.open(`https://wa.me/?text=${text}`, "_blank");
 };
 
-// CART TOGGLE (Default: Closed)
+// CART OPEN/CLOSE
 closeCartBtn.addEventListener("click", () => {
   cart.classList.remove("open");
   cart.classList.add("closed");
