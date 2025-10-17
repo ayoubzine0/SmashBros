@@ -8,51 +8,70 @@
 </head>
 <body>
   <header>
-    <div class="logo-container">
-      <img src="https://i.imgur.com/r9i7m4b.png" alt="Bee Auto Parts Logo" class="logo" />
-      <h1>Bee Auto Parts</h1>
+    <div class="brand">
+      <img src="https://i.imgur.com/r9i7m4b.png" alt="Bee Logo" class="logo">
+      <h1>Bee Auto Parts <span>Morocco</span></h1>
     </div>
-    <div class="nav-buttons">
-      <button id="aboutBtn">About</button>
-      <button id="contactBtn">Contact</button>
-      <button id="openCartBtn">🛒 Open Cart <span id="cartCount" class="cart-count">0</span></button>
-    </div>
+    <nav>
+      <button id="about-link" class="nav-btn">About</button>
+      <button id="contact-link" class="nav-btn">Contact</button>
+    </nav>
   </header>
 
-  <main id="product-list"></main>
+  <main>
+    <section id="product-list"></section>
 
-  <aside id="cartSidebar" class="cart-sidebar">
-    <div class="cart-header">
-      <h2>Your Cart</h2>
-      <button id="closeCartBtn" class="close-cart">✕</button>
-    </div>
-    <div id="cartItems"></div>
-    <div class="cart-footer">
-      <p id="cartTotal">Total: 0 MAD</p>
-      <a id="whatsappLink" href="#" target="_blank" class="whatsapp-btn">Checkout via WhatsApp</a>
-    </div>
-  </aside>
+    <aside id="cart" class="closed">
+      <div class="cart-header">
+        <h2>🛒 Cart</h2>
+        <button id="close-cart">✖</button>
+      </div>
+      <ul id="cart-items"></ul>
+      <p id="total">Total: 0 MAD</p>
+      <button id="checkout-btn">Checkout on WhatsApp</button>
+    </aside>
 
-  <!-- ABOUT POPUP -->
-  <div id="aboutPopup" class="popup hidden">
+    <button id="open-cart">
+      🛒 Open Cart
+      <span id="cart-count" class="hidden">0</span>
+    </button>
+  </main>
+
+  <!-- Product Popup -->
+  <div id="product-popup" class="popup hidden">
     <div class="popup-content">
-      <h2>About Bee Auto Parts</h2>
-      <p>Bee Auto Parts is a fictional Moroccan brand specializing in high-quality motorcycle and car parts. We combine speed, durability, and precision to keep your engines buzzing like a bee since 2018.</p>
-      <button class="closePopup" onclick="closePopup('aboutPopup')">Close</button>
+      <span class="close">&times;</span>
+      <h2 id="popup-title"></h2>
+      <img id="popup-img" src="" alt="Product Image" />
+      <p id="popup-price"></p>
+      <p id="popup-stock"></p>
+      <label for="quantity">Quantity:</label>
+      <select id="quantity"></select>
+      <button id="add-to-cart">Add to Cart</button>
     </div>
   </div>
 
-  <!-- CONTACT POPUP -->
-  <div id="contactPopup" class="popup hidden">
-    <div class="popup-content">
+  <!-- About Popup -->
+  <div id="about-popup" class="popup hidden">
+    <div class="popup-content small">
+      <span class="close-about">&times;</span>
+      <h2>About Bee Auto Parts</h2>
+      <p>Bee Auto Parts is Morocco’s trusted source for quality motorcycle and car parts.  
+      We combine reliability, fair pricing, and fast delivery to help riders and garages keep their engines running.</p>
+    </div>
+  </div>
+
+  <!-- Contact Popup -->
+  <div id="contact-popup" class="popup hidden">
+    <div class="popup-content small">
+      <span class="close-contact">&times;</span>
       <h2>Contact Us</h2>
-      <p>📞 Phone: +212 600-000000</p>
+      <p>📞 Phone: +212 600-123456</p>
       <p>📧 Email: contact@beeautoparts.ma</p>
-      <button class="closePopup" onclick="closePopup('contactPopup')">Close</button>
+      <p>📍 Address: Casablanca, Morocco</p>
     </div>
   </div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
