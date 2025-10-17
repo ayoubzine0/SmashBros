@@ -50,9 +50,7 @@ let cartData = [];
 
 // ----- Load cart from localStorage if exists -----
 const savedCart = localStorage.getItem("cartData");
-if (savedCart) {
-  cartData = JSON.parse(savedCart);
-}
+if (savedCart) cartData = JSON.parse(savedCart);
 
 // ----- Render Products -----
 function renderProducts() {
