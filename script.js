@@ -164,7 +164,7 @@ closeCartBtn.addEventListener("click", () => {
 // ✅ Model-specific product lists
 const modelProducts = {
   sanya: products, // You can replace this with filtered items later
-  bacane: products,
+  becane: products,
   c50: products
 };
 
@@ -206,6 +206,7 @@ function openModelPage(model) {
 document.getElementById("sanya-link").onclick = () => window.location.href = "index.html";
 document.getElementById("becane-link").onclick = () => window.location.href = "becane.html";
 document.getElementById("c50-link").onclick = () => window.location.href = "c50.html";
+
 
 
 
