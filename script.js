@@ -14,6 +14,7 @@ const checkoutBtn = document.getElementById("checkout-btn");
 const cart = document.getElementById("cart");
 const closeCartBtn = document.getElementById("close-cart");
 const openCartBtn = document.getElementById("open-cart");
+const cartCount = document.getElementById("cart-count");
 
 const products = [
   {id:1, name:"Cylender", price:850, stock:5, img:"https://i.imgur.com/KHFhKuJ.jpeg"},
@@ -77,13 +78,23 @@ function addToCart(product) {
 function updateCart() {
   cartItems.innerHTML = "";
   let total = 0;
+  let count = 0;
+
   cartData.forEach(i => {
     const li = document.createElement("li");
     li.textContent = `${i.name} x${i.qty} = ${i.price * i.qty} MAD`;
     total += i.price * i.qty;
+    count += i.qty;
     cartItems.appendChild(li);
   });
+
   totalText.textContent = `Total: ${total} MAD`;
+  if (count > 0) {
+    cartCount.textContent = count;
+    cartCount.classList.remove("hidden");
+  } else {
+    cartCount.classList.add("hidden");
+  }
 }
 
 checkoutBtn.onclick = () => {
@@ -94,12 +105,12 @@ checkoutBtn.onclick = () => {
   window.open(`https://wa.me/?text=${text}`, "_blank");
 };
 
-// CART TOGGLE
+// CART TOGGLE (Default: Closed)
 closeCartBtn.addEventListener("click", () => {
+  cart.classList.remove("open");
   cart.classList.add("closed");
-  openCartBtn.classList.remove("hidden");
 });
 openCartBtn.addEventListener("click", () => {
+  cart.classList.add("open");
   cart.classList.remove("closed");
-  openCartBtn.classList.add("hidden");
 });
