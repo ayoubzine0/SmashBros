@@ -25,32 +25,36 @@ document.querySelector(".close-contact").onclick = () => contactPopup.classList.
 
 // ----- Products for each page -----
 let products = [];
+let model = "sanya"; // default
 const path = window.location.pathname.toLowerCase();
 
-if (path.includes("becane")) {
-  products = [
-    { id: 1, name: "Becane Clutch", price: 700, stock: 8, img: "https://i.imgur.com/GCKdTrL.jpeg" },
-    { id: 2, name: "Becane Headlight", price: 250, stock: 10, img: "https://i.imgur.com/J6l8Ln2.jpeg" },
-  ];
-} else if (path.includes("c50")) {
-  products = [
-    { id: 1, name: "C50 Chain Kit", price: 500, stock: 12, img: "https://i.imgur.com/N18ldZS.jpeg" },
-    { id: 2, name: "C50 Exhaust", price: 950, stock: 5, img: "https://i.imgur.com/ragV47h.png" },
-  ];
-} else {
-  // Default Sanya
-  products = [
-    { id: 1, name: "Sanya Cylender", price: 850, stock: 5, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
-    { id: 2, name: "Sanya Leather Seat", price: 150, stock: 8, img: "https://i.imgur.com/JqNDT4P.jpeg" },
-  ];
-}
+if (path.includes("becane")) model = "becane";
+else if (path.includes("c50")) model = "c50";
+
+// Define products per model
+const allProducts = {
+  sanya: [
+    { name: "Sanya Cylinder", price: 850, stock: 5, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
+    { name: "Sanya Leather Seat", price: 150, stock: 8, img: "https://i.imgur.com/JqNDT4P.jpeg" },
+  ],
+  becane: [
+    { name: "Becane Clutch", price: 700, stock: 8, img: "https://i.imgur.com/GCKdTrL.jpeg" },
+    { name: "Becane Headlight", price: 250, stock: 10, img: "https://i.imgur.com/J6l8Ln2.jpeg" },
+  ],
+  c50: [
+    { name: "C50 Chain Kit", price: 500, stock: 12, img: "https://i.imgur.com/N18ldZS.jpeg" },
+    { name: "C50 Exhaust", price: 950, stock: 5, img: "https://i.imgur.com/ragV47h.png" },
+  ],
+};
+
+// Assign products for the current page and give unique IDs
+products = allProducts[model].map((p, index) => ({
+  ...p,
+  id: `${model}-${index + 1}`
+}));
 
 // ----- Cart -----
 let cartData = [];
-
-// ----- Load cart from localStorage if exists -----
-const savedCart = localStorage.getItem("cartData");
-if (savedCart) cartData = JSON.parse(savedCart);
 
 // ----- Render Products -----
 function renderProducts() {
@@ -99,7 +103,6 @@ function addToCart(product) {
   popup.classList.add("hidden");
 }
 
-// ----- Update Cart -----
 function updateCart() {
   cartItems.innerHTML = "";
   let total = 0;
@@ -117,12 +120,8 @@ function updateCart() {
     cartCount.textContent = cartData.length;
     cartCount.classList.remove("hidden");
   } else cartCount.classList.add("hidden");
-
-  // ✅ Save cart to localStorage
-  localStorage.setItem("cartData", JSON.stringify(cartData));
 }
 
-// ----- Remove Item -----
 function removeItem(id) {
   cartData = cartData.filter(i => i.id !== id);
   updateCart();
@@ -153,10 +152,20 @@ openCartBtn.addEventListener("click", () => {
   document.body.classList.add("cart-open");
 });
 
-// ----- Navigation between pages -----
-document.getElementById("sanya-link").onclick = () => window.location.href = "index.html";
-document.getElementById("becane-link").onclick = () => window.location.href = "becane.html";
-document.getElementById("c50-link").onclick = () => window.location.href = "c50.html";
+// ----- Model Buttons -----
+document.querySelectorAll(".model-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const selectedModel = btn.getAttribute("data-model");
+    model = selectedModel;
+    products = allProducts[model].map((p, index) => ({
+      ...p,
+      id: `${model}-${index + 1}` // unique IDs
+    }));
+    renderProducts();
+  });
+});
 
-// ----- Initialize cart display -----
-updateCart();
+// ----- Navigation buttons if needed -----
+document.getElementById("sanya-link")?.addEventListener("click", () => window.location.href = "index.html");
+document.getElementById("becane-link")?.addEventListener("click", () => window.location.href = "becane.html");
+document.getElementById("c50-link")?.addEventListener("click", () => window.location.href = "c50.html");
