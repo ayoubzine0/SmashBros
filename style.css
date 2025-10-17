@@ -373,4 +373,63 @@ body.cart-open #product-list {
     max-height: 85vh !important;
   }
 }
+/* ---- FIX SAFARI CLOSE BUTTON + IMAGE OVERFLOW ---- */
+
+/* Keep popups centered correctly on all devices */
+.popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+/* Ensure popup box keeps its dark background and correct size */
+.popup-content {
+  background: #1b1b1b;
+  border-radius: 10px;
+  padding: 20px;
+  max-width: 400px;
+  width: 90%;
+  color: #fff;
+  position: relative;
+  text-align: center;
+  box-sizing: border-box;
+  max-height: 90vh;       /* prevent content from going off-screen */
+  overflow-y: auto;
+}
+
+/* Fix image scaling inside popup */
+.popup-content img {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  object-fit: contain;
+  display: block;
+  margin: 10px auto;
+  border-radius: 10px;
+  background-color: #000;
+}
+
+/* Fix the ✖ close button not showing on Safari mobile */
+#close-cart,
+.close,
+.close-about,
+.close-contact {
+  z-index: 9999 !important; /* ensure always on top */
+  position: absolute;
+  right: 15px;
+  top: 10px;
+  color: #f1c40f;
+  background: none;
+  border: none;
+  font-size: 25px;
+  cursor: pointer;
+}
+
+/* Specific fix for iPhone Safari (flexbox rendering issue) */
+@supports (-webkit-touch-callout: none) {
+  .popup-content {
+    max-height: 85vh !important;
+  }
+}
 
