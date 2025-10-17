@@ -14,7 +14,6 @@ const cart = document.getElementById("cart");
 const closeCartBtn = document.getElementById("close-cart");
 const openCartBtn = document.getElementById("open-cart");
 const cartCount = document.getElementById("cart-count");
-const main = document.querySelector("main");
 
 // Popups
 const aboutPopup = document.getElementById("about-popup");
@@ -25,14 +24,14 @@ document.querySelector(".close-about").onclick = () => aboutPopup.classList.add(
 document.querySelector(".close-contact").onclick = () => contactPopup.classList.add("hidden");
 
 const products = [
-  {id:1, name:"Cylender", price:850, stock:5, img:"https://i.imgur.com/KHFhKuJ.jpeg"},
-  {id:2, name:"Chain Kit", price:600, stock:12, img:"https://i.imgur.com/N18ldZS.jpeg"},
-  {id:3, name:"Spark Plug", price:350, stock:20, img:"https://i.imgur.com/ilbC97V.jpeg"},
-  {id:4, name:"Clutch Kit", price:250, stock:15, img:"https://i.imgur.com/GCKdTrL.jpeg"},
-  {id:5, name:"Sanya Leather Seat", price:150, stock:8, img:"https://i.imgur.com/JqNDT4P.jpeg"},
-  {id:6, name:"Exhaust Pipe", price:950, stock:6, img:"https://i.imgur.com/ragV47h.png"},
-  {id:7, name:"Motorcycle Alarm System", price:120, stock:30, img:"https://i.imgur.com/5kijwUc.jpeg"},
-  {id:8, name:"Motorcycle Phone Support", price:1100, stock:4, img:"https://i.imgur.com/J6l8Ln2.jpeg"}
+  { id: 1, name: "Cylender", price: 850, stock: 5, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
+  { id: 2, name: "Chain Kit", price: 600, stock: 12, img: "https://i.imgur.com/N18ldZS.jpeg" },
+  { id: 3, name: "Spark Plug", price: 350, stock: 20, img: "https://i.imgur.com/ilbC97V.jpeg" },
+  { id: 4, name: "Clutch Kit", price: 250, stock: 15, img: "https://i.imgur.com/GCKdTrL.jpeg" },
+  { id: 5, name: "Sanya Leather Seat", price: 150, stock: 8, img: "https://i.imgur.com/JqNDT4P.jpeg" },
+  { id: 6, name: "Exhaust Pipe", price: 950, stock: 6, img: "https://i.imgur.com/ragV47h.png" },
+  { id: 7, name: "Motorcycle Alarm System", price: 120, stock: 30, img: "https://i.imgur.com/5kijwUc.jpeg" },
+  { id: 8, name: "Motorcycle Phone Support", price: 1100, stock: 4, img: "https://i.imgur.com/J6l8Ln2.jpeg" }
 ];
 
 let cartData = [];
@@ -42,11 +41,7 @@ function renderProducts() {
   products.forEach(p => {
     const div = document.createElement("div");
     div.classList.add("product");
-    div.innerHTML = `
-      <img src="${p.img}" alt="${p.name}">
-      <h3>${p.name}</h3>
-      <p>${p.price} MAD</p>
-    `;
+    div.innerHTML = `<img src="${p.img}" alt="${p.name}"> <h3>${p.name}</h3> <p>${p.price} MAD</p>`;
     div.addEventListener("click", () => openPopup(p));
     productList.appendChild(div);
   });
@@ -68,7 +63,9 @@ function openPopup(product) {
   addToCartBtn.onclick = () => addToCart(product);
   popup.classList.remove("hidden");
 }
+
 closePopup.onclick = () => popup.classList.add("hidden");
+
 window.onclick = e => {
   if (e.target === popup) popup.classList.add("hidden");
   if (e.target === aboutPopup) aboutPopup.classList.add("hidden");
@@ -81,7 +78,7 @@ function addToCart(product) {
   if (existing) {
     existing.qty += qty;
   } else {
-    cartData.push({...product, qty});
+    cartData.push({ ...product, qty });
   }
   updateCart();
   popup.classList.add("hidden");
@@ -90,18 +87,14 @@ function addToCart(product) {
 function updateCart() {
   cartItems.innerHTML = "";
   let total = 0;
-
   cartData.forEach(i => {
     const li = document.createElement("li");
-    li.innerHTML = `
-      <span>${i.name} x${i.qty} = ${i.price * i.qty} MAD</span>
-      <button class="remove-item">🗑️</button>
-    `;
+    li.innerHTML = `<span>${i.name} x${i.qty} = ${i.price * i.qty} MAD</span>
+      <button class="remove-item">🗑️</button>`;
     li.querySelector(".remove-item").onclick = () => removeItem(i.id);
     total += i.price * i.qty;
     cartItems.appendChild(li);
   });
-
   totalText.textContent = `Total: ${total} MAD`;
 
   const uniqueCount = cartData.length;
@@ -121,7 +114,7 @@ function removeItem(id) {
 checkoutBtn.onclick = () => {
   if (cartData.length === 0) return alert("Your cart is empty!");
   const msg = cartData.map(i => `${i.name} x${i.qty} = ${i.price * i.qty} MAD`).join("\n");
-  const total = cartData.reduce((s,i)=>s+i.price*i.qty,0);
+  const total = cartData.reduce((s, i) => s + i.price * i.qty, 0);
   const text = encodeURIComponent(`Hello Bee Auto Parts, I'd like to order:\n${msg}\n\nTotal: ${total} MAD`);
   window.open(`https://wa.me/?text=${text}`, "_blank");
 };
@@ -129,9 +122,10 @@ checkoutBtn.onclick = () => {
 // CART OPEN/CLOSE
 closeCartBtn.addEventListener("click", () => {
   cart.classList.remove("open");
-  main.classList.remove("cart-open");
+  cart.classList.add("closed");
 });
+
 openCartBtn.addEventListener("click", () => {
   cart.classList.add("open");
-  main.classList.add("cart-open");
+  cart.classList.remove("closed");
 });
