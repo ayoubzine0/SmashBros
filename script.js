@@ -14,10 +14,9 @@ const cart = document.getElementById("cart");
 const closeCartBtn = document.getElementById("close-cart");
 const openCartBtn = document.getElementById("open-cart");
 const cartCount = document.getElementById("cart-count");
-
-// About / Contact popups
 const aboutPopup = document.getElementById("about-popup");
 const contactPopup = document.getElementById("contact-popup");
+
 document.getElementById("about-link").onclick = () => aboutPopup.classList.remove("hidden");
 document.getElementById("contact-link").onclick = () => contactPopup.classList.remove("hidden");
 document.querySelector(".close-about").onclick = () => aboutPopup.classList.add("hidden");
@@ -67,6 +66,7 @@ function openPopup(product) {
   addToCartBtn.onclick = () => addToCart(product);
   popup.classList.remove("hidden");
 }
+
 closePopup.onclick = () => popup.classList.add("hidden");
 window.onclick = e => {
   if (e.target === popup) popup.classList.add("hidden");
@@ -86,7 +86,7 @@ function addToCart(product) {
   popup.classList.add("hidden");
 }
 
-function removeFromCart(id) {
+function removeItem(id) {
   cartData = cartData.filter(i => i.id !== id);
   updateCart();
 }
@@ -99,15 +99,16 @@ function updateCart() {
     const li = document.createElement("li");
     li.innerHTML = `
       ${i.name} x${i.qty} = ${i.price * i.qty} MAD
-      <button class="remove-item" onclick="removeFromCart(${i.id})">🗑️</button>
+      <button class="cart-remove">✖</button>
     `;
+    li.querySelector(".cart-remove").onclick = () => removeItem(i.id);
     total += i.price * i.qty;
     cartItems.appendChild(li);
   });
 
   totalText.textContent = `Total: ${total} MAD`;
 
-  const uniqueCount = cartData.length; 
+  const uniqueCount = cartData.length;
   if (uniqueCount > 0) {
     cartCount.textContent = uniqueCount;
     cartCount.classList.remove("hidden");
@@ -124,13 +125,6 @@ checkoutBtn.onclick = () => {
   window.open(`https://wa.me/?text=${text}`, "_blank");
 };
 
-// CART OPEN/CLOSE
-closeCartBtn.addEventListener("click", () => {
-  cart.classList.remove("open");
-  cart.classList.add("closed");
-});
-openCartBtn.addEventListener("click", () => {
-  cart.classList.add("open");
-  cart.classList.remove("closed");
-});
-
+// CART TOGGLE
+closeCartBtn.onclick = () => cart.classList.remove("open");
+openCartBtn.onclick = () => cart.classList.toggle("open");
