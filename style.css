@@ -543,7 +543,20 @@ body.cart-open #product-list {
   max-width: none !important;
   max-height: none !important;
 }
-
+/* ✅ Force logo size always update */
+.logo {
+  width: 140px !important;
+  height: 140px !important;
+  object-fit: contain;
+}
+/* ✅ Desktop-only fix: make cart start at top and cover About/Contact */
+@media (min-width: 601px) {
+  #cart {
+    top: 0;               /* cover header area */
+    height: 100vh;        /* full vertical space */
+    z-index: 9999;        /* above header and nav */
+  }
+}
 
 
 
