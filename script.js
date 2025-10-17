@@ -14,9 +14,10 @@ const cart = document.getElementById("cart");
 const closeCartBtn = document.getElementById("close-cart");
 const openCartBtn = document.getElementById("open-cart");
 const cartCount = document.getElementById("cart-count");
+
+// Popups
 const aboutPopup = document.getElementById("about-popup");
 const contactPopup = document.getElementById("contact-popup");
-
 document.getElementById("about-link").onclick = () => aboutPopup.classList.remove("hidden");
 document.getElementById("contact-link").onclick = () => contactPopup.classList.remove("hidden");
 document.querySelector(".close-about").onclick = () => aboutPopup.classList.add("hidden");
@@ -66,7 +67,6 @@ function openPopup(product) {
   addToCartBtn.onclick = () => addToCart(product);
   popup.classList.remove("hidden");
 }
-
 closePopup.onclick = () => popup.classList.add("hidden");
 window.onclick = e => {
   if (e.target === popup) popup.classList.add("hidden");
@@ -86,11 +86,6 @@ function addToCart(product) {
   popup.classList.add("hidden");
 }
 
-function removeItem(id) {
-  cartData = cartData.filter(i => i.id !== id);
-  updateCart();
-}
-
 function updateCart() {
   cartItems.innerHTML = "";
   let total = 0;
@@ -98,10 +93,10 @@ function updateCart() {
   cartData.forEach(i => {
     const li = document.createElement("li");
     li.innerHTML = `
-      ${i.name} x${i.qty} = ${i.price * i.qty} MAD
-      <button class="cart-remove">✖</button>
+      <span>${i.name} x${i.qty} = ${i.price * i.qty} MAD</span>
+      <button class="remove-item">🗑️</button>
     `;
-    li.querySelector(".cart-remove").onclick = () => removeItem(i.id);
+    li.querySelector(".remove-item").onclick = () => removeItem(i.id);
     total += i.price * i.qty;
     cartItems.appendChild(li);
   });
@@ -117,6 +112,11 @@ function updateCart() {
   }
 }
 
+function removeItem(id) {
+  cartData = cartData.filter(i => i.id !== id);
+  updateCart();
+}
+
 checkoutBtn.onclick = () => {
   if (cartData.length === 0) return alert("Your cart is empty!");
   const msg = cartData.map(i => `${i.name} x${i.qty} = ${i.price * i.qty} MAD`).join("\n");
@@ -125,6 +125,12 @@ checkoutBtn.onclick = () => {
   window.open(`https://wa.me/?text=${text}`, "_blank");
 };
 
-// CART TOGGLE
-closeCartBtn.onclick = () => cart.classList.remove("open");
-openCartBtn.onclick = () => cart.classList.toggle("open");
+// CART OPEN/CLOSE
+closeCartBtn.addEventListener("click", () => {
+  cart.classList.remove("open");
+  cart.classList.add("closed");
+});
+openCartBtn.addEventListener("click", () => {
+  cart.classList.add("open");
+  cart.classList.remove("closed");
+});
