@@ -431,5 +431,81 @@ body.cart-open #product-list {
     max-height: 85vh !important;
   }
 }
+/* ===== Strong popup restore — paste at VERY END of style.css ===== */
+
+/* Ensure the overlay works and is visible */
+.popup {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0,0,0,0.7) !important;
+  z-index: 9998 !important;
+}
+
+/* Force the hidden state to remain hidden */
+.popup.hidden {
+  display: none !important;
+}
+
+/* Restore the popup box appearance and sizing */
+.popup-content {
+  background: #1b1b1b !important;
+  color: #fff !important;
+  padding: 20px !important;
+  border-radius: 10px !important;
+  width: 90% !important;
+  max-width: 420px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  text-align: center !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6) !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+}
+
+/* Image constraints inside popup */
+.popup-content img {
+  display: block !important;
+  margin: 10px auto !important;
+  width: 100% !important;
+  max-width: 340px !important;
+  height: auto !important;
+  object-fit: contain !important;
+  border-radius: 8px !important;
+  background-color: #000 !important;
+}
+
+/* Make sure the close X is visible and clickable everywhere */
+.popup-content .close,
+.close-about,
+.close-contact,
+#close-cart {
+  z-index: 10001 !important;
+  position: absolute !important;
+  right: 14px !important;
+  top: 10px !important;
+  color: #f1c40f !important;
+  background: none !important;
+  border: none !important;
+  font-size: 24px !important;
+  cursor: pointer !important;
+  touch-action: manipulation !important;
+}
+
+/* In case some global rule cleared backgrounds, force the header/title color */
+.popup-content h2,
+.popup-content p,
+.popup-content label,
+.popup-content select,
+.popup-content button {
+  color: inherit !important;
+}
+
+/* Safari-specific safety: prevents flexbox weirdness on iOS/Safari */
+@supports (-webkit-touch-callout: none) {
+  .popup-content { max-height: 85vh !important; }
+}
 
 
