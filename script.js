@@ -23,40 +23,27 @@ document.getElementById("contact-link").onclick = () => contactPopup.classList.r
 document.querySelector(".close-about").onclick = () => aboutPopup.classList.add("hidden");
 document.querySelector(".close-contact").onclick = () => contactPopup.classList.add("hidden");
 
-// ----- Products for each page -----
-let products = [];
-let model = "sanya"; // default
-const path = window.location.pathname.toLowerCase();
-
-if (path.includes("becane")) model = "becane";
-else if (path.includes("c50")) model = "c50";
-
-// Define products per model
+// ----- All products by model -----
 const allProducts = {
   sanya: [
-    { name: "Sanya Cylinder", price: 850, stock: 5, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
-    { name: "Sanya Leather Seat", price: 150, stock: 8, img: "https://i.imgur.com/JqNDT4P.jpeg" },
+    { name: "Sanya Cylender", price: 850, stock: 5, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
+    { name: "Sanya Leather Seat", price: 150, stock: 8, img: "https://i.imgur.com/JqNDT4P.jpeg" }
   ],
   becane: [
     { name: "Becane Clutch", price: 700, stock: 8, img: "https://i.imgur.com/GCKdTrL.jpeg" },
-    { name: "Becane Headlight", price: 250, stock: 10, img: "https://i.imgur.com/J6l8Ln2.jpeg" },
+    { name: "Becane Headlight", price: 250, stock: 10, img: "https://i.imgur.com/J6l8Ln2.jpeg" }
   ],
   c50: [
     { name: "C50 Chain Kit", price: 500, stock: 12, img: "https://i.imgur.com/N18ldZS.jpeg" },
-    { name: "C50 Exhaust", price: 950, stock: 5, img: "https://i.imgur.com/ragV47h.png" },
-  ],
+    { name: "C50 Exhaust", price: 950, stock: 5, img: "https://i.imgur.com/ragV47h.png" }
+  ]
 };
 
-// Assign products for the current page and give unique IDs
-products = allProducts[model].map((p, index) => ({
-  ...p,
-  id: `${model}-${index + 1}`
-}));
-
-// ----- Cart -----
+let model = "sanya"; // default page
+let products = [];
 let cartData = [];
 
-// ----- Render Products -----
+// ----- Render products -----
 function renderProducts() {
   productList.innerHTML = "";
   products.forEach(p => {
@@ -67,7 +54,20 @@ function renderProducts() {
     productList.appendChild(div);
   });
 }
-renderProducts();
+
+// ----- Initialize first page products -----
+function loadModel(modelName) {
+  model = modelName;
+  products = allProducts[model].map((p, index) => ({
+    ...p,
+    id: `${model}-${index + 1}`, // unique id across models
+    model: model
+  }));
+  renderProducts();
+}
+
+// Load default model
+loadModel("sanya");
 
 // ----- Product Popup -----
 function openPopup(product) {
@@ -86,7 +86,6 @@ function openPopup(product) {
   popup.classList.remove("hidden");
 }
 closePopup.onclick = () => popup.classList.add("hidden");
-
 window.onclick = e => {
   if (e.target === popup) popup.classList.add("hidden");
   if (e.target === aboutPopup) aboutPopup.classList.add("hidden");
@@ -103,12 +102,13 @@ function addToCart(product) {
   popup.classList.add("hidden");
 }
 
+// ----- Update Cart -----
 function updateCart() {
   cartItems.innerHTML = "";
   let total = 0;
   cartData.forEach(i => {
     const li = document.createElement("li");
-    li.innerHTML = `<span>${i.name} x${i.qty} = ${i.price * i.qty} MAD</span>
+    li.innerHTML = `<span>[${i.model.toUpperCase()}] ${i.name} x${i.qty} = ${i.price * i.qty} MAD</span>
       <button class="remove-item">🗑️</button>`;
     li.querySelector(".remove-item").onclick = () => removeItem(i.id);
     total += i.price * i.qty;
@@ -117,7 +117,9 @@ function updateCart() {
   totalText.textContent = `Total: ${total} MAD`;
 
   if (cartData.length > 0) {
-    cartCount.textContent = cartData.length;
+    // Count total quantities
+    const totalQty = cartData.reduce((sum, item) => sum + item.qty, 0);
+    cartCount.textContent = totalQty;
     cartCount.classList.remove("hidden");
   } else cartCount.classList.add("hidden");
 }
@@ -152,20 +154,10 @@ openCartBtn.addEventListener("click", () => {
   document.body.classList.add("cart-open");
 });
 
-// ----- Model Buttons -----
+// ----- Model navigation -----
 document.querySelectorAll(".model-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const selectedModel = btn.getAttribute("data-model");
-    model = selectedModel;
-    products = allProducts[model].map((p, index) => ({
-      ...p,
-      id: `${model}-${index + 1}` // unique IDs
-    }));
-    renderProducts();
+    loadModel(selectedModel);
   });
 });
-
-// ----- Navigation buttons if needed -----
-document.getElementById("sanya-link")?.addEventListener("click", () => window.location.href = "index.html");
-document.getElementById("becane-link")?.addEventListener("click", () => window.location.href = "becane.html");
-document.getElementById("c50-link")?.addEventListener("click", () => window.location.href = "c50.html");
