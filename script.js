@@ -113,10 +113,25 @@ function removeItem(id) {
 
 checkoutBtn.onclick = () => {
   if (cartData.length === 0) return alert("Your cart is empty!");
-  const msg = cartData.map(i => `${i.name} x${i.qty} = ${i.price * i.qty} MAD`).join("\n");
+
+  const msg = cartData
+    .map(i => `${i.name} x${i.qty} = ${i.price * i.qty} MAD`)
+    .join("\n");
+
   const total = cartData.reduce((s, i) => s + i.price * i.qty, 0);
-  const text = encodeURIComponent(`Hello Bee Auto Parts, I'd like to order:\n${msg}\n\nTotal: ${total} MAD`);
-  window.open(`https://wa.me/212724680135?text=${text}`, "_blank");
+  const text = encodeURIComponent(
+    `Hello Bee Auto Parts, I'd like to order:\n${msg}\n\nTotal: ${total} MAD`
+  );
+
+  const phone = "212724680135";
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${text}`;
+
+  // ✅ Detect if it's on mobile — open correctly
+  if (/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    window.location.href = whatsappUrl; // opens WhatsApp app directly
+  } else {
+    window.open(whatsappUrl, "_blank"); // opens WhatsApp Web on desktop
+  }
 };
 
 // CART OPEN/CLOSE
@@ -137,4 +152,5 @@ closeCartBtn.addEventListener("click", () => {
   cart.classList.remove("open");
   document.body.classList.remove("cart-open");
 });
+
 
