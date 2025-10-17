@@ -22,12 +22,17 @@
   <main>
     <section id="product-list"></section>
 
-    <aside id="cart">
-      <h2>🛒 Cart</h2>
+    <aside id="cart" class="open">
+      <div class="cart-header">
+        <h2>🛒 Cart</h2>
+        <button id="close-cart">✖</button>
+      </div>
       <ul id="cart-items"></ul>
       <p id="total">Total: 0 MAD</p>
       <button id="checkout-btn">Checkout on WhatsApp</button>
     </aside>
+
+    <button id="open-cart" class="hidden">🛒 Open Cart</button>
   </main>
 
   <!-- Product Popup -->
