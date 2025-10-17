@@ -13,8 +13,7 @@
       <h1>Bee Auto Parts <span>Morocco</span></h1>
     </div>
     <nav>
-      <a href="#product-list">Shop</a>
-      <a href="#cart">Cart</a>
+      <a href="#">About</a>
       <a href="#">Contact</a>
     </nav>
   </header>
@@ -22,7 +21,7 @@
   <main>
     <section id="product-list"></section>
 
-    <aside id="cart" class="open">
+    <aside id="cart" class="closed">
       <div class="cart-header">
         <h2>🛒 Cart</h2>
         <button id="close-cart">✖</button>
@@ -32,7 +31,10 @@
       <button id="checkout-btn">Checkout on WhatsApp</button>
     </aside>
 
-    <button id="open-cart" class="hidden">🛒 Open Cart</button>
+    <button id="open-cart">
+      🛒 Open Cart
+      <span id="cart-count" class="hidden">0</span>
+    </button>
   </main>
 
   <!-- Product Popup -->
