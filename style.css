@@ -534,8 +534,8 @@ body.cart-open #product-list {
 }
 /* ✅ Force the logo to scale properly */
 .logo {
-  width: 120px !important;
-  height: 120px !important;
+  width: 110px !important;
+  height: 110px !important;
   object-fit: contain;
 }
 
@@ -543,6 +543,7 @@ body.cart-open #product-list {
   max-width: none !important;
   max-height: none !important;
 }
+
 
 
 
