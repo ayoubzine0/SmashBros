@@ -23,16 +23,25 @@ document.getElementById("contact-link").onclick = () => contactPopup.classList.r
 document.querySelector(".close-about").onclick = () => aboutPopup.classList.add("hidden");
 document.querySelector(".close-contact").onclick = () => contactPopup.classList.add("hidden");
 
-const products = [
-  { id: 1, name: "Cylender", price: 850, stock: 5, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
-  { id: 2, name: "Chain Kit", price: 600, stock: 12, img: "https://i.imgur.com/N18ldZS.jpeg" },
-  { id: 3, name: "Spark Plug", price: 350, stock: 20, img: "https://i.imgur.com/ilbC97V.jpeg" },
-  { id: 4, name: "Clutch Kit", price: 250, stock: 15, img: "https://i.imgur.com/GCKdTrL.jpeg" },
-  { id: 5, name: "Sanya Leather Seat", price: 150, stock: 8, img: "https://i.imgur.com/JqNDT4P.jpeg" },
-  { id: 6, name: "Exhaust Pipe", price: 950, stock: 6, img: "https://i.imgur.com/ragV47h.png" },
-  { id: 7, name: "Motorcycle Alarm System", price: 120, stock: 30, img: "https://i.imgur.com/5kijwUc.jpeg" },
-  { id: 8, name: "Motorcycle Phone Support", price: 1100, stock: 4, img: "https://i.imgur.com/J6l8Ln2.jpeg" }
-];
+let products = [];
+
+if (window.location.pathname.includes("becane")) {
+  products = [
+    { id: 1, name: "Becane Clutch", price: 700, stock: 8, img: "https://i.imgur.com/GCKdTrL.jpeg" },
+    { id: 2, name: "Becane Headlight", price: 250, stock: 10, img: "https://i.imgur.com/J6l8Ln2.jpeg" },
+  ];
+} else if (window.location.pathname.includes("c50")) {
+  products = [
+    { id: 1, name: "C50 Chain Kit", price: 500, stock: 12, img: "https://i.imgur.com/N18ldZS.jpeg" },
+    { id: 2, name: "C50 Exhaust", price: 950, stock: 5, img: "https://i.imgur.com/ragV47h.png" },
+  ];
+} else {
+  // Default (Sanya)
+  products = [
+    { id: 1, name: "Sanya Cylender", price: 850, stock: 5, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
+    { id: 2, name: "Sanya Leather Seat", price: 150, stock: 8, img: "https://i.imgur.com/JqNDT4P.jpeg" },
+  ];
+}
 
 let cartData = [];
 
@@ -197,5 +206,6 @@ function openModelPage(model) {
 document.getElementById("sanya-link").onclick = () => window.location.href = "index.html";
 document.getElementById("becane-link").onclick = () => window.location.href = "becane.html";
 document.getElementById("c50-link").onclick = () => window.location.href = "c50.html";
+
 
 
