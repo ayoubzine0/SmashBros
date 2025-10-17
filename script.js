@@ -129,3 +129,12 @@ openCartBtn.addEventListener("click", () => {
   cart.classList.add("open");
   cart.classList.remove("closed");
 });
+openCartBtn.addEventListener("click", () => {
+  cart.classList.add("open");
+  document.body.classList.add("cart-open");
+});
+closeCartBtn.addEventListener("click", () => {
+  cart.classList.remove("open");
+  document.body.classList.remove("cart-open");
+});
+
