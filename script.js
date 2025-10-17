@@ -152,5 +152,46 @@ closeCartBtn.addEventListener("click", () => {
   cart.classList.remove("open");
   document.body.classList.remove("cart-open");
 });
+// ✅ Model-specific product lists
+const modelProducts = {
+  sanya: products, // You can replace this with filtered items later
+  bacane: products,
+  c50: products
+};
+
+// ✅ Handle model button clicks
+document.querySelectorAll(".model-btn").forEach(btn => {
+  btn.addEventListener("click", () => {
+    const model = btn.getAttribute("data-model");
+    openModelPage(model);
+  });
+});
+
+// ✅ Load model "page"
+function openModelPage(model) {
+  const modelTitle = model.charAt(0).toUpperCase() + model.slice(1);
+  document.title = `Bee Auto Parts - ${modelTitle}`;
+
+  // Optional: clear cart open state
+  cart.classList.remove("open");
+  document.body.classList.remove("cart-open");
+
+  // Replace product list
+  productList.innerHTML = "";
+  modelProducts[model].forEach(p => {
+    const div = document.createElement("div");
+    div.classList.add("product");
+    div.innerHTML = `
+      <img src="${p.img}" alt="${p.name}">
+      <h3>${p.name}</h3>
+      <p>${p.price} MAD</p>
+    `;
+    div.addEventListener("click", () => openPopup(p));
+    productList.appendChild(div);
+  });
+
+  // Optional: scroll to top when switching
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
 
 
