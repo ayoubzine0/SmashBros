@@ -182,7 +182,7 @@ main {
 #cart-items button {
   background: red;
   border: none;
-  color: yellow;
+  color: White;
   padding: 3px 6px;
   border-radius: 5px;
   cursor: pointer;
@@ -507,6 +507,32 @@ body.cart-open #product-list {
 @supports (-webkit-touch-callout: none) {
   .popup-content { max-height: 85vh !important; }
 }
+/* ✅ Make "Add to Cart" button and Quantity select yellow */
+#add-to-cart {
+  background: #f1c40f;       /* yellow */
+  color: #000;               /* black text */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#add-to-cart:hover {
+  background: #fff;          /* white on hover */
+}
+
+#quantity {
+  background: #f1c40f;
+  color: #000;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
 
 
 
