@@ -36,8 +36,8 @@ header {
 }
 
 .logo {
-  width: 140px;
-  height: 140px;
+  width: 70px;
+  height: 70px;
 }
 
 header h1 {
@@ -84,6 +84,7 @@ main {
   gap: 20px;
   padding: 20px;
   width: 100%;
+  transition: margin-right 0.3s ease; /* Fix: shift grid when cart open */
 }
 
 .product {
@@ -126,8 +127,8 @@ main {
   width: 280px;
   position: fixed;
   right: 0;
-  top: 80px;
-  height: calc(100vh - 90px);
+  top: 70px;
+  height: calc(100vh - 80px);
   overflow-y: auto;
   transform: translateX(100%);
   transition: transform 0.3s ease;
@@ -138,19 +139,24 @@ main {
   transform: translateX(0);
 }
 
-.cart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
+/* ✅ Fix: Make the close X always visible */
 #close-cart {
   background: none;
   color: #f1c40f;
   border: none;
-  font-size: 18px;
+  font-size: 22px;
   cursor: pointer;
-  z-index: 20;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  z-index: 99;
+}
+
+.cart-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
 }
 
 #cart h2 {
@@ -215,7 +221,7 @@ main {
   border-radius: 50px;
   cursor: pointer;
   font-weight: bold;
-  z-index: 15;
+  z-index: 10;
 }
 
 #open-cart:hover {
@@ -294,6 +300,11 @@ main {
   cursor: pointer;
 }
 
+/* ✅ Fix: When cart is open, shift products to the left */
+body.cart-open #product-list {
+  margin-right: 300px;
+}
+
 /* MOBILE FIX */
 @media (max-width: 600px) {
   header {
@@ -301,13 +312,9 @@ main {
     text-align: center;
   }
 
-  .logo {
-    width: 210px;
-    height: 210px;
-  }
-
-  #cart {
-    top: 100px;
+  nav {
+    flex-direction: row;
+    justify-content: center;
     width: 100%;
   }
 
@@ -315,8 +322,24 @@ main {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
 
-  #open-cart {
-    bottom: 10px;
-    right: 10px;
+  .logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Cart full width on mobile */
+  #cart {
+    width: 100%;
+    top: 0;
+    height: 100%;
+  }
+
+  #close-cart {
+    top: 15px;
+    right: 20px;
+  }
+
+  body.cart-open #product-list {
+    margin-right: 0;
   }
 }
