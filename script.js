@@ -116,7 +116,7 @@ checkoutBtn.onclick = () => {
   const msg = cartData.map(i => `${i.name} x${i.qty} = ${i.price * i.qty} MAD`).join("\n");
   const total = cartData.reduce((s, i) => s + i.price * i.qty, 0);
   const text = encodeURIComponent(`Hello Bee Auto Parts, I'd like to order:\n${msg}\n\nTotal: ${total} MAD`);
-  window.open(`https://wa.me/?text=${text}`, "_blank");
+  window.open(`https://wa.me/212724680135?text=${text}`, "_blank");
 };
 
 // CART OPEN/CLOSE
@@ -137,3 +137,4 @@ closeCartBtn.addEventListener("click", () => {
   cart.classList.remove("open");
   document.body.classList.remove("cart-open");
 });
+
