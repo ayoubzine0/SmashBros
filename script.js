@@ -7,24 +7,24 @@ const popupStock = document.getElementById("popup-stock");
 const quantitySelect = document.getElementById("quantity");
 const addToCartBtn = document.getElementById("add-to-cart");
 const closePopup = document.querySelector(".close");
-
-const cart = document.getElementById("cart");
-const closeCartBtn = document.getElementById("close-cart-btn");
-const openCartBtn = document.getElementById("open-cart-btn");
 const cartItems = document.getElementById("cart-items");
 const totalText = document.getElementById("total");
 const checkoutBtn = document.getElementById("checkout-btn");
+const cart = document.getElementById("cart");
+const closeCartBtn = document.getElementById("close-cart");
+const openCartBtn = document.getElementById("open-cart");
 const cartCount = document.getElementById("cart-count");
 
+// About / Contact popups
 const aboutPopup = document.getElementById("about-popup");
 const contactPopup = document.getElementById("contact-popup");
-const aboutBtn = document.getElementById("about-btn");
-const contactBtn = document.getElementById("contact-btn");
-const closeAbout = document.querySelector(".close-about");
-const closeContact = document.querySelector(".close-contact");
+document.getElementById("about-link").onclick = () => aboutPopup.classList.remove("hidden");
+document.getElementById("contact-link").onclick = () => contactPopup.classList.remove("hidden");
+document.querySelector(".close-about").onclick = () => aboutPopup.classList.add("hidden");
+document.querySelector(".close-contact").onclick = () => contactPopup.classList.add("hidden");
 
-let products = [
-  {id:1, name:"Cylinder", price:850, stock:5, img:"https://i.imgur.com/KHFhKuJ.jpeg"},
+const products = [
+  {id:1, name:"Cylender", price:850, stock:5, img:"https://i.imgur.com/KHFhKuJ.jpeg"},
   {id:2, name:"Chain Kit", price:600, stock:12, img:"https://i.imgur.com/N18ldZS.jpeg"},
   {id:3, name:"Spark Plug", price:350, stock:20, img:"https://i.imgur.com/ilbC97V.jpeg"},
   {id:4, name:"Clutch Kit", price:250, stock:15, img:"https://i.imgur.com/GCKdTrL.jpeg"},
@@ -36,7 +36,6 @@ let products = [
 
 let cartData = [];
 
-// RENDER PRODUCTS
 function renderProducts() {
   productList.innerHTML = "";
   products.forEach(p => {
@@ -53,7 +52,6 @@ function renderProducts() {
 }
 renderProducts();
 
-// POPUP
 function openPopup(product) {
   popupTitle.textContent = product.name;
   popupImg.src = product.img;
@@ -70,11 +68,11 @@ function openPopup(product) {
   popup.classList.remove("hidden");
 }
 closePopup.onclick = () => popup.classList.add("hidden");
-window.onclick = e => { if (e.target === popup) popup.classList.add("hidden"); };
-
-// CART
-openCartBtn.onclick = () => cart.classList.add("visible");
-closeCartBtn.onclick = () => cart.classList.remove("visible");
+window.onclick = e => {
+  if (e.target === popup) popup.classList.add("hidden");
+  if (e.target === aboutPopup) aboutPopup.classList.add("hidden");
+  if (e.target === contactPopup) contactPopup.classList.add("hidden");
+};
 
 function addToCart(product) {
   const qty = parseInt(quantitySelect.value);
@@ -96,17 +94,26 @@ function removeFromCart(id) {
 function updateCart() {
   cartItems.innerHTML = "";
   let total = 0;
+
   cartData.forEach(i => {
     const li = document.createElement("li");
     li.innerHTML = `
       ${i.name} x${i.qty} = ${i.price * i.qty} MAD
-      <button class="remove-item" onclick="removeFromCart(${i.id})">X</button>
+      <button class="remove-item" onclick="removeFromCart(${i.id})">🗑️</button>
     `;
     total += i.price * i.qty;
     cartItems.appendChild(li);
   });
+
   totalText.textContent = `Total: ${total} MAD`;
-  cartCount.textContent = cartData.length;
+
+  const uniqueCount = cartData.length; 
+  if (uniqueCount > 0) {
+    cartCount.textContent = uniqueCount;
+    cartCount.classList.remove("hidden");
+  } else {
+    cartCount.classList.add("hidden");
+  }
 }
 
 checkoutBtn.onclick = () => {
@@ -117,8 +124,13 @@ checkoutBtn.onclick = () => {
   window.open(`https://wa.me/?text=${text}`, "_blank");
 };
 
-// ABOUT & CONTACT POPUPS
-aboutBtn.onclick = () => aboutPopup.classList.remove("hidden");
-contactBtn.onclick = () => contactPopup.classList.remove("hidden");
-closeAbout.onclick = () => aboutPopup.classList.add("hidden");
-closeContact.onclick = () => contactPopup.classList.add("hidden");
+// CART OPEN/CLOSE
+closeCartBtn.addEventListener("click", () => {
+  cart.classList.remove("open");
+  cart.classList.add("closed");
+});
+openCartBtn.addEventListener("click", () => {
+  cart.classList.add("open");
+  cart.classList.remove("closed");
+});
+
