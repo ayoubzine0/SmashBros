@@ -48,6 +48,13 @@ if (path.includes("becane")) {
 // ----- Cart -----
 let cartData = [];
 
+// ----- Load cart from localStorage if exists -----
+const savedCart = localStorage.getItem("cartData");
+if (savedCart) {
+  cartData = JSON.parse(savedCart);
+}
+
+// ----- Render Products -----
 function renderProducts() {
   productList.innerHTML = "";
   products.forEach(p => {
@@ -94,6 +101,7 @@ function addToCart(product) {
   popup.classList.add("hidden");
 }
 
+// ----- Update Cart -----
 function updateCart() {
   cartItems.innerHTML = "";
   let total = 0;
@@ -111,8 +119,12 @@ function updateCart() {
     cartCount.textContent = cartData.length;
     cartCount.classList.remove("hidden");
   } else cartCount.classList.add("hidden");
+
+  // ✅ Save cart to localStorage
+  localStorage.setItem("cartData", JSON.stringify(cartData));
 }
 
+// ----- Remove Item -----
 function removeItem(id) {
   cartData = cartData.filter(i => i.id !== id);
   updateCart();
@@ -147,11 +159,6 @@ openCartBtn.addEventListener("click", () => {
 document.getElementById("sanya-link").onclick = () => window.location.href = "index.html";
 document.getElementById("becane-link").onclick = () => window.location.href = "becane.html";
 document.getElementById("c50-link").onclick = () => window.location.href = "c50.html";
-});
 
-// ----- Load cart from localStorage if exists -----
-const savedCart = localStorage.getItem("cartData");
-if (savedCart) {
-  cartData = JSON.parse(savedCart);
-  updateCart();
-}
+// ----- Initialize cart display -----
+updateCart();
