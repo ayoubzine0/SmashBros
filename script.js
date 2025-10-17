@@ -147,3 +147,11 @@ openCartBtn.addEventListener("click", () => {
 document.getElementById("sanya-link").onclick = () => window.location.href = "index.html";
 document.getElementById("becane-link").onclick = () => window.location.href = "becane.html";
 document.getElementById("c50-link").onclick = () => window.location.href = "c50.html";
+});
+
+// ----- Load cart from localStorage if exists -----
+const savedCart = localStorage.getItem("cartData");
+if (savedCart) {
+  cartData = JSON.parse(savedCart);
+  updateCart();
+}
