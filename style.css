@@ -36,8 +36,8 @@ header {
 }
 
 .logo {
-  width: 110px;
-  height: 110px;
+  width: 140px;
+  height: 140px;
 }
 
 header h1 {
@@ -534,8 +534,8 @@ body.cart-open #product-list {
 }
 /* ✅ Force the logo to scale properly */
 .logo {
-  width: 110px !important;
-  height: 110px !important;
+  width: 140px !important;
+  height: 140px !important;
   object-fit: contain;
 }
 
@@ -543,6 +543,7 @@ body.cart-open #product-list {
   max-width: none !important;
   max-height: none !important;
 }
+
 
 
 
