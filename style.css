@@ -557,6 +557,12 @@ body.cart-open #product-list {
     z-index: 9999;        /* above header and nav */
   }
 }
+/* ✅ Make model buttons match About/Contact perfectly */
+.model-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
 
 
 
