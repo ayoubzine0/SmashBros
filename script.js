@@ -1,8 +1,8 @@
 // -----------------------------
-// script.js - Full bilingual cart (paste in place)
+// CART + TRANSLATION + PRODUCT SWITCHING LOGIC
 // -----------------------------
 
-// Cached DOM elements
+// Cached DOM elements (updated to match your HTML)
 const openCartBtn = document.getElementById("open-cart");
 const cartCount = document.getElementById("cart-count");
 const cart = document.getElementById("cart");
@@ -24,10 +24,10 @@ const LANG_KEY = "beeLang";
 // Initialize state
 let currentCart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 let currentLang = localStorage.getItem(LANG_KEY) || "en";
-let currentModel = "sanya"; // Default model
+let currentModel = window.PAGE_MODEL || "sanya"; // Use page-specific model
 
 // -----------------------------
-// Product Data (full list)
+// Product Data (replace with your real data; added images and stock for completeness)
 // -----------------------------
 const allProducts = {
   sanya: [
@@ -60,16 +60,10 @@ function renderProducts(model) {
   products.forEach(product => {
     const div = document.createElement("div");
     div.className = "product";
-
-    const title = currentLang === "en" ? product.name_en : product.name_ar;
-    const priceText = `${product.price} MAD`;
-    const addText = currentLang === "en" ? "Add to Cart" : "أضف إلى السلة";
-
-    // Product card (click opens popup)
     div.innerHTML = `
       <img src="${product.img}" alt="${product.name_en}" />
-      <h3>${title}</h3>
-      <p>${priceText}</p>
+      <h3>${currentLang === "en" ? product.name_en : product.name_ar}</h3>
+      <p>${product.price} MAD</p>
     `;
     div.addEventListener("click", () => openProductPopup(product));
     productList.appendChild(div);
@@ -97,7 +91,6 @@ function openProductPopup(product) {
   // Store current product for add-to-cart
   addToCartBtn.dataset.productId = product.id;
   addToCartBtn.dataset.model = currentModel;
-  addToCartBtn.textContent = currentLang === "en" ? "Add to Cart" : "أضف إلى السلة";
 
   productPopup.classList.remove("hidden");
 }
@@ -127,8 +120,7 @@ function addToCart() {
   if (existing) {
     existing.qty += qty;
   } else {
-    // store minimal product fields to cart to keep search simple
-    currentCart.push({ id: product.id, model, name_en: product.name_en, name_ar: product.name_ar, price: product.price, qty });
+    currentCart.push({ ...product, model, qty });
   }
 
   saveCart();
@@ -145,7 +137,7 @@ function saveCart() {
 }
 
 function updateCartDisplay() {
-  const count = currentCart.reduce((sum, item) => sum + (item.qty || 1), 0);
+  const count = currentCart.length;
   if (count > 0) {
     cartCount.textContent = count;
     cartCount.classList.remove("hidden");
@@ -161,24 +153,22 @@ function updateCartDisplay() {
 
   if (currentCart.length === 0) {
     cartItems.innerHTML = `<p>${currentLang === "en" ? "Your cart is empty." : "سلتك فارغة."}</p>`;
-    totalEl.textContent = `${currentLang === "en" ? "Total" : "المجموع"}: 0 MAD`;
+    totalEl.textContent = `Total: 0 MAD`;
     return;
   }
 
   currentCart.forEach((item, index) => {
-    const name = currentLang === "en" ? item.name_en : item.name_ar;
-    const lineTotal = item.price * item.qty;
     const li = document.createElement("li");
     li.innerHTML = `
-      <span>${name} (x${item.qty})</span>
-      <span>${lineTotal} MAD</span>
+      <span>${currentLang === "en" ? item.name_en : item.name_ar} (x${item.qty})</span>
+      <span>${item.price * item.qty} MAD</span>
       <button data-index="${index}">✖</button>
     `;
     cartItems.appendChild(li);
-    total += lineTotal;
+    total += item.price * item.qty;
   });
 
-  totalEl.textContent = `${currentLang === "en" ? "Total" : "المجموع"}: ${total} MAD`;
+  totalEl.textContent = `Total: ${total} MAD`;
 
   // Add remove listeners
   document.querySelectorAll("#cart-items button").forEach(btn => {
@@ -210,11 +200,10 @@ function closeCart() {
 function checkout() {
   if (currentCart.length === 0) return;
 
-  const phone = "212600123456"; // Replace with your WhatsApp number (without leading +)
+  const phone = "+212600123456"; // Replace with your WhatsApp number
   let message = currentLang === "en" ? "Order Details:\n" : "تفاصيل الطلب:\n";
   currentCart.forEach(item => {
-    const name = currentLang === "en" ? item.name_en : item.name_ar;
-    message += `${name} x${item.qty} - ${item.price * item.qty} MAD\n`;
+    message += `${currentLang === "en" ? item.name_en : item.name_ar} x${item.qty} - ${item.price * item.qty} MAD\n`;
   });
   const total = currentCart.reduce((sum, item) => sum + item.price * item.qty, 0);
   message += `${currentLang === "en" ? "Total" : "المجموع"}: ${total} MAD`;
@@ -234,76 +223,19 @@ function switchLang() {
   document.body.dir = currentLang === "ar" ? "rtl" : "ltr";
   translateBtn.textContent = currentLang === "en" ? "عربي" : "EN";
 
-  // Update navbar button labels
-  document.getElementById("about-link").textContent =
-    currentLang === "en" ? "About" : "حول";
-  document.getElementById("contact-link").textContent =
-    currentLang === "en" ? "Contact" : "اتصال";
-  document.getElementById("checkout-btn").textContent =
-    currentLang === "en" ? "Checkout on WhatsApp" : "اتمام الطلب عبر واتساب";
-  const cartH2 = document.querySelector("#cart h2");
-  if (cartH2) cartH2.textContent =
-    currentLang === "en" ? "🛒 Cart" : "🛒 السلة";
-  const cartLabel = document.querySelector(".cart-label");
-  if (cartLabel) cartLabel.textContent =
-    currentLang === "en" ? "Open Cart" : "افتح السلة";
-
-  addToCartBtn.textContent = currentLang === "en" ? "Add to Cart" : "أضف إلى السلة";
-
-  // Update popups content
-  updatePopupContent();
-
   // Re-render everything
   renderProducts(currentModel);
   updateCartDisplay();
 }
 
 // -----------------------------
-// Update About & Contact Popups
-// -----------------------------
-function updatePopupContent() {
-  const aboutTitle = aboutPopup.querySelector("h2");
-  const aboutText = aboutPopup.querySelector("p");
-  const contactTitle = contactPopup.querySelector("h2");
-  const contactPs = contactPopup.querySelectorAll("p");
-
-  if (currentLang === "en") {
-    if (aboutTitle) aboutTitle.textContent = "About Bee Auto Parts";
-    if (aboutText) aboutText.textContent =
-      "Bee Auto Parts is Morocco’s trusted source for quality motorcycle and car parts...";
-    if (contactTitle) contactTitle.textContent = "Contact Us";
-    if (contactPs[0]) contactPs[0].textContent = "📞 Phone: +212 600-123456";
-    if (contactPs[1]) contactPs[1].textContent = "📧 Email: contact@beeautoparts.ma";
-    if (contactPs[2]) contactPs[2].textContent = "📍 Address: Casablanca, Morocco";
-  } else {
-    if (aboutTitle) aboutTitle.textContent = "حول Bee Auto Parts";
-    if (aboutText) aboutText.textContent =
-      "Bee Auto Parts هي المصدر الموثوق في المغرب لقطع غيار الدراجات النارية والسيارات عالية الجودة...";
-    if (contactTitle) contactTitle.textContent = "اتصل بنا";
-    if (contactPs[0]) contactPs[0].textContent = "📞 الهاتف: ‎+212 600-123456";
-    if (contactPs[1]) contactPs[1].textContent = "📧 البريد الإلكتروني: contact@beeautoparts.ma";
-    if (contactPs[2]) contactPs[2].textContent = "📍 العنوان: الدار البيضاء، المغرب";
-  }
-}
-
-// -----------------------------
-// Switch Model (via nav buttons)
-// -----------------------------
-function switchModel(model) {
-  currentModel = model;
-  renderProducts(model);
-}
-
-// -----------------------------
 // Open About/Contact Popups
 // -----------------------------
 function openAbout() {
-  updatePopupContent();
   aboutPopup.classList.remove("hidden");
 }
 
 function openContact() {
-  updatePopupContent();
   contactPopup.classList.remove("hidden");
 }
 
@@ -311,22 +243,10 @@ function openContact() {
 // Init on Load
 // -----------------------------
 document.addEventListener("DOMContentLoaded", () => {
-  // Set initial language from storage
+  // Set initial language
   document.documentElement.lang = currentLang;
   document.body.dir = currentLang === "ar" ? "rtl" : "ltr";
   translateBtn.textContent = currentLang === "en" ? "عربي" : "EN";
-
-  // Ensure nav labels show correct language on load
-  document.getElementById("about-link").textContent =
-    currentLang === "en" ? "About" : "حول";
-  document.getElementById("contact-link").textContent =
-    currentLang === "en" ? "Contact" : "اتصال";
-  document.getElementById("checkout-btn").textContent =
-    currentLang === "en" ? "Checkout on WhatsApp" : "اتمام الطلب عبر واتساب";
-  const cartH2 = document.querySelector("#cart h2");
-  if (cartH2) cartH2.textContent = currentLang === "en" ? "🛒 Cart" : "🛒 السلة";
-  const cartLabel = document.querySelector(".cart-label");
-  if (cartLabel) cartLabel.textContent = currentLang === "en" ? "Open Cart" : "افتح السلة";
 
   // Load initial products and cart
   renderProducts(currentModel);
@@ -339,14 +259,6 @@ document.addEventListener("DOMContentLoaded", () => {
   addToCartBtn.addEventListener("click", addToCart);
   checkoutBtn.addEventListener("click", checkout);
 
-  // Model buttons
-  const sanyaBtn = document.getElementById("sanya-link");
-  const becaneBtn = document.getElementById("becane-link");
-  const c50Btn = document.getElementById("c50-link");
-  if (sanyaBtn) sanyaBtn.addEventListener("click", () => switchModel("sanya"));
-  if (becaneBtn) becaneBtn.addEventListener("click", () => switchModel("becane"));
-  if (c50Btn) c50Btn.addEventListener("click", () => switchModel("c50"));
-
   // Popup buttons
   document.getElementById("about-link").addEventListener("click", openAbout);
   document.getElementById("contact-link").addEventListener("click", openContact);
@@ -354,7 +266,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Close popups
   popupClose.forEach(btn => btn.addEventListener("click", closePopups));
   [productPopup, aboutPopup, contactPopup].forEach(popup => {
-    if (!popup) return;
     popup.addEventListener("click", (e) => {
       if (e.target === popup) closePopups();
     });
