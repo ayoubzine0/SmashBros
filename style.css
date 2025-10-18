@@ -461,3 +461,6 @@ button, select {
 .navbar-buttons > * {
   order: initial !important; /* ensure flex items keep natural order */
 }
+.navbar-buttons button {
+  direction: rtl; /* text inside button reads Arabic correctly */
+}
