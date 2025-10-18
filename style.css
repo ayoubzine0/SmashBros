@@ -452,11 +452,12 @@ button, select {
   font-family: inherit;
 }
 .navbar-buttons {
-  display: flex;
-  flex-direction: row; /* always horizontal */
-  justify-content: flex-start; /* keeps the order */
-  direction: ltr !important; /* forces left-to-right layout */
+  display: flex !important;
+  flex-direction: row !important; /* horizontal always */
+  justify-content: flex-start !important; /* keep order */
+  direction: ltr !important; /* text inside buttons still LTR */
 }
-.navbar-buttons li {
-  direction: ltr !important; /* each item keeps LTR */
+
+.navbar-buttons > * {
+  order: initial !important; /* ensure flex items keep natural order */
 }
