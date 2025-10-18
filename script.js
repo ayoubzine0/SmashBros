@@ -1,19 +1,17 @@
-// script.js - bilingual + cart (keeps existing features, extended translations & persistence)
+// script.js - fully fixed, bilingual, cart with all features preserved
 
 // -----------------------------
-// CART + TRANSLATION + PRODUCT SWITCHING LOGIC
+// CART + TRANSLATION + PRODUCT LOGIC
 // -----------------------------
 
-// LocalStorage keys
 const CART_KEY = "beeCart";
 const LANG_KEY = "beeLang";
 
-// Initialize state (will be replaced/confirmed on DOMContentLoaded)
 let currentCart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 let currentLang = localStorage.getItem(LANG_KEY) || "en";
-let currentModel = window.PAGE_MODEL || "sanya"; // Use page-specific model
+let currentModel = window.PAGE_MODEL || "sanya"; // page-specific model
 
-// Product data (unchanged)
+// Product data (kept intact)
 const allProducts = {
   sanya: [
     { id: "s1", name_en: "Sanya Front Light", name_ar: "ضوء أمامي سانيا", price: 250, img: "https://i.imgur.com/r9i7m4b.png", stock: 10 },
@@ -34,12 +32,11 @@ const allProducts = {
   ]
 };
 
-// Cached DOM elements (will be assigned on DOMContentLoaded)
-let openCartBtn, cartCount, cartEl, closeCartBtn, productList, translateBtn, productPopup, aboutPopup, contactPopup, popupClose, addToCartBtn, quantitySelect, checkoutBtn;
-let toast;
+// Cached DOM elements
+let openCartBtn, cartCount, cartEl, closeCartBtn, productList, translateBtn, productPopup, aboutPopup, contactPopup, addToCartBtn, quantitySelect, checkoutBtn, toast;
 
 // -----------------------------
-// Render Products for Current Model
+// Render products
 // -----------------------------
 function renderProducts(model) {
   if (!productList) return;
@@ -50,8 +47,6 @@ function renderProducts(model) {
   products.forEach(product => {
     const div = document.createElement("div");
     div.className = "product";
-
-    // build product inner HTML with Add button
     div.innerHTML = `
       <img src="${product.img}" alt="${product.name_en}" />
       <h3 class="product-title">${currentLang === "en" ? product.name_en : product.name_ar}</h3>
@@ -61,12 +56,11 @@ function renderProducts(model) {
       </div>
     `;
 
-    // clicking card opens popup
+    // card click opens popup
     div.addEventListener("click", () => openProductPopup(product));
 
-    // clicking Add button opens popup but stops propagation so the card click doesn't double-run
-    const addBtn = div.querySelector(".card-add-btn");
-    addBtn.addEventListener("click", (e) => {
+    // add button opens popup, stops propagation
+    div.querySelector(".card-add-btn").addEventListener("click", e => {
       e.stopPropagation();
       openProductPopup(product);
     });
@@ -76,10 +70,11 @@ function renderProducts(model) {
 }
 
 // -----------------------------
-// Open Product Popup
+// Product popup
 // -----------------------------
 function openProductPopup(product) {
   if (!productPopup) return;
+
   const titleEl = document.getElementById("popup-title");
   const imgEl = document.getElementById("popup-img");
   const priceEl = document.getElementById("popup-price");
@@ -90,7 +85,6 @@ function openProductPopup(product) {
   priceEl.textContent = `${product.price} MAD`;
   stockEl.textContent = currentLang === "en" ? `In Stock: ${product.stock}` : `متوفر: ${product.stock}`;
 
-  // Populate quantity options (up to stock)
   if (quantitySelect) {
     quantitySelect.innerHTML = "";
     for (let i = 1; i <= product.stock; i++) {
@@ -101,7 +95,6 @@ function openProductPopup(product) {
     }
   }
 
-  // Store current product for add-to-cart
   if (addToCartBtn) {
     addToCartBtn.dataset.productId = product.id;
     addToCartBtn.dataset.model = currentModel;
@@ -112,7 +105,7 @@ function openProductPopup(product) {
 }
 
 // -----------------------------
-// Close Popups
+// Close popups
 // -----------------------------
 function closePopups() {
   if (productPopup) productPopup.classList.add("hidden");
@@ -121,7 +114,7 @@ function closePopups() {
 }
 
 // -----------------------------
-// Add to Cart from Popup
+// Add to cart
 // -----------------------------
 function addToCart() {
   if (!addToCartBtn) return;
@@ -147,7 +140,7 @@ function addToCart() {
 }
 
 // -----------------------------
-// Save and Update Cart
+// Save & update cart
 // -----------------------------
 function saveCart() {
   localStorage.setItem(CART_KEY, JSON.stringify(currentCart));
@@ -157,17 +150,13 @@ function updateCartDisplay() {
   if (!cartCount) return;
 
   const count = currentCart.reduce((sum, it) => sum + (it.qty || 1), 0);
-  if (count > 0) {
-    cartCount.textContent = count;
-    cartCount.classList.remove("hidden");
-  } else {
-    cartCount.classList.add("hidden");
-  }
+  cartCount.textContent = count;
+  cartCount.classList.toggle("hidden", count === 0);
 
-  // Update cart items list
   const cartItems = document.getElementById("cart-items");
   const totalEl = document.getElementById("total");
   if (!cartItems || !totalEl) return;
+
   cartItems.innerHTML = "";
   let total = 0;
 
@@ -190,19 +179,21 @@ function updateCartDisplay() {
 
   totalEl.textContent = `${currentLang === "en" ? "Total" : "المجموع"}: ${total} MAD`;
 
-  // Add remove listeners
-  document.querySelectorAll("#cart-items button").forEach(btn => {
-    btn.addEventListener("click", (e) => {
-      const index = e.target.dataset.index;
-      currentCart.splice(index, 1);
+  // Remove items
+  cartItems.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", e => {
+      const idx = parseInt(e.target.dataset.index, 10);
+      currentCart.splice(idx, 1);
       saveCart();
       updateCartDisplay();
     });
   });
+
+  checkRTL();
 }
 
 // -----------------------------
-// Open/Close Cart
+// Open/close cart
 // -----------------------------
 function openCart() {
   if (!cartEl) return;
@@ -217,25 +208,24 @@ function closeCart() {
 }
 
 // -----------------------------
-// Checkout on WhatsApp
+// Checkout
 // -----------------------------
 function checkout() {
   if (currentCart.length === 0) return;
 
-  const phone = "212724680135"; // user-provided number (without +)
-  let message = currentLang === "en" ? "Order Details:\n" : "تفاصيل الطلب:\n";
+  const phone = "212724680135";
+  let msg = currentLang === "en" ? "Order Details:\n" : "تفاصيل الطلب:\n";
   currentCart.forEach(item => {
-    message += `${currentLang === "en" ? item.name_en : item.name_ar} x${item.qty} - ${item.price * item.qty} MAD\n`;
+    msg += `${currentLang === "en" ? item.name_en : item.name_ar} x${item.qty} - ${item.price * item.qty} MAD\n`;
   });
   const total = currentCart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  message += `${currentLang === "en" ? "Total" : "المجموع"}: ${total} MAD`;
+  msg += `${currentLang === "en" ? "Total" : "المجموع"}: ${total} MAD`;
 
-  const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-  window.open(url, "_blank");
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
 // -----------------------------
-// Toast notification
+// Toast
 // -----------------------------
 function showToast(msg) {
   if (!toast) {
@@ -258,37 +248,28 @@ function showToast(msg) {
   }
   toast.textContent = msg;
   toast.style.display = "block";
-  setTimeout(() => { toast.style.display = "none"; }, 1500);
+  setTimeout(() => toast.style.display = "none", 1500);
 }
 
 // -----------------------------
-// Translate: apply text changes across UI
+// Language / translations
 // -----------------------------
 function applyTranslations() {
-  // translate button label
   if (translateBtn) translateBtn.textContent = currentLang === "en" ? "عربي" : "EN";
-
-  // Navbar: About / Contact
   const aboutLink = document.getElementById("about-link");
   const contactLink = document.getElementById("contact-link");
   if (aboutLink) aboutLink.textContent = currentLang === "en" ? "About" : "حول";
   if (contactLink) contactLink.textContent = currentLang === "en" ? "Contact" : "اتصال";
 
-  // Brand title
   const brandTitle = document.querySelector(".brand h1");
   if (brandTitle) brandTitle.textContent = currentLang === "en" ? "Bee Auto Parts" : "Bee لقطع غيار السيارات";
 
-  // Cart UI
   const cartH2 = document.querySelector("#cart h2");
   if (cartH2) cartH2.textContent = currentLang === "en" ? "🛒 Cart" : "🛒 السلة";
-
-  const cartLabel = document.querySelector(".cart-label button");
-  if (cartLabel) cartLabel.textContent = currentLang === "en" ? "Open Cart" : "افتح السلة";
 
   const checkoutBtnEl = document.getElementById("checkout-btn");
   if (checkoutBtnEl) checkoutBtnEl.textContent = currentLang === "en" ? "Checkout on WhatsApp" : "اتمام الطلب عبر واتساب";
 
-  // Update product cards Add text if rendered
   document.querySelectorAll(".product .card-add-btn").forEach(btn => {
     btn.textContent = currentLang === "en" ? "Add" : "أضف";
   });
@@ -297,10 +278,9 @@ function applyTranslations() {
 }
 
 // -----------------------------
-// Update About & Contact Popups
-// -----------------------------
 function updatePopupContent() {
   if (!aboutPopup || !contactPopup) return;
+
   const aboutTitle = aboutPopup.querySelector("h2");
   const aboutText = aboutPopup.querySelector("p");
   const contactTitle = contactPopup.querySelector("h2");
@@ -324,18 +304,31 @@ function updatePopupContent() {
 }
 
 // -----------------------------
-// Switch Language
-// -----------------------------
 function switchLang() {
   currentLang = currentLang === "en" ? "ar" : "en";
   localStorage.setItem(LANG_KEY, currentLang);
-  document.documentElement.lang = currentLang === "en" ? "en" : "ar";
+  document.documentElement.lang = currentLang;
   applyTranslations();
   renderProducts(currentModel);
 }
 
 // -----------------------------
-// Event listeners & init
+// RTL for cart count
+// -----------------------------
+function checkRTL() {
+  if (!cartCount) return;
+  const isArabic = document.documentElement.lang === "ar";
+  if (isArabic) {
+    cartCount.style.right = "unset";
+    cartCount.style.left = "-8px";
+  } else {
+    cartCount.style.left = "unset";
+    cartCount.style.right = "-8px";
+  }
+}
+
+// -----------------------------
+// Init
 // -----------------------------
 document.addEventListener("DOMContentLoaded", () => {
   openCartBtn = document.getElementById("open-cart");
@@ -355,7 +348,7 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCartDisplay();
   applyTranslations();
 
-  // Navbar About / Contact
+  // About / Contact links
   document.getElementById("about-link")?.addEventListener("click", () => aboutPopup.classList.remove("hidden"));
   document.getElementById("contact-link")?.addEventListener("click", () => contactPopup.classList.remove("hidden"));
 
@@ -374,62 +367,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Language switch
   translateBtn?.addEventListener("click", switchLang);
+
+  // Initial RTL
+  checkRTL();
 });
-// ==========================
-// CART COUNT FIX (English & Arabic)
-// ==========================
-
-// Update cart red dot whenever cart changes
-function updateCartCount() {
-  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
-  if (totalItems > 0) {
-    cartCountEl.textContent = totalItems;
-    cartCountEl.classList.remove("hidden");
-  } else {
-    cartCountEl.classList.add("hidden");
-  }
-}
-
-// Modified addToCart function (merge with your existing one)
-function addToCart(productId, quantity) {
-  const existing = cart.find(item => item.id === productId);
-  if (existing) {
-    existing.quantity += quantity;
-  } else {
-    const product = products.find(p => p.id === productId);
-    if (!product) return;
-    cart.push({ ...product, quantity });
-  }
-  renderCartItems(); // keep your existing function
-  updateCartCount(); // <-- ensures red dot updates correctly
-}
-
-// Call updateCartCount on page load to reflect any pre-filled cart
-document.addEventListener("DOMContentLoaded", () => {
-  updateCartCount();
-});
-
-// Optional: if you have remove from cart buttons
-function removeFromCart(productId) {
-  cart = cart.filter(item => item.id !== productId);
-  renderCartItems(); // your existing function
-  updateCartCount();
-}
-
-// ==========================
-// Ensure cart red dot works in Arabic too
-// ==========================
-function checkRTL() {
-  const isArabic = document.documentElement.lang === "ar";
-  if (isArabic) {
-    cartCountEl.style.right = "unset";
-    cartCountEl.style.left = "-8px";
-  } else {
-    cartCountEl.style.left = "unset";
-    cartCountEl.style.right = "-8px";
-  }
-}
-
-// Run RTL adjustment on load
-checkRTL();
-
