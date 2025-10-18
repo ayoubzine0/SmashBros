@@ -1,140 +1,138 @@
 // -----------------------------
-// CART + TRANSLATION + SWITCHING LOGIC
+// CART + TRANSLATION + PRODUCT SWITCHING LOGIC
 // -----------------------------
 
-// Cached DOM elements
+// Cached DOM elements (updated to match your HTML)
 const openCartBtn = document.getElementById("open-cart");
 const cartCount = document.getElementById("cart-count");
-const cartModal = document.getElementById("cart-modal");
+const cart = document.getElementById("cart");
 const closeCartBtn = document.getElementById("close-cart");
-const productsContainer = document.getElementById("products-container");
-const langSwitch = document.getElementById("lang-switch");
+const productList = document.getElementById("product-list");
+const translateBtn = document.getElementById("translate-btn");
+const productPopup = document.getElementById("product-popup");
+const aboutPopup = document.getElementById("about-popup");
+const contactPopup = document.getElementById("contact-popup");
+const popupClose = document.querySelectorAll(".close, .close-about, .close-contact");
+const addToCartBtn = document.getElementById("add-to-cart");
+const quantitySelect = document.getElementById("quantity");
+const checkoutBtn = document.getElementById("checkout-btn");
 
 // LocalStorage keys
-const CART_KEY = "motoCart";
-const LANG_KEY = "motoLang";
+const CART_KEY = "beeCart";
+const LANG_KEY = "beeLang";
 
 // Initialize state
-let cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+let currentCart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 let currentLang = localStorage.getItem(LANG_KEY) || "en";
+let currentModel = "sanya"; // Default model
 
 // -----------------------------
-// Helper: Ensure Open Cart button has dot + label
-// -----------------------------
-function ensureOpenCartStructure() {
-  const btn = document.getElementById("open-cart");
-  if (!btn) return;
-
-  // Ensure #cart-count span exists
-  let span = document.getElementById("cart-count");
-  if (!span) {
-    span = document.createElement("span");
-    span.id = "cart-count";
-    span.className = "hidden";
-    span.textContent = "0";
-    btn.insertBefore(span, btn.firstChild.nextSibling);
-  }
-
-  // Ensure label span exists
-  let label = btn.querySelector(".cart-label");
-  if (!label) {
-    label = document.createElement("span");
-    label.className = "cart-label";
-    label.textContent = currentLang === "ar" ? "عرض السلة" : "Open Cart";
-    btn.appendChild(label);
-  }
-}
-ensureOpenCartStructure();
-
-// -----------------------------
-// Safe updater for button text
-// -----------------------------
-function safeOpenCartUpdate(enText, arText) {
-  const btn = document.getElementById("open-cart");
-  if (!btn) return;
-  const label = btn.querySelector(".cart-label");
-  if (label) label.textContent = currentLang === "en" ? enText : arText;
-}
-
-// -----------------------------
-// Product Data (example placeholders, replace with yours)
+// Product Data (replace with your real data; added images and stock for completeness)
 // -----------------------------
 const allProducts = {
   sanya: [
-    { id: "s1", name_en: "Sanya Front Light", name_ar: "ضوء أمامي سانيا", price: 250 },
-    { id: "s2", name_en: "Sanya Engine Cover", name_ar: "غطاء المحرك سانيا", price: 400 }
+    { id: "s1", name_en: "Sanya Front Light", name_ar: "ضوء أمامي سانيا", price: 250, img: "https://i.imgur.com/r9i7m4b.png", stock: 10 },
+    { id: "s2", name_en: "Sanya Engine Cover", name_ar: "غطاء المحرك سانيا", price: 400, img: "https://i.imgur.com/r9i7m4b.png", stock: 5 }
   ],
   becane: [
-    { id: "b1", name_en: "Becane Headlight", name_ar: "مصباح أمامي بيكان", price: 270 },
-    { id: "b2", name_en: "Becane Exhaust", name_ar: "عادم بيكان", price: 500 }
+    { id: "b1", name_en: "Becane Headlight", name_ar: "مصباح أمامي بيكان", price: 270, img: "https://i.imgur.com/r9i7m4b.png", stock: 8 },
+    { id: "b2", name_en: "Becane Exhaust", name_ar: "عادم بيكان", price: 500, img: "https://i.imgur.com/r9i7m4b.png", stock: 3 }
   ],
   c50: [
-    { id: "c1", name_en: "C50 Chain", name_ar: "سلسلة C50", price: 180 },
-    { id: "c2", name_en: "C50 Mirror", name_ar: "مرآة C50", price: 90 }
+    { id: "c1", name_en: "C50 Chain", name_ar: "سلسلة C50", price: 180, img: "https://i.imgur.com/r9i7m4b.png", stock: 15 },
+    { id: "c2", name_en: "C50 Mirror", name_ar: "مرآة C50", price: 90, img: "https://i.imgur.com/r9i7m4b.png", stock: 20 }
   ]
 };
 
 // -----------------------------
-// Render products by type
+// Render Products for Current Model
 // -----------------------------
-function renderProducts(type) {
-  productsContainer.innerHTML = "";
-  const products = allProducts[type];
+function renderProducts(model) {
+  productList.innerHTML = "";
+  const products = allProducts[model];
   if (!products) return;
 
-  products.forEach(p => {
+  products.forEach(product => {
     const div = document.createElement("div");
     div.className = "product";
     div.innerHTML = `
-      <h3>${currentLang === "en" ? p.name_en : p.name_ar}</h3>
-      <p>${p.price} MAD</p>
-      <button class="add-btn" data-id="${p.id}" data-type="${type}">
-        ${currentLang === "en" ? "Add to Cart" : "أضف إلى السلة"}
-      </button>
+      <img src="${product.img}" alt="${product.name_en}" />
+      <h3>${currentLang === "en" ? product.name_en : product.name_ar}</h3>
+      <p>${product.price} MAD</p>
     `;
-    productsContainer.appendChild(div);
-  });
-
-  document.querySelectorAll(".add-btn").forEach(btn => {
-    btn.addEventListener("click", e => {
-      const id = e.target.dataset.id;
-      const type = e.target.dataset.type;
-      addToCart(type, id);
-    });
+    div.addEventListener("click", () => openProductPopup(product));
+    productList.appendChild(div);
   });
 }
 
 // -----------------------------
-// Add to Cart Logic
+// Open Product Popup
 // -----------------------------
-function addToCart(type, id) {
-  const products = allProducts[type];
-  const product = products.find(p => p.id === id);
-  if (!product) return;
+function openProductPopup(product) {
+  document.getElementById("popup-title").textContent = currentLang === "en" ? product.name_en : product.name_ar;
+  document.getElementById("popup-img").src = product.img;
+  document.getElementById("popup-price").textContent = `${product.price} MAD`;
+  document.getElementById("popup-stock").textContent = currentLang === "en" ? `In Stock: ${product.stock}` : `متوفر: ${product.stock}`;
 
-  const existing = cart.find(item => item.id === id);
+  // Populate quantity options (up to stock)
+  quantitySelect.innerHTML = "";
+  for (let i = 1; i <= product.stock; i++) {
+    const option = document.createElement("option");
+    option.value = i;
+    option.textContent = i;
+    quantitySelect.appendChild(option);
+  }
+
+  // Store current product for add-to-cart
+  addToCartBtn.dataset.productId = product.id;
+  addToCartBtn.dataset.model = currentModel;
+
+  productPopup.classList.remove("hidden");
+}
+
+// -----------------------------
+// Close Popups
+// -----------------------------
+function closePopups() {
+  productPopup.classList.add("hidden");
+  aboutPopup.classList.add("hidden");
+  contactPopup.classList.add("hidden");
+}
+
+// -----------------------------
+// Add to Cart from Popup
+// -----------------------------
+function addToCart() {
+  const productId = addToCartBtn.dataset.productId;
+  const model = addToCartBtn.dataset.model;
+  const qty = parseInt(quantitySelect.value);
+
+  const products = allProducts[model];
+  const product = products.find(p => p.id === productId);
+  if (!product || qty > product.stock) return;
+
+  const existing = currentCart.find(item => item.id === productId);
   if (existing) {
-    existing.qty += 1;
+    existing.qty += qty;
   } else {
-    cart.push({ ...product, type, qty: 1 });
+    currentCart.push({ ...product, model, qty });
   }
 
   saveCart();
   updateCartDisplay();
+  closePopups();
+  alert(currentLang === "en" ? "Added to cart!" : "تمت الإضافة إلى السلة!");
 }
 
 // -----------------------------
 // Save and Update Cart
 // -----------------------------
 function saveCart() {
-  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  localStorage.setItem(CART_KEY, JSON.stringify(currentCart));
 }
 
 function updateCartDisplay() {
-  // Number of unique types in cart
-  const uniqueTypes = new Set(cart.map(item => item.type));
-  const count = uniqueTypes.size;
-
+  const count = currentCart.length;
   if (count > 0) {
     cartCount.textContent = count;
     cartCount.classList.remove("hidden");
@@ -142,52 +140,71 @@ function updateCartDisplay() {
     cartCount.classList.add("hidden");
   }
 
-  safeOpenCartUpdate("Open Cart", "عرض السلة");
-}
+  // Update cart items list
+  const cartItems = document.getElementById("cart-items");
+  const totalEl = document.getElementById("total");
+  cartItems.innerHTML = "";
+  let total = 0;
 
-// -----------------------------
-// Cart Modal Handling
-// -----------------------------
-function openCart() {
-  cartModal.style.display = "block";
-  renderCartItems();
-}
-
-function closeCart() {
-  cartModal.style.display = "none";
-}
-
-function renderCartItems() {
-  const container = document.getElementById("cart-items");
-  container.innerHTML = "";
-  if (cart.length === 0) {
-    container.innerHTML =
-      currentLang === "en" ? "<p>Your cart is empty.</p>" : "<p>سلتك فارغة.</p>";
+  if (currentCart.length === 0) {
+    cartItems.innerHTML = `<p>${currentLang === "en" ? "Your cart is empty." : "سلتك فارغة."}</p>`;
+    totalEl.textContent = `Total: 0 MAD`;
     return;
   }
 
-  cart.forEach(item => {
-    const div = document.createElement("div");
-    div.className = "cart-item";
-    div.innerHTML = `
-      <span>${currentLang === "en" ? item.name_en : item.name_ar}</span>
-      <span>${item.price} MAD x ${item.qty}</span>
-      <button class="remove" data-id="${item.id}">${
-      currentLang === "en" ? "Remove" : "إزالة"
-    }</button>
+  currentCart.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span>${currentLang === "en" ? item.name_en : item.name_ar} (x${item.qty})</span>
+      <span>${item.price * item.qty} MAD</span>
+      <button data-index="${index}">✖</button>
     `;
-    container.appendChild(div);
+    cartItems.appendChild(li);
+    total += item.price * item.qty;
   });
 
-  document.querySelectorAll(".remove").forEach(btn => {
-    btn.addEventListener("click", e => {
-      const id = e.target.dataset.id;
-      cart = cart.filter(i => i.id !== id);
+  totalEl.textContent = `Total: ${total} MAD`;
+
+  // Add remove listeners
+  document.querySelectorAll("#cart-items button").forEach(btn => {
+    btn.addEventListener("click", (e) => {
+      const index = e.target.dataset.index;
+      currentCart.splice(index, 1);
       saveCart();
       updateCartDisplay();
-      renderCartItems();
     });
   });
+}
+
+// -----------------------------
+// Open/Close Cart
+// -----------------------------
+function openCart() {
+  cart.classList.add("open");
+  document.body.classList.add("cart-open");
+}
+
+function closeCart() {
+  cart.classList.remove("open");
+  document.body.classList.remove("cart-open");
+}
+
+// -----------------------------
+// Checkout on WhatsApp
+// -----------------------------
+function checkout() {
+  if (currentCart.length === 0) return;
+
+  const phone = "+212600123456"; // Replace with your WhatsApp number
+  let message = currentLang === "en" ? "Order Details:\n" : "تفاصيل الطلب:\n";
+  currentCart.forEach(item => {
+    message += `${currentLang === "en" ? item.name_en : item.name_ar} x${item.qty} - ${item.price * item.qty} MAD\n`;
+  });
+  const total = currentCart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  message += `${currentLang === "en" ? "Total" : "المجموع"}: ${total} MAD`;
+
+  const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  window.open(url, "_blank");
 }
 
 // -----------------------------
@@ -197,42 +214,68 @@ function switchLang() {
   currentLang = currentLang === "en" ? "ar" : "en";
   localStorage.setItem(LANG_KEY, currentLang);
 
+  document.documentElement.lang = currentLang;
   document.body.dir = currentLang === "ar" ? "rtl" : "ltr";
-  safeOpenCartUpdate("Open Cart", "عرض السلة");
-  langSwitch.textContent = currentLang === "en" ? "AR" : "EN";
+  translateBtn.textContent = currentLang === "en" ? "عربي" : "EN";
 
-  // re-render current product set if it exists
-  const currentType = document.querySelector(".switch-btn.active")?.dataset.type || "sanya";
-  renderProducts(currentType);
-  renderCartItems();
+  // Re-render everything
+  renderProducts(currentModel);
+  updateCartDisplay();
 }
 
 // -----------------------------
-// Switch Product Type
+// Switch Model (via nav buttons)
 // -----------------------------
-function setupTypeSwitching() {
-  document.querySelectorAll(".switch-btn").forEach(btn => {
-    btn.addEventListener("click", () => {
-      document.querySelectorAll(".switch-btn").forEach(b => b.classList.remove("active"));
-      btn.classList.add("active");
-      const type = btn.dataset.type;
-      renderProducts(type);
-    });
-  });
+function switchModel(model) {
+  currentModel = model;
+  renderProducts(model);
 }
 
 // -----------------------------
-// Init
+// Open About/Contact Popups
+// -----------------------------
+function openAbout() {
+  aboutPopup.classList.remove("hidden");
+}
+
+function openContact() {
+  contactPopup.classList.remove("hidden");
+}
+
+// -----------------------------
+// Init on Load
 // -----------------------------
 document.addEventListener("DOMContentLoaded", () => {
-  updateCartDisplay();
-  renderProducts("sanya");
-  setupTypeSwitching();
+  // Set initial language
+  document.documentElement.lang = currentLang;
   document.body.dir = currentLang === "ar" ? "rtl" : "ltr";
-  langSwitch.textContent = currentLang === "en" ? "AR" : "EN";
+  translateBtn.textContent = currentLang === "en" ? "عربي" : "EN";
 
-  // Event listeners
+  // Load initial products and cart
+  renderProducts(currentModel);
+  updateCartDisplay();
+
+  // Event Listeners
   openCartBtn.addEventListener("click", openCart);
   closeCartBtn.addEventListener("click", closeCart);
-  langSwitch.addEventListener("click", switchLang);
+  translateBtn.addEventListener("click", switchLang);
+  addToCartBtn.addEventListener("click", addToCart);
+  checkoutBtn.addEventListener("click", checkout);
+
+  // Model buttons
+  document.getElementById("sanya-link").addEventListener("click", () => switchModel("sanya"));
+  document.getElementById("becane-link").addEventListener("click", () => switchModel("becane"));
+  document.getElementById("c50-link").addEventListener("click", () => switchModel("c50"));
+
+  // Popup buttons
+  document.getElementById("about-link").addEventListener("click", openAbout);
+  document.getElementById("contact-link").addEventListener("click", openContact);
+
+  // Close popups
+  popupClose.forEach(btn => btn.addEventListener("click", closePopups));
+  [productPopup, aboutPopup, contactPopup].forEach(popup => {
+    popup.addEventListener("click", (e) => {
+      if (e.target === popup) closePopups();
+    });
+  });
 });
