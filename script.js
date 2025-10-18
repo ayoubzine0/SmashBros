@@ -36,6 +36,7 @@ const allProducts = {
 
 // Cached DOM elements (will be assigned on DOMContentLoaded)
 let openCartBtn, cartCount, cartEl, closeCartBtn, productList, translateBtn, productPopup, aboutPopup, contactPopup, popupClose, addToCartBtn, quantitySelect, checkoutBtn;
+let toast;
 
 // -----------------------------
 // Render Products for Current Model
@@ -126,7 +127,7 @@ function addToCart() {
   if (!addToCartBtn) return;
   const productId = addToCartBtn.dataset.productId;
   const model = addToCartBtn.dataset.model;
-  const qty = parseInt(quantitySelect.value);
+  const qty = parseInt(quantitySelect.value, 10);
 
   const products = allProducts[model];
   const product = products.find(p => p.id === productId);
@@ -142,7 +143,7 @@ function addToCart() {
   saveCart();
   updateCartDisplay();
   closePopups();
-  alert(currentLang === "en" ? "Added to cart!" : "تمت الإضافة إلى السلة!");
+  showToast(currentLang === "en" ? "Added to cart!" : "تمت الإضافة إلى السلة!");
 }
 
 // -----------------------------
@@ -234,6 +235,33 @@ function checkout() {
 }
 
 // -----------------------------
+// Toast notification
+// -----------------------------
+function showToast(msg) {
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "toast";
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f1c40f;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      z-index: 99999;
+      display: none;
+    `;
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.display = "block";
+  setTimeout(() => { toast.style.display = "none"; }, 1500);
+}
+
+// -----------------------------
 // Translate: apply text changes across UI
 // -----------------------------
 function applyTranslations() {
@@ -265,8 +293,6 @@ function applyTranslations() {
     btn.textContent = currentLang === "en" ? "Add" : "أضف";
   });
 
-  // Add-to-cart button in popup will be set when opening popup (openProductPopup)
-  // Update popups content
   updatePopupContent();
 }
 
@@ -303,35 +329,15 @@ function updatePopupContent() {
 function switchLang() {
   currentLang = currentLang === "en" ? "ar" : "en";
   localStorage.setItem(LANG_KEY, currentLang);
-
-  document.documentElement.lang = currentLang;
-  document.body.dir = currentLang === "ar" ? "rtl" : "ltr";
-
+  document.documentElement.lang = currentLang === "en" ? "en" : "ar";
   applyTranslations();
-
-  // Re-render everything
   renderProducts(currentModel);
-  updateCartDisplay();
 }
 
 // -----------------------------
-// Open About/Contact Popups
-// -----------------------------
-function openAbout() {
-  updatePopupContent();
-  if (aboutPopup) aboutPopup.classList.remove("hidden");
-}
-
-function openContact() {
-  updatePopupContent();
-  if (contactPopup) contactPopup.classList.remove("hidden");
-}
-
-// -----------------------------
-// Init on Load (attach elements and listeners)
+// Event listeners & init
 // -----------------------------
 document.addEventListener("DOMContentLoaded", () => {
-  // cache DOM elements (safe)
   openCartBtn = document.getElementById("open-cart");
   cartCount = document.getElementById("cart-count");
   cartEl = document.getElementById("cart");
@@ -341,57 +347,31 @@ document.addEventListener("DOMContentLoaded", () => {
   productPopup = document.getElementById("product-popup");
   aboutPopup = document.getElementById("about-popup");
   contactPopup = document.getElementById("contact-popup");
-  popupClose = document.querySelectorAll(".close, .close-about, .close-contact");
   addToCartBtn = document.getElementById("add-to-cart");
   quantitySelect = document.getElementById("quantity");
   checkoutBtn = document.getElementById("checkout-btn");
 
-  // If page defines PAGE_MODEL, use it (each HTML sets window.PAGE_MODEL)
-  currentModel = window.PAGE_MODEL || currentModel;
-
-  // Load language from storage (if exists) and apply
-  const saved = localStorage.getItem(LANG_KEY);
-  if (saved) currentLang = saved;
-  document.documentElement.lang = currentLang;
-  document.body.dir = currentLang === "ar" ? "rtl" : "ltr";
-
-  // Ensure translateBtn displays correct text immediately
-  applyTranslations();
-
-  // Load products and cart
   renderProducts(currentModel);
   updateCartDisplay();
+  applyTranslations();
 
-  // Event listeners (guard for element existence)
-  if (openCartBtn) openCartBtn.addEventListener("click", openCart);
-  if (closeCartBtn) closeCartBtn.addEventListener("click", closeCart);
-  if (translateBtn) translateBtn.addEventListener("click", switchLang);
-  if (addToCartBtn) addToCartBtn.addEventListener("click", addToCart);
-  if (checkoutBtn) checkoutBtn.addEventListener("click", checkout);
+  // Navbar About / Contact
+  document.getElementById("about-link")?.addEventListener("click", () => aboutPopup.classList.remove("hidden"));
+  document.getElementById("contact-link")?.addEventListener("click", () => contactPopup.classList.remove("hidden"));
 
-  // Model buttons (if present)
-  const sanyaBtn = document.getElementById("sanya-link");
-  const becaneBtn = document.getElementById("becane-link");
-  const c50Btn = document.getElementById("c50-link");
-  if (sanyaBtn) sanyaBtn.addEventListener("click", () => { currentModel = "sanya"; renderProducts("sanya"); });
-  if (becaneBtn) becaneBtn.addEventListener("click", () => { currentModel = "becane"; renderProducts("becane"); });
-  if (c50Btn) c50Btn.addEventListener("click", () => { currentModel = "c50"; renderProducts("c50"); });
+  // Close buttons
+  productPopup?.querySelector(".close")?.addEventListener("click", closePopups);
+  aboutPopup?.querySelector(".close-about")?.addEventListener("click", closePopups);
+  contactPopup?.querySelector(".close-contact")?.addEventListener("click", closePopups);
 
-  // Popup openers
-  const aboutLink = document.getElementById("about-link");
-  const contactLink = document.getElementById("contact-link");
-  if (aboutLink) aboutLink.addEventListener("click", (e) => { e.preventDefault(); openAbout(); });
-  if (contactLink) contactLink.addEventListener("click", (e) => { e.preventDefault(); openContact(); });
+  // Cart buttons
+  openCartBtn?.addEventListener("click", openCart);
+  closeCartBtn?.addEventListener("click", closeCart);
+  checkoutBtn?.addEventListener("click", checkout);
 
-  // Close popups - only attach if there are elements (defensive)
-  if (popupClose && popupClose.length) {
-    popupClose.forEach(btn => btn.addEventListener("click", closePopups));
-  }
+  // Add to cart
+  addToCartBtn?.addEventListener("click", addToCart);
 
-  [productPopup, aboutPopup, contactPopup].forEach(popup => {
-    if (!popup) return;
-    popup.addEventListener("click", (e) => {
-      if (e.target === popup) closePopups();
-    });
-  });
+  // Language switch
+  translateBtn?.addEventListener("click", switchLang);
 });
