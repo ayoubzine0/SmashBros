@@ -37,23 +37,26 @@ let currentPopupProduct = null;
 let products = [];
 const path = window.location.pathname.toLowerCase();
 
-if (path.includes("becane")) {
-  products = [
-    { id: 1, name: "Becane Clutch", ar: "كلتش بيكان", price: 700, stock: 8, img: "https://i.imgur.com/GCKdTrL.jpeg" },
-    { id: 2, name: "Becane Headlight", ar: "مصباح أمامي بيكان", price: 250, stock: 10, img: "https://i.imgur.com/J6l8Ln2.jpeg" },
-  ];
-} else if (path.includes("c50")) {
-  products = [
-    { id: 1, name: "C50 Chain Kit", ar: "عدة سلسلة C50", price: 500, stock: 12, img: "https://i.imgur.com/N18ldZS.jpeg" },
-    { id: 2, name: "C50 Exhaust", ar: "عادم C50", price: 950, stock: 5, img: "https://i.imgur.com/ragV47h.png" },
-  ];
-} else {
-  // Default Sanya
-  products = [
-    { id: 1, name: "Sanya Cylender", ar: "أسطوانة سانيا", price: 850, stock: 5, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
-    { id: 2, name: "Sanya Leather Seat", ar: "مقعد جلدي سانيا", price: 150, stock: 8, img: "https://i.imgur.com/JqNDT4P.jpeg" },
-  ];
+function getProductsByPage(page) {
+  if (page.includes("becane")) {
+    return [
+      { id: 1, name: "Becane Clutch", ar: "كلتش بيكان", price: 700, stock: 8, img: "https://i.imgur.com/GCKdTrL.jpeg" },
+      { id: 2, name: "Becane Headlight", ar: "مصباح أمامي بيكان", price: 250, stock: 10, img: "https://i.imgur.com/J6l8Ln2.jpeg" },
+    ];
+  } else if (page.includes("c50")) {
+    return [
+      { id: 1, name: "C50 Chain Kit", ar: "عدة سلسلة C50", price: 500, stock: 12, img: "https://i.imgur.com/N18ldZS.jpeg" },
+      { id: 2, name: "C50 Exhaust", ar: "عادم C50", price: 950, stock: 5, img: "https://i.imgur.com/ragV47h.png" },
+    ];
+  } else {
+    return [
+      { id: 1, name: "Sanya Cylender", ar: "أسطوانة سانيا", price: 850, stock: 5, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
+      { id: 2, name: "Sanya Leather Seat", ar: "مقعد جلدي سانيا", price: 150, stock: 8, img: "https://i.imgur.com/JqNDT4P.jpeg" },
+    ];
+  }
 }
+
+products = getProductsByPage(path);
 
 // ----- Render Products -----
 function renderProducts() {
@@ -160,23 +163,32 @@ openCartBtn.addEventListener("click", () => {
 document.querySelectorAll(".model-btn").forEach(btn => {
   btn.addEventListener("click", () => {
     const model = btn.getAttribute("data-model");
-    openModelPage(model);
+    window.location.href = model === "sanya" ? "index.html" : model + ".html";
   });
 });
 
-function openModelPage(model) {
-  let modelProducts;
-  if (model === "sanya") {
-    modelProducts = [
-      { id: 1, name: "Sanya Cylender", ar: "أسطوانة سانيا", price: 850, stock: 5, img: "https://i.imgur.com/KHFhKuJ.jpeg" },
-      { id: 2, name: "Sanya Leather Seat", ar: "مقعد جلدي سانيا", price: 150, stock: 8, img: "https://i.imgur.com/JqNDT4P.jpeg" },
-    ];
-  } else if (model === "becane") {
-    modelProducts = [
-      { id: 1, name: "Becane Clutch", ar: "كلتش بيكان", price: 700, stock: 8, img: "https://i.imgur.com/GCKdTrL.jpeg" },
-      { id: 2, name: "Becane Headlight", ar: "مصباح أمامي بيكان", price: 250, stock: 10, img: "https://i.imgur.com/J6l8Ln2.jpeg" },
-    ];
-  } else {
-    modelProducts = [
-      { id: 1, name: "C50 Chain Kit", ar: "عدة سلسلة C50", price: 500, stock: 12, img: "https://i.imgur.com/N18ldZS.jpeg" },
-      { id: 2, name: "C50 Exhaust", ar: "عادم C50
+// ----- Translation -----
+translateBtn.addEventListener("click", () => {
+  currentLang = currentLang === "en" ? "ar" : "en";
+  applyTranslations();
+});
+
+function applyTranslations() {
+  document.getElementById("about-link").textContent = currentLang === "en" ? "About" : "عن Bee Auto Parts";
+  document.getElementById("contact-link").textContent = currentLang === "en" ? "Contact" : "اتصل بنا";
+  translateBtn.textContent = currentLang === "en" ? "عربي" : "English";
+  document.querySelector("#cart h2").textContent = currentLang === "en" ? "🛒 Cart" : "🛒 السلة";
+  checkoutBtn.textContent = currentLang === "en" ? "Checkout on WhatsApp" : "الدفع على واتساب";
+  updateCart();
+
+  productList.querySelectorAll(".product h3").forEach((h3, idx) => {
+    const product = products[idx];
+    h3.textContent = currentLang === "en" ? product.name : product.ar;
+  });
+
+  if (currentPopupProduct) {
+    popupTitle.textContent = currentLang === "en" ? currentPopupProduct.name : currentPopupProduct.ar;
+    popupStock.textContent = currentLang === "en" ? `In stock: ${currentPopupProduct.stock}` : `المخزون: ${currentPopupProduct.stock}`;
+    addToCartBtn.textContent = currentLang === "en" ? "Add to Cart" : "أضف إلى السلة";
+  }
+}
