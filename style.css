@@ -670,3 +670,20 @@ body #open-cart {
   font-weight: bold !important;
   z-index: 99999 !important;
 }
+#add-to-cart {
+  position: relative; /* Needed for positioning the red dot */
+}
+#add-cart-count {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 6px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
