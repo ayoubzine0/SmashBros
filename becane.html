@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bee Auto Parts - Becane</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -12,20 +12,21 @@
       <img src="https://i.imgur.com/r9i7m4b.png" alt="Bee Logo" class="logo">
       <h1>Bee Auto Parts <span>Morocco</span></h1>
     </div>
-   <nav>
-  <button id="about-link" class="nav-btn">About</button>
-  <button id="contact-link" class="nav-btn">Contact</button>
-  <button id="translate-btn" class="nav-btn">عربي</button>
-
-  <!-- Model buttons with IDs -->
-  <button id="sanya-link" class="nav-btn model-btn">🏍️ sanya</button>
-  <button id="becane-link" class="nav-btn model-btn">🛵 becane</button>
-  <button id="c50-link" class="nav-btn model-btn">🚗 c50</button>
-</nav>
+    <nav>
+      <button id="about-link" class="nav-btn">About</button>
+      <button id="contact-link" class="nav-btn">Contact</button>
+      <a href="index.html" class="nav-btn">Sanya</a>
+      <a href="becane.html" class="nav-btn">Becane</a>
+      <a href="c50.html" class="nav-btn">C50</a>
+      <button id="translate-btn" class="nav-btn">عربي</button>
+    </nav>
   </header>
 
-  <main>
-    <section id="product-list"></section>
+  <main class="main-wrap">
+    <section id="product-list">
+      <!-- Becane products rendered by script.js -->
+    </section>
+
     <aside id="cart" class="closed">
       <div class="cart-header">
         <h2>🛒 Cart</h2>
@@ -33,17 +34,20 @@
       </div>
       <ul id="cart-items"></ul>
       <p id="total">Total: 0 MAD</p>
-      <button id="open-cart">
-  🛒
-  <span id="cart-count" class="hidden">0</span>
-  <span class="cart-label">Open Cart</span>
-</button>
+      <button id="checkout-btn">Checkout on WhatsApp</button>
+    </aside>
+
+    <button id="open-cart">
+      🛒
+      <span id="cart-count" class="hidden">0</span>
+      <span class="cart-label">Open Cart</span>
+    </button>
   </main>
 
-  <!-- Popups -->
+  <!-- Product Popup -->
   <div id="product-popup" class="popup hidden">
     <div class="popup-content">
-      <span class="close">&times;</span>
+      <button class="close">&times;</button>
       <h2 id="popup-title"></h2>
       <img id="popup-img" src="" alt="Product Image" />
       <p id="popup-price"></p>
@@ -54,27 +58,16 @@
     </div>
   </div>
 
+  <!-- About Popup -->
   <div id="about-popup" class="popup hidden">
     <div class="popup-content small">
-      <span class="close-about">&times;</span>
+      <button class="close-about">&times;</button>
       <h2>About Bee Auto Parts</h2>
       <p>Bee Auto Parts is Morocco’s trusted source for quality motorcycle and car parts...</p>
     </div>
   </div>
 
+  <!-- Contact Popup -->
   <div id="contact-popup" class="popup hidden">
     <div class="popup-content small">
-      <span class="close-contact">&times;</span>
-      <h2>Contact Us</h2>
-      <p>📞 Phone: +212 600-123456</p>
-      <p>📧 Email: contact@beeautoparts.ma</p>
-      <p>📍 Address: Casablanca, Morocco</p>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-</html>
-
-
-
+      <b
