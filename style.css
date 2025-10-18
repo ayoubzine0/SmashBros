@@ -232,23 +232,20 @@ main {
 
 /* CART NOTIFICATION */
 #cart-count {
-  position: absolute;
-  top: -8px;
-  right: -8px;
   background: red;
   color: #fff;
-  font-size: 12px;
-  font-weight: bold;
   border-radius: 50%;
-  width: 20px;
+  min-width: 20px;
   height: 20px;
-  line-height: 20px;
+  padding: 0 6px;
+  display: inline-block;
   text-align: center;
+  line-height: 20px;
+  font-weight: bold;
+  font-size: 12px;
+  margin-left: 6px;
 }
-
-#cart-count.hidden {
-  display: none;
-}
+#cart-count.hidden { display: none; }
 
 /* POPUPS */
 .popup {
@@ -563,6 +560,7 @@ body.cart-open #product-list {
   align-items: center;
   gap: 5px;
 }
+
 
 
 
