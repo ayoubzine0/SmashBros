@@ -560,95 +560,11 @@ body.cart-open #product-list {
   align-items: center;
   gap: 5px;
 }
-/* --- Red dot notification for cart --- */
-/* REMOVED CONFLICTING RULES: The following were causing black background and wrong position */
-/*
-#open-cart {
-  position: relative;
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 16px;
-  cursor: pointer;
-  border: none;
-  background: none;
-}
-
-#cart-count {
-  position: absolute;
-  top: -6px;
-  right: -10px;
-  background-color: red;
-  color: white;
-  border-radius: 50%;
-  min-width: 18px;
-  height: 18px;
-  font-size: 12px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0 5px;
-  line-height: 18px;
-  box-shadow: 0 0 3px rgba(0,0,0,0.3);
-}
-
-#cart-count.hidden {
-  display: none;
-}
-*/
 
 /* Make sure layout still looks fine in Arabic (RTL) */
 html[lang="ar"] #open-cart {
   direction: rtl;
 }
-/* REMOVED CONFLICTING RULES: The following were causing black background */
-/*
-#open-cart {
-  position: relative !important;
-  display: inline-flex !important;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  background: #000;
-  color: #fff;
-  padding: 10px 18px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-#open-cart:hover {
-  background: #222;
-}
-
-#cart-count {
-  position: absolute !important;
-  top: 2px;
-  right: 6px;
-  background: red;
-  color: white;
-  border-radius: 50%;
-  width: 18px;
-  height: 18px;
-  font-size: 12px;
-  font-weight: bold;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 3px rgba(0,0,0,0.4);
-  transition: all 0.3s ease;
-}
-
-#cart-count.hidden {
-  display: none !important;
-}
-
-.cart-label {
-  margin-left: 6px;
-}
-*/
 
 /* RTL Support for Arabic */
 html[lang="ar"] #open-cart {
@@ -686,4 +602,63 @@ html[lang="ar"] #open-cart {
   border-radius: 8px !important;
   font-weight: 700 !important;
   cursor: pointer !important;
-  display:
+  display: inline-block !important;  /* Completed the cut-off line */
+  margin-top: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+
+/* Popup add-to-cart hover (keeps consistent) */
+#add-to-cart:hover {
+  transform: translateY(-1px);
+}
+
+/* Quantity select style (yellow border / readable) */
+#quantity {
+  background: #1b1b1b;
+  color: #fff;
+  border: 2px solid #f1c40f;
+  padding: 6px 8px;
+  border-radius: 6px;
+  margin-left: 6px;
+  font-weight: 600;
+}
+
+/* In case add button was absolutely positioned and hidden — force normal flow */
+.product .add-btn,
+#add-to-cart {
+  position: relative !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* ---------- Red dot (strong override) ---------- */
+#open-cart { position: relative !important; }
+#cart-count {
+  position: absolute !important;
+  top: -6px !important;
+  right: -8px !important;
+  background: red !important;
+  color: white !important;
+  border-radius: 50% !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  padding: 0 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 4px rgba(0,0,0,0.35);
+}
+#cart-count.hidden { display: none !important; }
+
+/* 🚀 STRONGEST OVERRIDE: Force Open Cart button to bottom right, yellow (added at end to override all) */
+body #open-cart {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  background: #f1c40f !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 12px 18px !important;
+  border-radius: 50
