@@ -319,12 +319,12 @@ function switchLang() {
 // -----------------------------
 function openAbout() {
   updatePopupContent();
-  aboutPopup.classList.remove("hidden");
+  if (aboutPopup) aboutPopup.classList.remove("hidden");
 }
 
 function openContact() {
   updatePopupContent();
-  contactPopup.classList.remove("hidden");
+  if (contactPopup) contactPopup.classList.remove("hidden");
 }
 
 // -----------------------------
@@ -380,11 +380,14 @@ document.addEventListener("DOMContentLoaded", () => {
   // Popup openers
   const aboutLink = document.getElementById("about-link");
   const contactLink = document.getElementById("contact-link");
-  if (aboutLink) aboutLink.addEventListener("click", openAbout);
-  if (contactLink) contactLink.addEventListener("click", openContact);
+  if (aboutLink) aboutLink.addEventListener("click", (e) => { e.preventDefault(); openAbout(); });
+  if (contactLink) contactLink.addEventListener("click", (e) => { e.preventDefault(); openContact(); });
 
-  // Close popups
-  if (popupClose) popupClose.forEach(btn => btn.addEventListener("click", closePopups));
+  // Close popups - only attach if there are elements (defensive)
+  if (popupClose && popupClose.length) {
+    popupClose.forEach(btn => btn.addEventListener("click", closePopups));
+  }
+
   [productPopup, aboutPopup, contactPopup].forEach(popup => {
     if (!popup) return;
     popup.addEventListener("click", (e) => {
