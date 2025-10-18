@@ -375,3 +375,61 @@ document.addEventListener("DOMContentLoaded", () => {
   // Language switch
   translateBtn?.addEventListener("click", switchLang);
 });
+// ==========================
+// CART COUNT FIX (English & Arabic)
+// ==========================
+
+// Update cart red dot whenever cart changes
+function updateCartCount() {
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  if (totalItems > 0) {
+    cartCountEl.textContent = totalItems;
+    cartCountEl.classList.remove("hidden");
+  } else {
+    cartCountEl.classList.add("hidden");
+  }
+}
+
+// Modified addToCart function (merge with your existing one)
+function addToCart(productId, quantity) {
+  const existing = cart.find(item => item.id === productId);
+  if (existing) {
+    existing.quantity += quantity;
+  } else {
+    const product = products.find(p => p.id === productId);
+    if (!product) return;
+    cart.push({ ...product, quantity });
+  }
+  renderCartItems(); // keep your existing function
+  updateCartCount(); // <-- ensures red dot updates correctly
+}
+
+// Call updateCartCount on page load to reflect any pre-filled cart
+document.addEventListener("DOMContentLoaded", () => {
+  updateCartCount();
+});
+
+// Optional: if you have remove from cart buttons
+function removeFromCart(productId) {
+  cart = cart.filter(item => item.id !== productId);
+  renderCartItems(); // your existing function
+  updateCartCount();
+}
+
+// ==========================
+// Ensure cart red dot works in Arabic too
+// ==========================
+function checkRTL() {
+  const isArabic = document.documentElement.lang === "ar";
+  if (isArabic) {
+    cartCountEl.style.right = "unset";
+    cartCountEl.style.left = "-8px";
+  } else {
+    cartCountEl.style.left = "unset";
+    cartCountEl.style.right = "-8px";
+  }
+}
+
+// Run RTL adjustment on load
+checkRTL();
+
