@@ -560,6 +560,45 @@ body.cart-open #product-list {
   align-items: center;
   gap: 5px;
 }
+/* --- Red dot notification for cart --- */
+#open-cart {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+#cart-count {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  min-width: 18px;
+  height: 18px;
+  font-size: 12px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 5px;
+  line-height: 18px;
+  box-shadow: 0 0 3px rgba(0,0,0,0.3);
+}
+
+#cart-count.hidden {
+  display: none;
+}
+
+/* Make sure layout still looks fine in Arabic (RTL) */
+html[lang="ar"] #open-cart {
+  direction: rtl;
+}
 
 
 
