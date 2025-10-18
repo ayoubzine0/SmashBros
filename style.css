@@ -686,6 +686,87 @@ html[lang="ar"] #open-cart {
 html[lang="ar"] #open-cart {
   flex-direction: row-reverse;
 }
+/* ---------- Fix Add button & quantity styles ---------- */
+
+/* Product card Add button (in-case you render one inside cards) */
+.product .add-btn {
+  display: inline-block;
+  background: #f1c40f;            /* yellow */
+  color: #000;
+  border: none;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: transform .12s ease, box-shadow .12s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+}
+
+/* Make sure hovered state looks consistent (not black) */
+.product .add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.22);
+}
+
+/* Popup add-to-cart button */
+#add-to-cart {
+  background: #f1c40f !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 10px 14px !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  display: inline-block;
+  margin-top: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+
+/* Popup add-to-cart hover (keeps consistent) */
+#add-to-cart:hover {
+  transform: translateY(-1px);
+}
+
+/* Quantity select style (yellow border / readable) */
+#quantity {
+  background: #1b1b1b;
+  color: #fff;
+  border: 2px solid #f1c40f;
+  padding: 6px 8px;
+  border-radius: 6px;
+  margin-left: 6px;
+  font-weight: 600;
+}
+
+/* In case add button was absolutely positioned and hidden — force normal flow */
+.product .add-btn,
+#add-to-cart {
+  position: relative !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+/* ---------- Red dot (strong override) ---------- */
+#open-cart { position: relative !important; }
+#cart-count {
+  position: absolute !important;
+  top: -6px !important;
+  right: -8px !important;
+  background: red !important;
+  color: white !important;
+  border-radius: 50% !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  padding: 0 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 4px rgba(0,0,0,0.35);
+}
+#cart-count.hidden { display: none !important; }
 
 
 
