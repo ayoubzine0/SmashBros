@@ -457,3 +457,6 @@ button, select {
   justify-content: flex-start; /* keeps the order */
   direction: ltr !important; /* forces left-to-right layout */
 }
+.navbar-buttons li {
+  direction: ltr !important; /* each item keeps LTR */
+}
