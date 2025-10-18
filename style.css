@@ -451,3 +451,9 @@ html[lang="ar"] #open-cart {
 button, select {
   font-family: inherit;
 }
+.navbar-buttons {
+  display: flex;
+  flex-direction: row; /* always horizontal */
+  justify-content: flex-start; /* keeps the order */
+  direction: ltr !important; /* forces left-to-right layout */
+}
