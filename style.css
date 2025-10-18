@@ -767,16 +767,17 @@ html[lang="ar"] #open-cart {
   box-shadow: 0 0 4px rgba(0,0,0,0.35);
 }
 #cart-count.hidden { display: none !important; }
-/* ✅ Force Open Cart button to bottom right, yellow, and consistent */
+/* ✅ FINAL OVERRIDE: Force Open Cart button to bottom right, yellow, and consistent */
+/* This overrides all previous rules, including black backgrounds */
 #open-cart {
-  position: fixed !important;  /* Ensures it stays fixed in bottom right */
+  position: fixed !important;
   bottom: 20px !important;
   right: 20px !important;
-  background: #f1c40f !important;  /* Yellow background to match website theme */
+  background: #f1c40f !important;  /* Yellow to match your theme */
   color: #000 !important;         /* Black text for contrast */
   border: none !important;
   padding: 12px 18px !important;
-  border-radius: 50px !important;  /* Rounded for a modern look */
+  border-radius: 50px !important;
   font-weight: bold !important;
   font-size: 16px !important;
   cursor: pointer !important;
@@ -784,19 +785,20 @@ html[lang="ar"] #open-cart {
   display: inline-flex !important;
   align-items: center !important;
   justify-content: center !important;
-  gap: 8px !important;  /* Space between icon, count, and label */
-  transition: background 0.3s ease !important;  /* Smooth hover effect */
+  gap: 8px !important;
+  transition: background 0.3s ease !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;  /* Subtle shadow for visibility */
 }
 
 #open-cart:hover {
-  background: #fff !important;  /* Lighten to white on hover, matching other buttons */
+  background: #fff !important;  /* White on hover */
 }
 
-/* ✅ Red dot notification (cart count) - positioned relative to button */
+/* ✅ Red dot notification - positioned relative to button */
 #cart-count {
   position: absolute !important;
-  top: -6px !important;   /* Slightly above the button */
-  right: -8px !important; /* Slightly to the right of the button */
+  top: -6px !important;
+  right: -8px !important;
   background: red !important;
   color: white !important;
   border-radius: 50% !important;
@@ -808,7 +810,7 @@ html[lang="ar"] #open-cart {
   justify-content: center !important;
   font-size: 12px !important;
   font-weight: bold !important;
-  box-shadow: 0 0 4px rgba(0,0,0,0.35) !important;
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.4) !important;
   transition: all 0.3s ease !important;
 }
 
@@ -816,20 +818,21 @@ html[lang="ar"] #open-cart {
   display: none !important;
 }
 
-/* ✅ Ensure label (e.g., "Open Cart") is styled correctly */
+/* ✅ Label styling */
 .cart-label {
   font-weight: bold !important;
-  color: inherit !important;  /* Matches button text color */
+  color: inherit !important;
 }
 
-/* ✅ Mobile adjustments (if needed, to prevent overlap) */
+/* ✅ Mobile tweaks */
 @media (max-width: 600px) {
   #open-cart {
-    bottom: 15px !important;  /* Slightly higher on mobile for thumb access */
+    bottom: 15px !important;
     right: 15px !important;
-    padding: 10px 16px !important;  /* Smaller padding on mobile */
+    padding: 10px 16px !important;
   }
 }
+
 
 
 
