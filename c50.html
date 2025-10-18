@@ -7,19 +7,24 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <header>
-    <div class="brand">
-      <img src="https://i.imgur.com/r9i7m4b.png" alt="Bee Logo" class="logo">
-      <h1>Bee Auto Parts <span>Morocco</span></h1>
-    </div>
-    <nav>
-      <button id="about-link" class="nav-btn">About</button>
-      <button id="contact-link" class="nav-btn">Contact</button>
-      <button id="sanya-link" class="nav-btn model-btn" data-model="sanya">🏍️ Sanya</button>
-      <button id="becane-link" class="nav-btn model-btn" data-model="becane">🛵 Becane</button>
-      <button id="c50-link" class="nav-btn model-btn" data-model="c50">🚗 C50</button>
-    </nav>
-  </header>
+<header>
+  <div class="brand">
+    <img src="https://i.imgur.com/r9i7m4b.png" alt="Bee Logo" class="logo">
+    <h1>Bee Auto Parts <span>Morocco</span></h1>
+  </div>
+  <nav>
+    <button id="about-link" class="nav-btn">About</button>
+    <button id="contact-link" class="nav-btn">Contact</button>
+
+    <!-- Model buttons -->
+    <button class="nav-btn model-btn" data-model="sanya">🏍️ Sanya</button>
+    <button class="nav-btn model-btn" data-model="becane">🛵 Becane</button>
+    <button class="nav-btn model-btn" data-model="c50">🚗 C50</button>
+
+    <!-- Translation button -->
+    <button id="translate-btn" class="nav-btn">عربي</button>
+  </nav>
+</header>
 
   <main>
     <section id="product-list"></section>
@@ -74,3 +79,4 @@
   <script src="script.js"></script>
 </body>
 </html>
+
