@@ -49,12 +49,27 @@ function renderProducts(model) {
   products.forEach(product => {
     const div = document.createElement("div");
     div.className = "product";
+
+    // build product inner HTML with Add button
     div.innerHTML = `
       <img src="${product.img}" alt="${product.name_en}" />
-      <h3>${currentLang === "en" ? product.name_en : product.name_ar}</h3>
-      <p>${product.price} MAD</p>
+      <h3 class="product-title">${currentLang === "en" ? product.name_en : product.name_ar}</h3>
+      <p class="product-price">${product.price} MAD</p>
+      <div class="product-actions">
+        <button class="card-add-btn">${currentLang === "en" ? "Add" : "أضف"}</button>
+      </div>
     `;
+
+    // clicking card opens popup
     div.addEventListener("click", () => openProductPopup(product));
+
+    // clicking Add button opens popup but stops propagation so the card click doesn't double-run
+    const addBtn = div.querySelector(".card-add-btn");
+    addBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      openProductPopup(product);
+    });
+
     productList.appendChild(div);
   });
 }
@@ -231,15 +246,24 @@ function applyTranslations() {
   if (aboutLink) aboutLink.textContent = currentLang === "en" ? "About" : "حول";
   if (contactLink) contactLink.textContent = currentLang === "en" ? "Contact" : "اتصال";
 
+  // Brand title
+  const brandTitle = document.querySelector(".brand h1");
+  if (brandTitle) brandTitle.textContent = currentLang === "en" ? "Bee Auto Parts" : "Bee لقطع غيار السيارات";
+
   // Cart UI
   const cartH2 = document.querySelector("#cart h2");
   if (cartH2) cartH2.textContent = currentLang === "en" ? "🛒 Cart" : "🛒 السلة";
 
-  const cartLabel = document.querySelector(".cart-label");
+  const cartLabel = document.querySelector(".cart-label button");
   if (cartLabel) cartLabel.textContent = currentLang === "en" ? "Open Cart" : "افتح السلة";
 
   const checkoutBtnEl = document.getElementById("checkout-btn");
   if (checkoutBtnEl) checkoutBtnEl.textContent = currentLang === "en" ? "Checkout on WhatsApp" : "اتمام الطلب عبر واتساب";
+
+  // Update product cards Add text if rendered
+  document.querySelectorAll(".product .card-add-btn").forEach(btn => {
+    btn.textContent = currentLang === "en" ? "Add" : "أضف";
+  });
 
   // Add-to-cart button in popup will be set when opening popup (openProductPopup)
   // Update popups content
