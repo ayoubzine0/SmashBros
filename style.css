@@ -1,6 +1,8 @@
-/* style.css - Full ready-to-use version */
+/* ======================================== */
+/* Bee Auto Parts - Full CSS (all fixes)    */
+/* ======================================== */
 
-/* Reset & base */
+/* RESET + BASE */
 * {
   box-sizing: border-box;
   font-family: "Poppins", sans-serif;
@@ -9,16 +11,14 @@
 }
 
 body {
-  margin: 0;
   background-color: #0d0d0d;
   background-image: radial-gradient(#f1c40f20 1px, transparent 1px),
-    radial-gradient(#f1c40f15 1px, transparent 1px);
+                    radial-gradient(#f1c40f15 1px, transparent 1px);
   background-position: 0 0, 25px 25px;
   background-size: 50px 50px;
   color: #f1c40f;
   min-height: 100vh;
   overflow-x: hidden;
-  position: relative;
 }
 
 /* HEADER */
@@ -31,7 +31,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 10;
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
   flex-wrap: wrap;
 }
 
@@ -44,16 +44,20 @@ header {
 header h1 {
   color: #f1c40f;
   font-size: 1.8rem;
-  margin: 0;
 }
 
+header h1 span {
+  color: #fff;
+}
+
+/* LOGO */
 .logo {
-  width: 140px;
-  height: 140px;
+  width: 140px !important;
+  height: 140px !important;
   object-fit: contain;
 }
 
-/* NAV BUTTONS */
+/* NAVIGATION */
 nav {
   display: flex;
   gap: 15px;
@@ -77,9 +81,10 @@ nav {
   background: #fff;
 }
 
-/* MAIN */
+/* MAIN SECTION */
 main {
   display: flex;
+  flex-direction: column;
   align-items: flex-start;
   padding: 18px;
 }
@@ -127,6 +132,28 @@ main {
   color: #f1c40f;
 }
 
+/* PRODUCT CARD ADD BUTTON */
+.product .card-add-btn, 
+.product .add-btn {
+  display: inline-block;
+  background: #f1c40f;
+  color: #000;
+  border: none;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: transform .12s ease, box-shadow .12s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+}
+
+.product .card-add-btn:hover, 
+.product .add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.22);
+}
+
 /* CART */
 #cart {
   background: #141414;
@@ -146,19 +173,6 @@ main {
 
 #cart.open {
   transform: translateX(0);
-}
-
-#close-cart {
-  background: none;
-  color: #f1c40f;
-  border: none;
-  font-size: 22px;
-  cursor: pointer;
-  position: absolute;
-  top: 10px;
-  right: 15px;
-  z-index: 10000;
-  touch-action: manipulation;
 }
 
 .cart-header {
@@ -190,7 +204,7 @@ main {
 #cart-items button {
   background: red;
   border: none;
-  color: White;
+  color: white;
   padding: 3px 6px;
   border-radius: 5px;
   cursor: pointer;
@@ -219,7 +233,7 @@ main {
   background: #fff;
 }
 
-/* OPEN CART BUTTON */
+/* OPEN CART BUTTON + RED DOT */
 #open-cart {
   position: fixed;
   bottom: 20px;
@@ -234,7 +248,10 @@ main {
   z-index: 99999;
 }
 
-/* CART RED DOT */
+#open-cart:hover {
+  background: #fff;
+}
+
 #cart-count {
   position: absolute;
   top: -6px;
@@ -252,37 +269,39 @@ main {
   font-weight: 700;
   box-shadow: 0 0 4px rgba(0,0,0,0.35);
 }
-#cart-count.hidden { display: none !important; }
+
+#cart-count.hidden {
+  display: none !important;
+}
 
 /* POPUPS */
 .popup {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: rgba(0,0,0,0.7);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 20;
+  z-index: 9998;
 }
 
-.popup.hidden { display: none !important; }
+.popup.hidden {
+  display: none !important;
+}
 
 .popup-content {
   background: #1b1b1b;
-  border-radius: 10px;
-  padding: 20px;
-  max-width: 420px;
-  width: 90%;
   color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 420px;
+  box-sizing: border-box;
   position: relative;
   text-align: center;
-  box-sizing: border-box;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
   max-height: 90vh;
   overflow-y: auto;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
 }
 
 .popup-content img {
@@ -297,19 +316,19 @@ main {
 }
 
 .close, .close-about, .close-contact, #close-cart {
-  z-index: 10001 !important;
-  position: absolute !important;
-  right: 14px !important;
-  top: 10px !important;
-  color: #f1c40f !important;
-  background: none !important;
-  border: none !important;
-  font-size: 24px !important;
-  cursor: pointer !important;
-  touch-action: manipulation !important;
+  z-index: 10001;
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  color: #f1c40f;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
-/* Add-to-cart button & quantity */
+/* POPUP BUTTONS */
 #add-to-cart {
   background: #f1c40f !important;
   color: #000 !important;
@@ -337,7 +356,16 @@ main {
   font-weight: 600;
 }
 
-/* MOBILE FIX */
+/* RTL SUPPORT */
+html[lang="ar"] {
+  direction: rtl;
+}
+
+html[lang="ar"] #open-cart {
+  flex-direction: row-reverse;
+}
+
+/* RESPONSIVE MOBILE */
 @media (max-width: 600px) {
   header {
     flex-direction: column;
@@ -355,8 +383,8 @@ main {
   }
 
   .logo {
-    width: 60px;
-    height: 60px;
+    width: 60px !important;
+    height: 60px !important;
   }
 
   #cart {
@@ -368,9 +396,58 @@ main {
   body.cart-open #product-list {
     margin-right: 0;
   }
+
+  #close-cart {
+    top: 15px;
+    right: 20px;
+  }
 }
 
-/* RTL Support */
-html[lang="ar"] #open-cart {
-  flex-direction: row-reverse;
+/* DESKTOP OVERRIDES */
+@media (min-width: 601px) {
+  #cart {
+    top: 0;
+    height: 100vh;
+    z-index: 9999;
+  }
+
+  body.cart-open #product-list {
+    margin-right: 300px;
+  }
+}
+
+/* ============================ */
+/* ADDITIONAL OVERRIDES & SAFETY */
+/* ============================ */
+
+/* Ensure all popups images scale correctly on Safari/iOS */
+@supports (-webkit-touch-callout: none) {
+  .popup-content { max-height: 85vh !important; }
+}
+
+/* Strongest overrides at end */
+#open-cart {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  background: #f1c40f !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 12px 18px !important;
+  border-radius: 50px !important;
+  cursor: pointer !important;
+  font-weight: bold !important;
+  z-index: 99999 !important;
+}
+
+#cart-count {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 700 !important;
+}
+
+/* Maintain all button colors and borders */
+button, select {
+  font-family: inherit;
 }
