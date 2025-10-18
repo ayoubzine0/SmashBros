@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Bee Auto Parts - C50</title>
   <link rel="stylesheet" href="style.css" />
 </head>
@@ -13,19 +13,17 @@
       <h1>Bee Auto Parts <span>Morocco</span></h1>
     </div>
     <nav>
+      <a href="index.html" id="sanya-link" class="nav-btn">Sanya</a>
+      <a href="becane.html" id="becane-link" class="nav-btn">Becane</a>
+      <a href="c50.html" id="c50-link" class="nav-btn">C50</a>
       <button id="about-link" class="nav-btn">About</button>
       <button id="contact-link" class="nav-btn">Contact</button>
-      <a href="index.html" class="nav-btn">sanya</a>
-      <a href="becane.html" class="nav-btn">becane</a>
-      <a href="c50.html" class="nav-btn">c50</a>
       <button id="translate-btn" class="nav-btn">عربي</button>
     </nav>
   </header>
 
-  <main class="main-wrap">
-    <section id="product-list">
-      <!-- C50 products rendered by script.js -->
-    </section>
+  <main>
+    <section id="product-list"></section>
 
     <aside id="cart" class="closed">
       <div class="cart-header">
@@ -78,10 +76,7 @@
     </div>
   </div>
 
-  <script>
-    // mark this page's default model for script.js
-    window.PAGE_MODEL = "c50";
-  </script>
+  <script>window.PAGE_MODEL = "c50";</script>
   <script src="script.js"></script>
 </body>
 </html>
