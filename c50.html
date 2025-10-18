@@ -7,50 +7,49 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <script>window.PAGE_MODEL = "c50";</script>
+
   <header>
     <div class="brand">
-      <img src="https://i.imgur.com/r9i7m4b.png" alt="Bee Logo" class="logo">
-      <h1>Bee Auto Parts <span>Morocco</span></h1>
+      <h1>Bee Auto Parts</h1>
     </div>
     <nav>
-      <a href="index.html" id="sanya-link" class="nav-btn">Sanya</a>
-      <a href="becane.html" id="becane-link" class="nav-btn">Becane</a>
-      <a href="c50.html" id="c50-link" class="nav-btn">C50</a>
-      <button id="about-link" class="nav-btn">About</button>
-      <button id="contact-link" class="nav-btn">Contact</button>
-      <button id="translate-btn" class="nav-btn">عربي</button>
+      <a id="sanya-link" href="index.html">Sanya</a>
+      <a id="becane-link" href="becane.html">Becane</a>
+      <a id="c50-link" href="c50.html" class="active">C50</a>
+      <a id="about-link" href="#">About</a>
+      <a id="contact-link" href="#">Contact</a>
+      <button id="translate-btn">عربي</button>
     </nav>
   </header>
 
   <main>
-    <section id="product-list"></section>
-
-    <aside id="cart" class="closed">
-      <div class="cart-header">
-        <h2>🛒 Cart</h2>
-        <button id="close-cart">✖</button>
-      </div>
-      <ul id="cart-items"></ul>
-      <p id="total">Total: 0 MAD</p>
-      <button id="checkout-btn">Checkout on WhatsApp</button>
-    </aside>
-
-    <button id="open-cart">
-      🛒
-      <span id="cart-count" class="hidden">0</span>
-      <span class="cart-label">Open Cart</span>
-    </button>
+    <section id="product-list" class="product-list"></section>
   </main>
+
+  <div class="cart-label">
+    <button id="open-cart">🛒 <span id="cart-count" class="hidden"></span></button>
+  </div>
+
+  <aside id="cart" class="cart">
+    <div class="cart-header">
+      <h2>🛒 Cart</h2>
+      <button id="close-cart">✖</button>
+    </div>
+    <ul id="cart-items"></ul>
+    <p id="total">Total: 0 MAD</p>
+    <button id="checkout-btn">Checkout on WhatsApp</button>
+  </aside>
 
   <!-- Product Popup -->
   <div id="product-popup" class="popup hidden">
     <div class="popup-content">
-      <button class="close">&times;</button>
+      <span class="close">✖</span>
+      <img id="popup-img" src="" alt="" />
       <h2 id="popup-title"></h2>
-      <img id="popup-img" src="" alt="Product Image" />
       <p id="popup-price"></p>
       <p id="popup-stock"></p>
-      <label for="quantity">Quantity:</label>
+      <label for="quantity">Qty:</label>
       <select id="quantity"></select>
       <button id="add-to-cart">Add to Cart</button>
     </div>
@@ -58,8 +57,8 @@
 
   <!-- About Popup -->
   <div id="about-popup" class="popup hidden">
-    <div class="popup-content small">
-      <button class="close-about">&times;</button>
+    <div class="popup-content">
+      <span class="close-about">✖</span>
       <h2>About Bee Auto Parts</h2>
       <p>Bee Auto Parts is Morocco’s trusted source for quality motorcycle and car parts...</p>
     </div>
@@ -67,8 +66,8 @@
 
   <!-- Contact Popup -->
   <div id="contact-popup" class="popup hidden">
-    <div class="popup-content small">
-      <button class="close-contact">&times;</button>
+    <div class="popup-content">
+      <span class="close-contact">✖</span>
       <h2>Contact Us</h2>
       <p>📞 Phone: +212 724-680-135</p>
       <p>📧 Email: contact@beeautoparts.ma</p>
@@ -76,7 +75,6 @@
     </div>
   </div>
 
-  <script>window.PAGE_MODEL = "c50";</script>
   <script src="script.js"></script>
 </body>
 </html>
