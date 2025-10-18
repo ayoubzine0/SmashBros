@@ -1,5 +1,8 @@
-/* style.css - shared across pages (keeps your design) */
-* { box-sizing: border-box; font-family: "Poppins", sans-serif; }
+/* style.css - merged from user's CSS and cleaned for compatibility */
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
 
 body {
   margin: 0;
@@ -34,43 +37,42 @@ header {
 }
 
 .logo {
-  width: 120px;
-  height: 120px;
+  width: 140px;
+  height: 140px;
   object-fit: contain;
 }
 
 header h1 {
   color: #f1c40f;
-  font-size: 1.6rem;
+  font-size: 1.8rem;
   margin: 0;
 }
 
 header h1 span {
   color: #fff;
-  display: block;
-  font-size: .9rem;
 }
 
 /* NAV BUTTONS */
 nav {
   display: flex;
-  gap: 12px;
+  gap: 15px;
+  flex-wrap: nowrap;
   align-items: center;
-  flex-wrap: wrap;
 }
 
-.nav-btn, nav a {
+.nav-btn {
   background: #f1c40f;
   border: none;
   color: #000;
   font-weight: 600;
-  padding: 8px 12px;
+  padding: 8px 15px;
   border-radius: 8px;
   cursor: pointer;
+  transition: 0.3s;
   text-decoration: none;
 }
 
-.nav-btn:hover, nav a:hover {
+.nav-btn:hover {
   background: #fff;
 }
 
@@ -86,16 +88,16 @@ main {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 20px;
-  padding: 0 10px;
+  padding: 20px;
   width: 100%;
-  transition: margin-right 0.3s ease;
+  transition: margin-right 0.3s ease; /* Fix: shift grid when cart open */
 }
 
 .product {
   background: #1b1b1b;
   border: 1px solid #f1c40f33;
   border-radius: 10px;
-  padding: 12px;
+  padding: 10px;
   text-align: center;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -120,9 +122,8 @@ main {
   font-size: 1rem;
 }
 
-.product p, .product .price {
+.product p {
   color: #f1c40f;
-  margin: 6px 0;
 }
 
 /* CART */
@@ -130,7 +131,7 @@ main {
   background: #141414;
   padding: 15px;
   border-left: 2px solid #f1c40f33;
-  width: 300px;
+  width: 280px;
   position: fixed;
   right: 0;
   top: 70px;
@@ -138,13 +139,15 @@ main {
   overflow-y: auto;
   transform: translateX(100%);
   transition: transform 0.3s ease;
-  z-index: 999;
+  z-index: 999; /* increased so cart sits above content on iOS */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
 }
 
 #cart.open {
   transform: translateX(0);
 }
 
+/* ✅ Minimal change: keep close X always on top for iOS Safari */
 #close-cart {
   background: none;
   color: #f1c40f;
@@ -154,8 +157,8 @@ main {
   position: absolute;
   top: 10px;
   right: 15px;
-  z-index: 10000;
-  touch-action: manipulation;
+  z-index: 10000; /* ensure it's above transforms / layers on iOS */
+  touch-action: manipulation; /* improves tap responsiveness on mobile */
 }
 
 .cart-header {
@@ -177,7 +180,7 @@ main {
 }
 
 #cart-items li {
-  margin-bottom: 8px;
+  margin-bottom: 5px;
   color: #fff;
   display: flex;
   justify-content: space-between;
@@ -188,8 +191,8 @@ main {
   background: red;
   border: none;
   color: White;
-  padding: 4px 8px;
-  border-radius: 6px;
+  padding: 3px 6px;
+  border-radius: 5px;
   cursor: pointer;
   font-size: 12px;
 }
@@ -197,7 +200,6 @@ main {
 #total {
   text-align: center;
   color: #fff;
-  margin-top: 8px;
 }
 
 #checkout-btn {
@@ -206,11 +208,15 @@ main {
   padding: 10px;
   background: #f1c40f;
   border: none;
-  border-radius: 6px;
+  border-radius: 5px;
   font-weight: bold;
   cursor: pointer;
   color: #000;
-  margin-top: 10px;
+  transition: 0.3s;
+}
+
+#checkout-btn:hover {
+  background: #fff;
 }
 
 /* OPEN CART BUTTON */
@@ -228,8 +234,11 @@ main {
   z-index: 10;
 }
 
-#open-cart:hover { background: #fff; }
+#open-cart:hover {
+  background: #fff;
+}
 
+/* CART NOTIFICATION */
 #cart-count {
   background: red;
   color: #fff;
@@ -246,60 +255,368 @@ main {
 }
 #cart-count.hidden { display: none; }
 
-.cart-label { margin-left: 8px; }
-
 /* POPUPS */
 .popup {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   background: rgba(0, 0, 0, 0.7);
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 200;
+  z-index: 20;
 }
 
 .popup.hidden { display: none; }
 
+.popup-content img {
+  width: 100%;
+  max-width: 320px; /* ✅ keeps image smaller on big screens */
+  max-height: 250px; /* ✅ prevents stretching */
+  height: auto; /* ✅ maintains correct aspect ratio */
+  object-fit: contain;
+  border-radius: 10px;
+  background-color: #000;
+  margin: 0 auto 10px; /* centers it and adds space below */
+  display: block;
+}
+
+.popup-content.small { max-width: 350px; }
+
+.popup-content img {
+  width: 100%;
+  height: 200px;
+  object-fit: contain;
+  border-radius: 10px;
+  background-color: #000;
+}
+
+.close, .close-about, .close-contact {
+  position: absolute;
+  right: 20px;
+  top: 10px;
+  font-size: 25px;
+  color: #f1c40f;
+  cursor: pointer;
+}
+
+/* ✅ Fix: When cart is open, shift products to the left */
+body.cart-open #product-list {
+  margin-right: 300px;
+}
+
+/* MOBILE FIX */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  nav {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+
+  #product-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .logo {
+    width: 60px;
+    height: 60px;
+  }
+
+  /* Cart full width on mobile */
+  #cart {
+    width: 100%;
+    top: 0;
+    height: 100%;
+  }
+
+  #close-cart {
+    top: 15px;
+    right: 20px;
+  }
+
+  body.cart-open #product-list {
+    margin-right: 0;
+  }
+}
+
+/* --- FIX POPUP IMAGE OVERFLOW ON DESKTOP & SAFARI --- */
+.popup {
+  align-items: center;
+  justify-content: center;
+}
+
+.popup-content {
+  max-height: 90vh;           /* prevent it from going beyond screen height */
+  overflow-y: auto;           /* scroll if content too tall */
+  box-sizing: border-box;
+}
+
+.popup-content img {
+  width: 100%;
+  max-width: 300px;           /* controls width */
+  height: auto;               /* keeps correct ratio */
+  object-fit: contain;
+  display: block;
+  margin: 10px auto;
+}
+
+/* Fix for Safari flexbox scaling bug */
+@supports (-webkit-touch-callout: none) {
+  .popup-content { max-height: 85vh !important; }
+}
+
+/* ---- FIX SAFARI CLOSE BUTTON + IMAGE OVERFLOW ---- */
+
+/* Keep popups centered correctly on all devices */
+.popup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+/* Ensure popup box keeps its dark background and correct size */
 .popup-content {
   background: #1b1b1b;
   border-radius: 10px;
   padding: 20px;
-  max-width: 420px;
+  max-width: 400px;
   width: 90%;
   color: #fff;
   position: relative;
-  max-height: 90vh;
-  overflow-y: auto;
   text-align: center;
+  box-sizing: border-box;
+  max-height: 90vh;       /* prevent content from going off-screen */
+  overflow-y: auto;
 }
 
-.popup-content.small { max-width: 360px; }
-
+/* Fix image scaling inside popup */
 .popup-content img {
   width: 100%;
   max-width: 320px;
   height: auto;
   object-fit: contain;
-  border-radius: 8px;
-  background-color: #000;
-  margin: 10px auto;
   display: block;
+  margin: 10px auto;
+  border-radius: 10px;
+  background-color: #000;
 }
 
-.close, .close-about, .close-contact {
+/* Fix the ✖ close button not showing on Safari mobile */
+#close-cart,
+.close,
+.close-about,
+.close-contact {
+  z-index: 9999 !important; /* ensure always on top */
   position: absolute;
-  right: 14px;
+  right: 15px;
   top: 10px;
-  font-size: 24px;
   color: #f1c40f;
   background: none;
   border: none;
+  font-size: 25px;
   cursor: pointer;
-  z-index: 10001;
 }
 
-/* Popup controls */
+/* Specific fix for iPhone Safari (flexbox rendering issue) */
+@supports (-webkit-touch-callout: none) {
+  .popup-content { max-height: 85vh !important; }
+}
+
+/* ===== Strong popup restore — paste at VERY END of style.css ===== */
+
+/* Ensure the overlay works and is visible */
+.popup {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: fixed !important;
+  inset: 0 !important;
+  background: rgba(0,0,0,0.7) !important;
+  z-index: 9998 !important;
+}
+
+/* Force the hidden state to remain hidden */
+.popup.hidden {
+  display: none !important;
+}
+
+/* Restore the popup box appearance and sizing */
+.popup-content {
+  background: #1b1b1b !important;
+  color: #fff !important;
+  padding: 20px !important;
+  border-radius: 10px !important;
+  width: 90% !important;
+  max-width: 420px !important;
+  box-sizing: border-box !important;
+  position: relative !important;
+  text-align: center !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6) !important;
+  max-height: 90vh !important;
+  overflow-y: auto !important;
+}
+
+/* Image constraints inside popup */
+.popup-content img {
+  display: block !important;
+  margin: 10px auto !important;
+  width: 100% !important;
+  max-width: 340px !important;
+  height: auto !important;
+  object-fit: contain !important;
+  border-radius: 8px !important;
+  background-color: #000 !important;
+}
+
+/* Make sure the close X is visible and clickable everywhere */
+.popup-content .close, .close-about, .close-contact, #close-cart {
+  z-index: 10001 !important;
+  position: absolute !important;
+  right: 14px !important;
+  top: 10px !important;
+  color: #f1c40f !important;
+  background: none !important;
+  border: none !important;
+  font-size: 24px !important;
+  cursor: pointer !important;
+  touch-action: manipulation !important;
+}
+
+/* In case some global rule cleared backgrounds, force the header/title color */
+.popup-content h2,
+.popup-content p,
+.popup-content label,
+.popup-content select,
+.popup-content button {
+  color: inherit !important;
+}
+
+/* Safari-specific safety: prevents flexbox weirdness on iOS/Safari */
+@supports (-webkit-touch-callout: none) {
+  .popup-content { max-height: 85vh !important; }
+}
+
+/* ✅ Make "Add to Cart" button and Quantity select yellow */
+#add-to-cart {
+  background: #f1c40f;       /* yellow */
+  color: #000;               /* black text */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+#add-to-cart:hover {
+  background: #fff;          /* white on hover */
+}
+
+#quantity {
+  background: #f1c40f;
+  color: #000;
+  border: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  font-weight: bold;
+  margin-left: 5px;
+}
+
+/* ✅ Force the logo to scale properly */
+.logo {
+  width: 140px !important;
+  height: 140px !important;
+  object-fit: contain;
+}
+
+.brand img {
+  max-width: none !important;
+  max-height: none !important;
+}
+
+/* ✅ Force logo size always update */
+.logo {
+  width: 140px !important;
+  height: 140px !important;
+  object-fit: contain;
+}
+
+/* ✅ Desktop-only fix: make cart start at top and cover About/Contact */
+@media (min-width: 601px) {
+  #cart {
+    top: 0;               /* cover header area */
+    height: 100vh;        /* full vertical space */
+    z-index: 9999;        /* above header and nav */
+  }
+}
+
+/* ✅ Make model buttons match About/Contact perfectly */
+.model-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+/* Make sure layout still looks fine in Arabic (RTL) */
+html[lang="ar"] #open-cart {
+  direction: rtl;
+}
+
+/* RTL Support for Arabic */
+html[lang="ar"] #open-cart {
+  flex-direction: row-reverse;
+}
+
+/* ---------- Fix Add button & quantity styles ---------- */
+
+/* Product card Add button (in-case you render one inside cards) */
+.product .add-btn {
+  display: inline-block;
+  background: #f1c40f;            /* yellow */
+  color: #000;
+  border: none;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: 8px;
+  transition: transform .12s ease, box-shadow .12s ease;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
+}
+
+/* Make sure hovered state looks consistent (not black) */
+.product .add-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.22);
+}
+
+/* Popup add-to-cart button */
+#add-to-cart {
+  background: #f1c40f !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 10px 14px !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  display: inline-block !important;
+  margin-top: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+
+/* Popup add-to-cart hover (keeps consistent) */
+#add-to-cart:hover {
+  transform: translateY(-1px);
+}
+
+/* Quantity select style (yellow border / readable) */
 #quantity {
   background: #1b1b1b;
   color: #fff;
@@ -309,28 +626,47 @@ main {
   margin-left: 6px;
   font-weight: 600;
 }
+
+/* In case add button was absolutely positioned and hidden — force normal flow */
+.product .add-btn,
 #add-to-cart {
-  background: #f1c40f;
-  color: #000;
-  border: none;
-  padding: 10px 14px;
-  border-radius: 8px;
-  font-weight: 700;
-  cursor: pointer;
-  margin-top: 10px;
+  position: relative !important;
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
-/* RESP */
-@media (max-width: 600px) {
-  header { flex-direction: column; text-align: center; }
-  nav { justify-content: center; }
-  #product-list { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-  .logo { width: 60px; height: 60px; }
-  #cart { width: 100%; top: 0; height: 100%; }
-  body.cart-open #product-list { margin-right: 0; }
+/* ---------- Red dot (strong override) ---------- */
+#open-cart { position: relative !important; }
+#cart-count {
+  position: absolute !important;
+  top: -6px !important;
+  right: -8px !important;
+  background: red !important;
+  color: white !important;
+  border-radius: 50% !important;
+  min-width: 18px !important;
+  height: 18px !important;
+  padding: 0 6px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 12px !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 4px rgba(0,0,0,0.35);
 }
+#cart-count.hidden { display: none !important; }
 
-/* RTL support */
-html[lang="ar"] {
-  direction: rtl;
+/* 🚀 STRONGEST OVERRIDE: Force Open Cart button to bottom right, yellow (added at end to override all) */
+body #open-cart {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  background: #f1c40f !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 12px 18px !important;
+  border-radius: 50px !important;
+  cursor: pointer !important;
+  font-weight: bold !important;
+  z-index: 99999 !important;
 }
