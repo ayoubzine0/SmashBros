@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bee Auto Parts - Becane</title>
+  <title>Bee Auto Parts - Sanya</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -24,7 +24,7 @@
 
   <main class="main-wrap">
     <section id="product-list">
-      <!-- Becane products rendered by script.js -->
+      <!-- Sanya products rendered by script.js (currentModel should be sanya on load) -->
     </section>
 
     <aside id="cart" class="closed">
@@ -70,4 +70,18 @@
   <!-- Contact Popup -->
   <div id="contact-popup" class="popup hidden">
     <div class="popup-content small">
-      <b
+      <button class="close-contact">&times;</button>
+      <h2>Contact Us</h2>
+      <p>📞 Phone: +212 724-680-135</p>
+      <p>📧 Email: contact@beeautoparts.ma</p>
+      <p>📍 Address: Casablanca, Morocco</p>
+    </div>
+  </div>
+
+  <script>
+    // mark this page's default model for script.js
+    window.PAGE_MODEL = "sanya";
+  </script>
+  <script src="script.js"></script>
+</body>
+</html>
