@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bee Auto Parts - Becane</title>
+  <title>Bee Auto Parts - becane</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -14,12 +14,12 @@
       <h1>Bee Auto Parts</h1>
     </div>
     <nav>
-      <a id="sanya-link" href="index.html">Sanya</a>
-      <a id="becane-link" href="becane.html" class="active">Becane</a>
-      <a id="c50-link" href="c50.html">C50</a>
-      <a id="about-link" href="#">About</a>
-      <a id="contact-link" href="#">Contact</a>
-      <button id="translate-btn">عربي</button>
+      <a id="sanya-link" href="index.html" class="nav-btn">Sanya</a>
+      <a id="becane-link" href="becane.html" class="nav-btn">Becane</a>
+      <a id="c50-link" href="c50.html" class="nav-btn">C50</a>
+      <a id="about-link" href="#" class="nav-btn">About</a>
+      <a id="contact-link" href="#" class="nav-btn">Contact</a>
+      <button id="translate-btn" class="nav-btn">عربي</button>
     </nav>
   </header>
 
@@ -28,7 +28,7 @@
   </main>
 
   <div class="cart-label">
-    <button id="open-cart">🛒 <span id="cart-count" class="hidden"></span></button>
+    <button id="open-cart">🛒 <span id="cart-count" class="hidden">0</span></button>
   </div>
 
   <aside id="cart" class="cart">
@@ -45,7 +45,7 @@
   <div id="product-popup" class="popup hidden">
     <div class="popup-content">
       <span class="close">✖</span>
-      <img id="popup-img" src="" alt="" />
+      <img id="popup-img" src="" alt="Product Image" />
       <h2 id="popup-title"></h2>
       <p id="popup-price"></p>
       <p id="popup-stock"></p>
