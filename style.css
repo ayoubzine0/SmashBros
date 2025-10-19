@@ -345,28 +345,30 @@ html[lang="ar"] #cart-items li button {
   background-color: #000;
 }
 
-.close, .close-about, .close-contact, #close-cart {
-  z-index: 10001;
-  position: absolute;
-  top: 10px;
-  font-size: 24px;
-  color: #f1c40f;
-  background: none;
-  border: none;
-  cursor: pointer;
-  touch-action: manipulation;
+/* POPUP CLOSE BUTTONS POSITION FIX (About & Contact) */
+.close, .close-about, .close-contact {
+  position: absolute !important;
+  top: 10px !important;
+  color: #f1c40f !important;
+  background: none !important;
+  border: none !important;
+  font-size: 24px !important;
+  cursor: pointer !important;
+  z-index: 10001 !important;
+  padding: 2px 6px !important;
+  border-radius: 4px !important;
 }
 
-/* LTR - default */
-html[lang="en"] #close-cart {
-  right: 14px;
-  left: auto;
+/* LTR default: button on the right */
+html[lang="en"] .close, html[lang="en"] .close-about, html[lang="en"] .close-contact {
+  right: 14px !important;
+  left: auto !important;
 }
 
-/* RTL - Arabic */
-html[lang="ar"] #close-cart {
-  left: 14px;  /* Move close button to left side */
-  right: auto;
+/* RTL: button on the left, away from text */
+html[lang="ar"] .close, html[lang="ar"] .close-about, html[lang="ar"] .close-contact {
+  left: 14px !important;
+  right: auto !important;
 }
 
 /* POPUP BUTTONS */
@@ -561,6 +563,7 @@ html[lang="ar"] #cart-items li {
   font-size: 1rem !important;
   border-radius: 8px !important;
 }
+
 
 
 
