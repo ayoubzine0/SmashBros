@@ -200,32 +200,35 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 15px;  /* INCREASED GAP: More space between text and button */
-  padding: 5px 0;  /* Add vertical padding for breathing room */
+  gap: 15px;  /* Space for LTR (English) */
+  padding: 5px 0;
 }
 
 #cart-items button {
   background: red;
   border: none;
   color: white;
-  padding: 3px 8px;  /* INCREASED HORIZONTAL PADDING: Makes button wider */
+  padding: 3px 8px;
   border-radius: 5px;
   cursor: pointer;
   font-size: 12px;
-  flex-shrink: 0;  /* Prevents shrinking */
-  min-width: 20px;  /* ADD THIS: Ensures button has minimum width */
+  flex-shrink: 0;  /* Prevents shrinking in LTR */
+  min-width: 20px;  /* Minimum width in LTR */
 }
 
 /* FIX CART ITEM LAYOUT IN RTL (ARABIC) */
 html[lang="ar"] #cart-items li {
   flex-direction: row-reverse;
   justify-content: space-between;
-  gap: 15px;  /* Match the LTR gap for consistency */
+  gap: 20px;  /* INCREASED GAP: More space in RTL to prevent collapse */
+  padding: 5px 0;
 }
 
 html[lang="ar"] #cart-items li button {
- margin-left: 10px;
+  margin-left: 15px;  /* INCREASED MARGIN: More space from text */
   margin-right: 0;
+  flex-shrink: 0;  /* ADD THIS: Prevents shrinking in RTL */
+  min-width: 20px;  /* ADD THIS: Minimum width in RTL */
 }
 
 #cart-items button {
@@ -496,6 +499,7 @@ button, select {
 .navbar-buttons button {
   direction: rtl !important; /* Only button text is RTL for Arabic */
 }
+
 
 
 
