@@ -1,472 +1,373 @@
-/* ======================================== */
-/* Bee Auto Parts - Full CSS (all fixes)    */
-/* ======================================== */
+// script.js - fully fixed, bilingual, cart with all features preserved
 
-/* RESET + BASE */
-* {
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-  margin: 0;
-  padding: 0;
+// -----------------------------
+// CART + TRANSLATION + PRODUCT LOGIC
+// -----------------------------
+
+const CART_KEY = "beeCart";
+const LANG_KEY = "beeLang";
+
+let currentCart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+let currentLang = localStorage.getItem(LANG_KEY) || "en";
+let currentModel = window.PAGE_MODEL || "sanya"; // page-specific model
+
+// Product data (kept intact)
+const allProducts = {
+  sanya: [
+    { id: "s1", name_en: "Sanya Front Light", name_ar: "ضوء أمامي سانيا", price: 250, img: "https://i.imgur.com/r9i7m4b.png", stock: 10 },
+    { id: "s2", name_en: "Sanya Engine Cover", name_ar: "غطاء المحرك سانيا", price: 400, img: "https://i.imgur.com/r9i7m4b.png", stock: 5 },
+    { id: "s3", name_en: "Speedometer", name_ar: "عداد السرعة", price: 400, img: "https://i.imgur.com/r9i7m4b.png", stock: 5 },
+    { id: "s4", name_en: "Sanya Headlight", name_ar: "المصباح الأمامي سانيا", price: 400, img: "https://i.imgur.com/r9i7m4b.png", stock: 5 },
+    { id: "s5", name_en: "Sanya Rear Shock Absorber", name_ar: "ممتص الصدمات الخلفي سانيا", price: 400, img: "https://i.imgur.com/r9i7m4b.png", stock: 5 },
+    { id: "s6", name_en: "Sanya Front Brake Lever", name_ar: "ذراع فرامل أمامية سانيا", price: 400, img: "https://i.imgur.com/r9i7m4b.png", stock: 5 },
+    { id: "s7", name_en: "Sanya Exhaust Pipe", name_ar: "أنبوب العادم سانيا", price: 400, img: "https://i.imgur.com/r9i7m4b.png", stock: 5 }
+  ],
+  becane: [
+    { id: "b1", name_en: "Becane Headlight", name_ar: "مصباح أمامي بيكان", price: 270, img: "https://i.imgur.com/r9i7m4b.png", stock: 8 },
+    { id: "b2", name_en: "Becane Exhaust", name_ar: "عادم بيكان", price: 500, img: "https://i.imgur.com/r9i7m4b.png", stock: 3 }
+  ],
+  c50: [
+    { id: "c1", name_en: "C50 Chain", name_ar: "سلسلة C50", price: 180, img: "https://i.imgur.com/r9i7m4b.png", stock: 15 },
+    { id: "c2", name_en: "C50 Mirror", name_ar: "مرآة C50", price: 90, img: "https://i.imgur.com/r9i7m4b.png", stock: 20 }
+  ]
+};
+
+// Cached DOM elements
+let openCartBtn, cartCount, cartEl, closeCartBtn, productList, translateBtn, productPopup, aboutPopup, contactPopup, addToCartBtn, quantitySelect, checkoutBtn, toast;
+
+// -----------------------------
+// Render products
+// -----------------------------
+function renderProducts(model) {
+  if (!productList) return;
+  productList.innerHTML = "";
+  const products = allProducts[model];
+  if (!products) return;
+
+  products.forEach(product => {
+    const div = document.createElement("div");
+    div.className = "product";
+    div.innerHTML = `
+      <img src="${product.img}" alt="${product.name_en}" />
+      <h3 class="product-title">${currentLang === "en" ? product.name_en : product.name_ar}</h3>
+      <p class="product-price">${product.price} MAD</p>
+      <div class="product-actions">
+        <button class="card-add-btn">${currentLang === "en" ? "Add" : "أضف"}</button>
+      </div>
+    `;
+
+    // card click opens popup
+    div.addEventListener("click", () => openProductPopup(product));
+
+    // add button opens popup, stops propagation
+    div.querySelector(".card-add-btn").addEventListener("click", e => {
+      e.stopPropagation();
+      openProductPopup(product);
+    });
+
+    productList.appendChild(div);
+  });
 }
 
-body {
-  background-color: #0d0d0d;
-  background-image: radial-gradient(#f1c40f20 1px, transparent 1px),
-                    radial-gradient(#f1c40f15 1px, transparent 1px);
-  background-position: 0 0, 25px 25px;
-  background-size: 50px 50px;
-  color: #f1c40f;
-  min-height: 100vh;
-  overflow-x: hidden;
-}
+// -----------------------------
+// Product popup
+// -----------------------------
+function openProductPopup(product) {
+  if (!productPopup) return;
 
-/* HEADER - FORCE LTR TO PREVENT NAV SHIFTING */
-header {
-  background: #111;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 25px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.4);
-  flex-wrap: wrap;
-  direction: ltr !important; /* FORCE HEADER LTR - LOCKS NAV POSITIONS */
-}
+  const titleEl = document.getElementById("popup-title");
+  const imgEl = document.getElementById("popup-img");
+  const priceEl = document.getElementById("popup-price");
+  const stockEl = document.getElementById("popup-stock");
 
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
+  titleEl.textContent = currentLang === "en" ? product.name_en : product.name_ar;
+  imgEl.src = product.img;
+  priceEl.textContent = `${product.price} MAD`;
+  stockEl.textContent = currentLang === "en" ? `In Stock: ${product.stock}` : `متوفر: ${product.stock}`;
 
-header h1 {
-  color: #f1c40f;
-  font-size: 1.8rem;
-}
-
-header h1 span {
-  color: #fff;
-}
-
-/* LOGO */
-.logo {
-  width: 140px !important;
-  height: 140px !important;
-  object-fit: contain;
-}
-
-/* NAVIGATION */
-nav {
-  display: flex;
-  gap: 15px;
-  flex-wrap: nowrap;
-  align-items: center;
-}
-
-.nav-btn {
-  background: #f1c40f;
-  border: none;
-  color: #000;
-  font-weight: 600;
-  padding: 8px 15px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-  text-decoration: none;
-}
-
-.nav-btn:hover {
-  background: #fff;
-}
-
-/* MAIN SECTION */
-main {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding: 18px;
-}
-
-/* PRODUCT GRID */
-#product-list {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-  gap: 20px;
-  padding: 20px;
-  width: 100%;
-  transition: margin-right 0.3s ease;
-}
-
-.product {
-  background: #1b1b1b;
-  border: 1px solid #f1c40f33;
-  border-radius: 10px;
-  padding: 10px;
-  text-align: center;
-  cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.product:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #f1c40f66;
-}
-
-.product img {
-  width: 100%;
-  height: 180px;
-  object-fit: contain;
-  border-radius: 6px;
-  background-color: #000;
-}
-
-.product h3 {
-  margin: 10px 0 5px;
-  color: #fff;
-  font-size: 1rem;
-}
-
-.product p {
-  color: #f1c40f;
-}
-
-/* PRODUCT CARD ADD BUTTON */
-.product .card-add-btn, 
-.product .add-btn {
-  display: inline-block;
-  background: #f1c40f;
-  color: #000;
-  border: none;
-  font-weight: 700;
-  padding: 8px 12px;
-  border-radius: 8px;
-  cursor: pointer;
-  margin-top: 8px;
-  transition: transform .12s ease, box-shadow .12s ease;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.18);
-}
-
-.product .card-add-btn:hover, 
-.product .add-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 14px rgba(0,0,0,0.22);
-}
-
-/* CART */
-#cart {
-  background: #141414;
-  padding: 15px;
-  border-left: 2px solid #f1c40f33;
-  width: 280px;
-  position: fixed;
-  right: 0;
-  top: 70px;
-  height: calc(100vh - 80px);
-  overflow-y: auto;
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
-  z-index: 999;
-  -webkit-overflow-scrolling: touch;
-}
-
-#cart.open {
-  transform: translateX(0);
-}
-
-.cart-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  position: relative;
-}
-
-#cart h2 {
-  color: #f1c40f;
-  margin: 0;
-}
-
-#cart-items {
-  list-style: none;
-  padding: 0;
-  margin: 10px 0;
-}
-
-#cart-items li {
-  margin-bottom: 5px;
-  color: #fff;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-#cart-items button {
-  background: red;
-  border: none;
-  color: white;
-  padding: 3px 6px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 12px;
-}
-
-#total {
-  text-align: center;
-  color: #fff;
-}
-
-#checkout-btn {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  background: #f1c40f;
-  border: none;
-  border-radius: 5px;
-  font-weight: bold;
-  cursor: pointer;
-  color: #000;
-  transition: 0.3s;
-}
-
-#checkout-btn:hover {
-  background: #fff;
-}
-
-/* OPEN CART BUTTON + RED DOT */
-#open-cart {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  background: #f1c40f;
-  border: none;
-  color: #000;
-  padding: 12px 18px;
-  border-radius: 50px;
-  cursor: pointer;
-  font-weight: bold;
-  z-index: 99999;
-}
-
-#open-cart:hover {
-  background: #fff;
-}
-
-#cart-count {
-  position: absolute;
-  top: -6px;
-  right: -8px;
-  background: red;
-  color: white;
-  border-radius: 50%;
-  min-width: 18px;
-  height: 18px;
-  padding: 0 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 12px;
-  font-weight: 700;
-  box-shadow: 0 0 4px rgba(0,0,0,0.35);
-}
-
-#cart-count.hidden {
-  display: none !important;
-}
-
-/* POPUPS */
-.popup {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.7);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 9998;
-}
-
-.popup.hidden {
-  display: none !important;
-}
-
-.popup-content {
-  background: #1b1b1b;
-  color: #fff;
-  padding: 20px;
-  border-radius: 10px;
-  width: 90%;
-  max-width: 420px;
-  box-sizing: border-box;
-  position: relative;
-  text-align: center;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
-  max-height: 90vh;
-  overflow-y: auto;
-}
-
-.popup-content img {
-  display: block;
-  margin: 10px auto;
-  width: 100%;
-  max-width: 340px;
-  height: auto;
-  object-fit: contain;
-  border-radius: 8px;
-  background-color: #000;
-}
-
-.close, .close-about, .close-contact, #close-cart {
-  z-index: 10001;
-  position: absolute;
-  right: 14px;
-  top: 10px;
-  color: #f1c40f;
-  background: none;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  touch-action: manipulation;
-}
-
-/* POPUP BUTTONS */
-#add-to-cart {
-  background: #f1c40f !important;
-  color: #000 !important;
-  border: none !important;
-  padding: 10px 14px !important;
-  border-radius: 8px !important;
-  font-weight: 700 !important;
-  cursor: pointer !important;
-  display: inline-block !important;
-  margin-top: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
-}
-
-#add-to-cart:hover {
-  transform: translateY(-1px);
-}
-
-#quantity {
-  background: #1b1b1b;
-  color: #fff;
-  border: 2px solid #f1c40f;
-  padding: 6px 8px;
-  border-radius: 6px;
-  margin-left: 6px;
-  font-weight: 600;
-}
-
-/* RTL SUPPORT */
-html[lang="ar"] {
-  direction: rtl;
-}
-
-html[lang="ar"] #open-cart {
-  flex-direction: row-reverse;
-}
-
-/* RESPONSIVE MOBILE */
-@media (max-width: 600px) {
-  header {
-    flex-direction: column;
-    text-align: center;
+  if (quantitySelect) {
+    quantitySelect.innerHTML = "";
+    for (let i = 1; i <= product.stock; i++) {
+      const option = document.createElement("option");
+      option.value = i;
+      option.textContent = i;
+      quantitySelect.appendChild(option);
+    }
   }
 
-  nav {
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
+  if (addToCartBtn) {
+    addToCartBtn.dataset.productId = product.id;
+    addToCartBtn.dataset.model = currentModel;
+    addToCartBtn.textContent = currentLang === "en" ? "Add to Cart" : "أضف إلى السلة";
   }
 
-  #product-list {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  productPopup.classList.remove("hidden");
+}
+
+// -----------------------------
+// Close popups
+// -----------------------------
+function closePopups() {
+  if (productPopup) productPopup.classList.add("hidden");
+  if (aboutPopup) aboutPopup.classList.add("hidden");
+  if (contactPopup) contactPopup.classList.add("hidden");
+}
+
+// -----------------------------
+// Add to cart
+// -----------------------------
+function addToCart() {
+  if (!addToCartBtn) return;
+  const productId = addToCartBtn.dataset.productId;
+  const model = addToCartBtn.dataset.model;
+  const qty = parseInt(quantitySelect.value, 10);
+
+  const products = allProducts[model];
+  const product = products.find(p => p.id === productId);
+  if (!product || qty > product.stock) return;
+
+  const existing = currentCart.find(item => item.id === productId);
+  if (existing) {
+    existing.qty += qty;
+  } else {
+    currentCart.push({ ...product, model, qty });
   }
 
-  .logo {
-    width: 60px !important;
-    height: 60px !important;
+  saveCart();
+  updateCartDisplay();
+  closePopups();
+  showToast(currentLang === "en" ? "Added to cart!" : "تمت الإضافة إلى السلة!");
+}
+
+// -----------------------------
+// Save & update cart
+// -----------------------------
+function saveCart() {
+  localStorage.setItem(CART_KEY, JSON.stringify(currentCart));
+}
+
+function updateCartDisplay() {
+  if (!cartCount) return;
+
+  const count = currentCart.reduce((sum, it) => sum + (it.qty || 1), 0);
+  cartCount.textContent = count;
+  cartCount.classList.toggle("hidden", count === 0);
+
+  const cartItems = document.getElementById("cart-items");
+  const totalEl = document.getElementById("total");
+  if (!cartItems || !totalEl) return;
+
+  cartItems.innerHTML = "";
+  let total = 0;
+
+  if (currentCart.length === 0) {
+    cartItems.innerHTML = `<p>${currentLang === "en" ? "Your cart is empty." : "سلتك فارغة."}</p>`;
+    totalEl.textContent = `${currentLang === "en" ? "Total" : "المجموع"}: 0 MAD`;
+    return;
   }
 
-  #cart {
-    width: 100%;
-    top: 0;
-    height: 100%;
-  }
+  currentCart.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.innerHTML = `
+      <span>${currentLang === "en" ? item.name_en : item.name_ar} (x${item.qty})</span>
+      <span>${item.price * item.qty} MAD</span>
+      <button data-index="${index}">✖</button>
+    `;
+    cartItems.appendChild(li);
+    total += item.price * item.qty;
+  });
 
-  body.cart-open #product-list {
-    margin-right: 0;
-  }
+  totalEl.textContent = `${currentLang === "en" ? "Total" : "المجموع"}: ${total} MAD`;
 
-  #close-cart {
-    top: 15px;
-    right: 20px;
+  // Remove items
+  cartItems.querySelectorAll("button").forEach(btn => {
+    btn.addEventListener("click", e => {
+      const idx = parseInt(e.target.dataset.index, 10);
+      currentCart.splice(idx, 1);
+      saveCart();
+      updateCartDisplay();
+    });
+  });
+
+  checkRTL();
+}
+
+// -----------------------------
+// Open/close cart
+// -----------------------------
+function openCart() {
+  if (!cartEl) return;
+  cartEl.classList.add("open");
+  document.body.classList.add("cart-open");
+}
+
+function closeCart() {
+  if (!cartEl) return;
+  cartEl.classList.remove("open");
+  document.body.classList.remove("cart-open");
+}
+
+// -----------------------------
+// Checkout
+// -----------------------------
+function checkout() {
+  if (currentCart.length === 0) return;
+
+  const phone = "212724680135";
+  let msg = currentLang === "en" ? "Order Details:\n" : "تفاصيل الطلب:\n";
+  currentCart.forEach(item => {
+    msg += `${currentLang === "en" ? item.name_en : item.name_ar} x${item.qty} - ${item.price * item.qty} MAD\n`;
+  });
+  const total = currentCart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  msg += `${currentLang === "en" ? "Total" : "المجموع"}: ${total} MAD`;
+
+  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
+}
+
+// -----------------------------
+// Toast
+// -----------------------------
+function showToast(msg) {
+  if (!toast) {
+    toast = document.createElement("div");
+    toast.id = "toast";
+    toast.style.cssText = `
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f1c40f;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      z-index: 99999;
+      display: none;
+    `;
+    document.body.appendChild(toast);
+  }
+  toast.textContent = msg;
+  toast.style.display = "block";
+  setTimeout(() => toast.style.display = "none", 1500);
+}
+
+// -----------------------------
+// Language / translations
+// -----------------------------
+function applyTranslations() {
+  if (translateBtn) translateBtn.textContent = currentLang === "en" ? "عربي" : "EN";
+  const aboutLink = document.getElementById("about-link");
+  const contactLink = document.getElementById("contact-link");
+  if (aboutLink) aboutLink.textContent = currentLang === "en" ? "About" : "حول";
+  if (contactLink) contactLink.textContent = currentLang === "en" ? "Contact" : "اتصال";
+
+  const brandTitle = document.querySelector(".brand h1");
+  if (brandTitle) brandTitle.textContent = currentLang === "en" ? "Bee Auto Parts" : "Bee لقطع غيار السيارات";
+
+  const cartH2 = document.querySelector("#cart h2");
+  if (cartH2) cartH2.textContent = currentLang === "en" ? "🛒 Cart" : "🛒 السلة";
+
+  const checkoutBtnEl = document.getElementById("checkout-btn");
+  if (checkoutBtnEl) checkoutBtnEl.textContent = currentLang === "en" ? "Checkout on WhatsApp" : "اتمام الطلب عبر واتساب";
+
+  document.querySelectorAll(".product .card-add-btn").forEach(btn => {
+    btn.textContent = currentLang === "en" ? "Add" : "أضف";
+  });
+
+  updatePopupContent();
+}
+
+// -----------------------------
+function updatePopupContent() {
+  if (!aboutPopup || !contactPopup) return;
+
+  const aboutTitle = aboutPopup.querySelector("h2");
+  const aboutText = aboutPopup.querySelector("p");
+  const contactTitle = contactPopup.querySelector("h2");
+  const contactPs = contactPopup.querySelectorAll("p");
+
+  if (currentLang === "en") {
+    if (aboutTitle) aboutTitle.textContent = "About Bee Auto Parts";
+    if (aboutText) aboutText.textContent = "Bee Auto Parts is Morocco’s trusted source for quality motorcycle and car parts...";
+    if (contactTitle) contactTitle.textContent = "Contact Us";
+    if (contactPs[0]) contactPs[0].textContent = "📞 Phone: +212 724-680-135";
+    if (contactPs[1]) contactPs[1].textContent = "📧 Email: contact@beeautoparts.ma";
+    if (contactPs[2]) contactPs[2].textContent = "📍 Address: Casablanca, Morocco";
+  } else {
+    if (aboutTitle) aboutTitle.textContent = "حول Bee Auto Parts";
+    if (aboutText) aboutText.textContent = "Bee Auto Parts هي المصدر الموثوق في المغرب لقطع غيار الدراجات النارية والسيارات عالية الجودة...";
+    if (contactTitle) contactTitle.textContent = "اتصل بنا";
+    if (contactPs[0]) contactPs[0].textContent = "📞 الهاتف: ‎+212 724-680-135";
+    if (contactPs[1]) contactPs[1].textContent = "📧 البريد الإلكتروني: contact@beeautoparts.ma";
+    if (contactPs[2]) contactPs[2].textContent = "📍 العنوان: الدار البيضاء، المغرب";
   }
 }
 
-/* DESKTOP OVERRIDES */
-@media (min-width: 601px) {
-  #cart {
-    top: 0;
-    height: 100vh;
-    z-index: 9999;
+// -----------------------------
+function switchLang() {
+  currentLang = currentLang === "en" ? "ar" : "en";
+  localStorage.setItem(LANG_KEY, currentLang);
+  document.documentElement.lang = currentLang;
+  applyTranslations();
+  renderProducts(currentModel);
+}
+
+// -----------------------------
+// RTL for cart count
+// -----------------------------
+function checkRTL() {
+  if (!cartCount) return;
+  const isArabic = document.documentElement.lang === "ar";
+  if (isArabic) {
+    cartCount.style.right = "unset";
+    cartCount.style.left = "-8px";
+  } else {
+    cartCount.style.left = "unset";
+    cartCount.style.right = "-8px";
   }
-
-  body.cart-open #product-list {
-    margin-right: 300px;
-  }
 }
 
-/* ============================ */
-/* ADDITIONAL OVERRIDES & SAFETY */
-/* ============================ */
+// -----------------------------
+// Init
+// -----------------------------
+document.addEventListener("DOMContentLoaded", () => {
+  openCartBtn = document.getElementById("open-cart");
+  cartCount = document.getElementById("cart-count");
+  cartEl = document.getElementById("cart");
+  closeCartBtn = document.getElementById("close-cart");
+  productList = document.getElementById("product-list");
+  translateBtn = document.getElementById("translate-btn");
+  productPopup = document.getElementById("product-popup");
+  aboutPopup = document.getElementById("about-popup");
+  contactPopup = document.getElementById("contact-popup");
+  addToCartBtn = document.getElementById("add-to-cart");
+  quantitySelect = document.getElementById("quantity");
+  checkoutBtn = document.getElementById("checkout-btn");
 
-/* Ensure all popups images scale correctly on Safari/iOS */
-@supports (-webkit-touch-callout: none) {
-  .popup-content { max-height: 85vh !important; }
-}
+  renderProducts(currentModel);
+  updateCartDisplay();
+  applyTranslations();
 
-/* Strongest overrides at end */
-#open-cart {
-  position: fixed !important;
-  bottom: 20px !important;
-  right: 20px !important;
-  background: #f1c40f !important;
-  color: #000 !important;
-  border: none !important;
-  padding: 12px 18px !important;
-  border-radius: 50px !important;
-  cursor: pointer !important;
-  font-weight: bold !important;
-  z-index: 99999 !important;
-}
+  // About / Contact links
+  document.getElementById("about-link")?.addEventListener("click", () => aboutPopup.classList.remove("hidden"));
+  document.getElementById("contact-link")?.addEventListener("click", () => contactPopup.classList.remove("hidden"));
 
-#cart-count {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  font-weight: 700 !important;
-}
+  // Close buttons
+  productPopup?.querySelector(".close")?.addEventListener("click", closePopups);
+  aboutPopup?.querySelector(".close-about")?.addEventListener("click", closePopups);
+  contactPopup?.querySelector(".close-contact")?.addEventListener("click", closePopups);
 
-/* Maintain all button colors and borders */
-button, select {
-  font-family: inherit;
-}
+  // Cart buttons
+  openCartBtn?.addEventListener("click", openCart);
+  closeCartBtn?.addEventListener("click", closeCart);
+  checkoutBtn?.addEventListener("click", checkout);
 
-/* FORCE NAV BUTTONS TO STAY IN FIXED POSITIONS (LTR) REGARDLESS OF LANGUAGE */
-.navbar-buttons {
-  display: flex !important;
-  flex-direction: row !important; /* Always horizontal */
-  justify-content: flex-start !important; /* Buttons start from left, no shifting */
-  direction: ltr !important; /* Container is always LTR */
-  text-align: left !important; /* Align text left in container */
-}
+  // Add to cart
+  addToCartBtn?.addEventListener("click", addToCart);
 
-.navbar-buttons > * {
-  order: initial !important; /* Keep natural order: sanya, becane, c50, About, Contact, عربي */
-  direction: ltr !important; /* Each item is LTR */
-}
+  // Language switch
+  translateBtn?.addEventListener("click", switchLang);
 
-.navbar-buttons button {
-  direction: rtl !important; /* Only button text is RTL for Arabic */
-}
+  // Initial RTL
+  checkRTL();
+});
