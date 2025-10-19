@@ -363,11 +363,4 @@ document.addEventListener("DOMContentLoaded", () => {
   checkoutBtn?.addEventListener("click", checkout);
 
   // Add to cart
-  addToCartBtn?.addEventListener("click", addToCart);
-
-  // Language switch
-  translateBtn?.addEventListener("click", switchLang);
-
-  // Initial RTL
-  checkRTL();
-});
+  addToCartBtn?.addEvent
