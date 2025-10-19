@@ -586,113 +586,182 @@ html[lang="ar"] #cart-items li {
   touch-action: manipulation !important;
 }
 
-/* =========================== */
+/* ============================ */
 /* MOTORCYCLE THEME ENHANCEMENTS */
-/* =========================== */
+/* ============================ */
 
-/* HEADER NAV BUTTONS - Metallic hover */
-.nav-btn:hover {
-  background: linear-gradient(135deg, #f1c40f, #e67e22);
-  color: #000;
-  box-shadow: 0 0 12px #f1c40f88;
-  transform: translateY(-2px);
+/* 1️⃣ Background: dark with chain/gears feel */
+body {
+  background-color: #0d0d0d;
+  background-image:
+    radial-gradient(#f1c40f20 1px, transparent 1px),
+    radial-gradient(#f1c40f15 1px, transparent 1px),
+    url('https://i.imgur.com/3o1wNQb.png'); /* subtle gears overlay */
+  background-position: 0 0, 25px 25px, center;
+  background-size: 50px 50px, 50px 50px, cover;
+  color: #f1c40f;
 }
 
-/* PRODUCT CARDS - hover & metallic feel */
+/* 2️⃣ Product Cards – metallic feel */
 .product {
+  background: linear-gradient(135deg, #1b1b1b, #2a2a2a);
+  border: 2px solid #f1c40f;
+  border-radius: 12px;
+  padding: 12px;
+  text-align: center;
+  cursor: pointer;
   position: relative;
-  background: linear-gradient(145deg, #1b1b1b, #222);
-  border: 1px solid #f1c40f33;
-  transition: transform 0.2s, box-shadow 0.2s, border 0.2s;
+  transition: transform 0.2s, box-shadow 0.3s, border-color 0.3s;
 }
 
 .product:hover {
-  transform: scale(1.05);
-  box-shadow: 0 0 15px #f1c40f66, 0 0 20px #e67e2288 inset;
-  border-color: #f1c40faa;
+  transform: scale(1.08);
+  box-shadow: 0 0 25px #f1c40faa, inset 0 0 10px #e67e2288;
+  border-color: #e67e22;
 }
 
-/* STOCK BADGE ON PRODUCT */
+.product img {
+  border: 2px solid #f1c40f88;
+  border-radius: 8px;
+  background-color: #111;
+  padding: 5px;
+  transition: transform 0.2s;
+}
+
+.product img:hover {
+  transform: scale(1.05);
+}
+
+/* 3️⃣ Product title and price */
+.product h3 {
+  color: #fff;
+  font-weight: 600;
+}
+
+.product p {
+  color: #f1c40f;
+  font-weight: 700;
+}
+
+/* 4️⃣ Stock / New badges */
 .product .stock-badge {
   position: absolute;
   top: 8px;
   left: 8px;
   background: #e74c3c;
   color: #fff;
-  padding: 2px 6px;
-  border-radius: 5px;
-  font-size: 0.7rem;
+  padding: 3px 7px;
+  border-radius: 6px;
+  font-size: 0.75rem;
   font-weight: bold;
+  box-shadow: 0 0 6px #e74c3caa;
 }
 
-/* POPUPS - metallic border & zoom effect */
-.popup-content {
-  border: 2px solid #f1c40f;
-  box-shadow: 0 0 20px #f1c40f55;
-  transition: transform 0.2s ease, box-shadow 0.3s ease;
-  transform: scale(0.95);
-}
-
-.popup-content.show {
-  transform: scale(1);
-}
-
-/* POPUP CLOSE BUTTON - yellow glow hover */
-.popup-content .close,
-.popup-content .close-about,
-.popup-content .close-contact {
-  color: #f1c40f;
-  text-shadow: 0 0 5px #f1c40faa;
-  transition: color 0.2s, text-shadow 0.2s;
-}
-
-.popup-content .close:hover,
-.popup-content .close-about:hover,
-.popup-content .close-contact:hover {
-  text-shadow: 0 0 10px #f1c40fff, 0 0 20px #e67e22ff;
-}
-
-/* CART - metallic border & item shadow */
+/* 5️⃣ Cart container – industrial gradient */
 #cart {
-  border-left: 2px solid #f1c40f77;
-  background: linear-gradient(145deg, #141414, #1a1a1a);
+  background: linear-gradient(135deg, #141414, #1f1f1f);
+  border-left: 2px solid #f1c40f33;
+  padding: 20px;
+  width: 300px;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
 }
 
+/* 6️⃣ Cart items – clearer separation */
 #cart-items li {
-  border-bottom: 1px solid #f1c40f33;
-  padding: 10px 0;
-  box-shadow: inset 0 -1px 0 #f1c40f22;
-  border-radius: 4px;
+  border-bottom: 1px solid #f1c40f44;
+  padding: 12px 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  border-radius: 5px;
+  background: linear-gradient(90deg, #111 0%, #222 100%);
+  transition: background 0.3s;
 }
 
-/* CHECKOUT BUTTON - glow & bigger */
+#cart-items li:hover {
+  background: linear-gradient(90deg, #1a1a1a, #333);
+}
+
+#cart-items li span {
+  max-width: 65%;
+  word-break: break-word;
+}
+
+/* 7️⃣ Checkout button – glowing & gradient */
 #checkout-btn {
   margin-top: 25px;
   background: linear-gradient(135deg, #f1c40f, #e67e22);
   color: #000;
-  font-weight: bold;
+  font-weight: 700;
   font-size: 1.1rem;
-  box-shadow: 0 4px 15px #f1c40f77;
-  border-radius: 8px;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 20px #f1c40fbb;
+  border-radius: 10px;
+  transition: all 0.3s ease;
 }
 
 #checkout-btn:hover {
+  background: linear-gradient(135deg, #e67e22, #f1c40f);
+  color: #000;
+  box-shadow: 0 8px 25px #f1c40fff;
+  transform: translateY(-3px);
+}
+
+/* 8️⃣ Popups – bigger & industrial style */
+.popup-content {
+  background: linear-gradient(145deg, #1b1b1b, #2a2a2a);
+  border: 2px solid #f1c40f;
+  border-radius: 15px;
+  padding: 25px;
+  max-width: 450px;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.7);
+}
+
+.popup-content h2 {
+  color: #f1c40f;
+  font-weight: 700;
+}
+
+/* 9️⃣ Close buttons – consistent yellow */
+.close, .close-about, .close-contact, #close-cart {
+  color: #f1c40f;
+  font-size: 26px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  z-index: 10001;
+}
+
+/* 10️⃣ Toast notification – metallic glow */
+#toast {
+  background: #f1c40f;
+  color: #000;
+  padding: 12px 20px;
+  border-radius: 10px;
+  font-weight: bold;
+  box-shadow: 0 0 15px #f1c40fff;
+}
+
+/* 11️⃣ Product add button */
+.product .card-add-btn, #add-to-cart {
+  background: linear-gradient(135deg, #f1c40f, #e67e22);
+  color: #000;
+  font-weight: 700;
+  border-radius: 8px;
+  padding: 8px 14px;
+  box-shadow: 0 3px 10px #f1c40f66;
+  transition: all 0.3s;
+}
+
+.product .card-add-btn:hover, #add-to-cart:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px #f1c40faa;
-}
-
-/* PRODUCT IMG - metallic frame */
-.product img {
-  border: 2px solid #f1c40f33;
-  border-radius: 6px;
-  background-color: #000;
-}
-
-/* RTL adjustments for popup & cart remain intact */
-html[lang="ar"] .popup-content,
-html[lang="ar"] #cart {
-  direction: rtl;
+  box-shadow: 0 6px 15px #f1c40fff;
 }
 
 
