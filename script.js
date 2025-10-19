@@ -373,6 +373,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Initial RTL
   checkRTL();
+  
+  // Force initial cart update based on saved language
+  updateCartDisplay();
 });
+
 
 
