@@ -312,6 +312,7 @@ function switchLang() {
   document.documentElement.lang = currentLang;
   applyTranslations();
   renderProducts(currentModel);
+  updateCartDisplay();
 }
 
 // -----------------------------
@@ -373,3 +374,4 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial RTL
   checkRTL();
 });
+
