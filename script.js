@@ -52,7 +52,7 @@ function renderProducts(model) {
       <h3 class="product-title">${currentLang === "en" ? product.name_en : product.name_ar}</h3>
       <p class="product-price">${product.price} MAD</p>
       <div class="product-actions">
-        <button class="card-add-btn">${currentLang === "en" ? "Add" : "أضف"}</button>
+        <button class="card-add-btn" title="${currentLang === 'en' ? 'Add' : 'أضف'}">${currentLang === "en" ? "Add" : "أضف"}</button>
       </div>
     `;
 
@@ -79,11 +79,13 @@ function openProductPopup(product) {
   const imgEl = document.getElementById("popup-img");
   const priceEl = document.getElementById("popup-price");
   const stockEl = document.getElementById("popup-stock");
+  const qtyLabel = document.querySelector("label[for='quantity']");
 
   titleEl.textContent = currentLang === "en" ? product.name_en : product.name_ar;
   imgEl.src = product.img;
   priceEl.textContent = `${product.price} MAD`;
   stockEl.textContent = currentLang === "en" ? `In Stock: ${product.stock}` : `متوفر: ${product.stock}`;
+  if (qtyLabel) qtyLabel.textContent = currentLang === "en" ? "Qty:" : "الكمية:";
 
   if (quantitySelect) {
     quantitySelect.innerHTML = "";
@@ -171,7 +173,7 @@ function updateCartDisplay() {
     li.innerHTML = `
       <span>${currentLang === "en" ? item.name_en : item.name_ar} (x${item.qty})</span>
       <span>${item.price * item.qty} MAD</span>
-      <button data-index="${index}">✖</button>
+      <button data-index="${index}" title="${currentLang === 'en' ? 'Remove' : 'حذف'}">✖</button>
     `;
     cartItems.appendChild(li);
     total += item.price * item.qty;
