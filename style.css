@@ -538,6 +538,10 @@ html[lang="ar"] #cart-items li {
   word-break: break-word;
 }
 
+#checkout-btn {
+  margin-top: 15px;  /* add some space above the button */
+}
+
 
 
 
