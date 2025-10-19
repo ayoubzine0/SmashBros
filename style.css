@@ -571,6 +571,22 @@ html[lang="ar"] #cart-items li {
   text-align: center;
 }
 
+/* Make About & Contact X button match the cart style */
+.close-about,
+.close-contact {
+  z-index: 10001;
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  color: #f1c40f;           /* yellow */
+  background: none;
+  border: none;
+  font-size: 24px;          /* same as cart X */
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+
 
 
 
