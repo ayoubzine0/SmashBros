@@ -596,7 +596,7 @@ body {
   background-image:
     radial-gradient(#f1c40f20 1px, transparent 1px),
     radial-gradient(#f1c40f15 1px, transparent 1px),
-    url('https://i.imgur.com/3o1wNQb.png'); /* subtle gears overlay */
+    url('https://i.imgur.com/ElaELVA.png'); /* subtle gears overlay */
   background-position: 0 0, 25px 25px, center;
   background-size: 50px 50px, 50px 50px, cover;
   color: #f1c40f;
@@ -763,6 +763,7 @@ body {
   transform: translateY(-2px);
   box-shadow: 0 6px 15px #f1c40fff;
 }
+
 
 
 
