@@ -312,7 +312,7 @@ function switchLang() {
   document.documentElement.lang = currentLang;
   applyTranslations();
   renderProducts(currentModel);
-  updateCartDisplay();
+  updateCartDisplay();  // Ensures cart updates immediately, even if empty
 }
 
 // -----------------------------
@@ -374,4 +374,5 @@ document.addEventListener("DOMContentLoaded", () => {
   // Initial RTL
   checkRTL();
 });
+
 
