@@ -564,6 +564,15 @@ html[lang="ar"] #cart-items li {
   border-radius: 8px !important;
 }
 
+/* Make About & Contact popups wider for better spacing */
+#about-popup .popup-content,
+#contact-popup .popup-content {
+  max-width: 500px;   /* increase from 420px to 500px */
+  padding: 25px;      /* a little extra padding */
+  box-sizing: border-box;
+  text-align: center;
+}
+
 
 
 
