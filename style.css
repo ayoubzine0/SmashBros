@@ -200,6 +200,18 @@ main {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 10px;  /* ADD THIS: Ensures space between text and button in LTR (English) */
+}
+
+#cart-items button {
+  background: red;
+  border: none;
+  color: white;
+  padding: 3px 6px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 12px;
+  flex-shrink: 0;  /* ADD THIS: Prevents button from shrinking/compressing */
 }
 
 /* FIX CART ITEM LAYOUT IN RTL (ARABIC) */
@@ -207,6 +219,7 @@ html[lang="ar"] #cart-items li {
   flex-direction: row-reverse;  /* Reverse order: button on left, text on right */
   justify-content: space-between;
 }
+
 html[lang="ar"] #cart-items li button {
   margin-left: 10px;  /* Add space to prevent overlap */
   margin-right: 0;
@@ -480,4 +493,5 @@ button, select {
 .navbar-buttons button {
   direction: rtl !important; /* Only button text is RTL for Arabic */
 }
+
 
