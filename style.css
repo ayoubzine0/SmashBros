@@ -21,7 +21,7 @@ body {
   overflow-x: hidden;
 }
 
-/* HEADER */
+/* HEADER - FORCE LTR TO PREVENT NAV SHIFTING */
 header {
   background: #111;
   display: flex;
@@ -33,6 +33,7 @@ header {
   z-index: 10;
   box-shadow: 0 3px 10px rgba(0,0,0,0.4);
   flex-wrap: wrap;
+  direction: ltr !important; /* FORCE HEADER LTR - LOCKS NAV POSITIONS */
 }
 
 .brand {
@@ -356,6 +357,11 @@ main {
   font-weight: 600;
 }
 
+/* RTL SUPPORT */
+html[lang="ar"] {
+  direction: rtl;
+}
+
 html[lang="ar"] #open-cart {
   flex-direction: row-reverse;
 }
@@ -464,4 +470,3 @@ button, select {
 .navbar-buttons button {
   direction: rtl !important; /* Only button text is RTL for Arabic */
 }
-
