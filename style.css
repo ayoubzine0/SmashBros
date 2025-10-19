@@ -348,14 +348,25 @@ html[lang="ar"] #cart-items li button {
 .close, .close-about, .close-contact, #close-cart {
   z-index: 10001;
   position: absolute;
-  right: 14px;
   top: 10px;
+  font-size: 24px;
   color: #f1c40f;
   background: none;
   border: none;
-  font-size: 24px;
   cursor: pointer;
   touch-action: manipulation;
+}
+
+/* LTR - default */
+html[lang="en"] #close-cart {
+  right: 14px;
+  left: auto;
+}
+
+/* RTL - Arabic */
+html[lang="ar"] #close-cart {
+  left: 14px;  /* Move close button to left side */
+  right: auto;
 }
 
 /* POPUP BUTTONS */
@@ -499,6 +510,7 @@ button, select {
 .navbar-buttons button {
   direction: rtl !important; /* Only button text is RTL for Arabic */
 }
+
 
 
 
