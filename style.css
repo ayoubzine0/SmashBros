@@ -586,6 +586,115 @@ html[lang="ar"] #cart-items li {
   touch-action: manipulation !important;
 }
 
+/* =========================== */
+/* MOTORCYCLE THEME ENHANCEMENTS */
+/* =========================== */
+
+/* HEADER NAV BUTTONS - Metallic hover */
+.nav-btn:hover {
+  background: linear-gradient(135deg, #f1c40f, #e67e22);
+  color: #000;
+  box-shadow: 0 0 12px #f1c40f88;
+  transform: translateY(-2px);
+}
+
+/* PRODUCT CARDS - hover & metallic feel */
+.product {
+  position: relative;
+  background: linear-gradient(145deg, #1b1b1b, #222);
+  border: 1px solid #f1c40f33;
+  transition: transform 0.2s, box-shadow 0.2s, border 0.2s;
+}
+
+.product:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #f1c40f66, 0 0 20px #e67e2288 inset;
+  border-color: #f1c40faa;
+}
+
+/* STOCK BADGE ON PRODUCT */
+.product .stock-badge {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: #e74c3c;
+  color: #fff;
+  padding: 2px 6px;
+  border-radius: 5px;
+  font-size: 0.7rem;
+  font-weight: bold;
+}
+
+/* POPUPS - metallic border & zoom effect */
+.popup-content {
+  border: 2px solid #f1c40f;
+  box-shadow: 0 0 20px #f1c40f55;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  transform: scale(0.95);
+}
+
+.popup-content.show {
+  transform: scale(1);
+}
+
+/* POPUP CLOSE BUTTON - yellow glow hover */
+.popup-content .close,
+.popup-content .close-about,
+.popup-content .close-contact {
+  color: #f1c40f;
+  text-shadow: 0 0 5px #f1c40faa;
+  transition: color 0.2s, text-shadow 0.2s;
+}
+
+.popup-content .close:hover,
+.popup-content .close-about:hover,
+.popup-content .close-contact:hover {
+  text-shadow: 0 0 10px #f1c40fff, 0 0 20px #e67e22ff;
+}
+
+/* CART - metallic border & item shadow */
+#cart {
+  border-left: 2px solid #f1c40f77;
+  background: linear-gradient(145deg, #141414, #1a1a1a);
+}
+
+#cart-items li {
+  border-bottom: 1px solid #f1c40f33;
+  padding: 10px 0;
+  box-shadow: inset 0 -1px 0 #f1c40f22;
+  border-radius: 4px;
+}
+
+/* CHECKOUT BUTTON - glow & bigger */
+#checkout-btn {
+  margin-top: 25px;
+  background: linear-gradient(135deg, #f1c40f, #e67e22);
+  color: #000;
+  font-weight: bold;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 15px #f1c40f77;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#checkout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px #f1c40faa;
+}
+
+/* PRODUCT IMG - metallic frame */
+.product img {
+  border: 2px solid #f1c40f33;
+  border-radius: 6px;
+  background-color: #000;
+}
+
+/* RTL adjustments for popup & cart remain intact */
+html[lang="ar"] .popup-content,
+html[lang="ar"] #cart {
+  direction: rtl;
+}
+
 
 
 
