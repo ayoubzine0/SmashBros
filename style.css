@@ -263,4 +263,210 @@ main {
   min-width: 18px;
   height: 18px;
   padding: 0 6px;
-  display
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 700;
+  box-shadow: 0 0 4px rgba(0,0,0,0.35);
+}
+
+#cart-count.hidden {
+  display: none !important;
+}
+
+/* POPUPS */
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9998;
+}
+
+.popup.hidden {
+  display: none !important;
+}
+
+.popup-content {
+  background: #1b1b1b;
+  color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  width: 90%;
+  max-width: 420px;
+  box-sizing: border-box;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.popup-content img {
+  display: block;
+  margin: 10px auto;
+  width: 100%;
+  max-width: 340px;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  background-color: #000;
+}
+
+.close, .close-about, .close-contact, #close-cart {
+  z-index: 10001;
+  position: absolute;
+  right: 14px;
+  top: 10px;
+  color: #f1c40f;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  touch-action: manipulation;
+}
+
+/* POPUP BUTTONS */
+#add-to-cart {
+  background: #f1c40f !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 10px 14px !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  cursor: pointer !important;
+  display: inline-block !important;
+  margin-top: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+}
+
+#add-to-cart:hover {
+  transform: translateY(-1px);
+}
+
+#quantity {
+  background: #1b1b1b;
+  color: #fff;
+  border: 2px solid #f1c40f;
+  padding: 6px 8px;
+  border-radius: 6px;
+  margin-left: 6px;
+  font-weight: 600;
+}
+
+/* RTL SUPPORT */
+html[lang="ar"] {
+  direction: rtl;
+}
+
+html[lang="ar"] #open-cart {
+  flex-direction: row-reverse;
+}
+
+/* RESPONSIVE MOBILE */
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  nav {
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+
+  #product-list {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .logo {
+    width: 60px !important;
+    height: 60px !important;
+  }
+
+  #cart {
+    width: 100%;
+    top: 0;
+    height: 100%;
+  }
+
+  body.cart-open #product-list {
+    margin-right: 0;
+  }
+
+  #close-cart {
+    top: 15px;
+    right: 20px;
+  }
+}
+
+/* DESKTOP OVERRIDES */
+@media (min-width: 601px) {
+  #cart {
+    top: 0;
+    height: 100vh;
+    z-index: 9999;
+  }
+
+  body.cart-open #product-list {
+    margin-right: 300px;
+  }
+}
+
+/* ============================ */
+/* ADDITIONAL OVERRIDES & SAFETY */
+/* ============================ */
+
+/* Ensure all popups images scale correctly on Safari/iOS */
+@supports (-webkit-touch-callout: none) {
+  .popup-content { max-height: 85vh !important; }
+}
+
+/* Strongest overrides at end */
+#open-cart {
+  position: fixed !important;
+  bottom: 20px !important;
+  right: 20px !important;
+  background: #f1c40f !important;
+  color: #000 !important;
+  border: none !important;
+  padding: 12px 18px !important;
+  border-radius: 50px !important;
+  cursor: pointer !important;
+  font-weight: bold !important;
+  z-index: 99999 !important;
+}
+
+#cart-count {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-weight: 700 !important;
+}
+
+/* Maintain all button colors and borders */
+button, select {
+  font-family: inherit;
+}
+
+/* FORCE NAV BUTTONS TO STAY IN FIXED POSITIONS (LTR) REGARDLESS OF LANGUAGE */
+.navbar-buttons {
+  display: flex !important;
+  flex-direction: row !important; /* Always horizontal */
+  justify-content: flex-start !important; /* Buttons start from left, no shifting */
+  direction: ltr !important; /* Container is always LTR */
+  text-align: left !important; /* Align text left in container */
+}
+
+.navbar-buttons > * {
+  order: initial !important; /* Keep natural order: sanya, becane, c50, About, Contact, عربي */
+  direction: ltr !important; /* Each item is LTR */
+}
+
+.navbar-buttons button {
+  direction: rtl !important; /* Only button text is RTL for Arabic */
+}
