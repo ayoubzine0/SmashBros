@@ -451,16 +451,21 @@ html[lang="ar"] #open-cart {
 button, select {
   font-family: inherit;
 }
+
+/* FORCE NAV BUTTONS TO STAY IN FIXED POSITIONS (LTR) REGARDLESS OF LANGUAGE */
 .navbar-buttons {
   display: flex !important;
-  flex-direction: row !important; /* horizontal always */
-  justify-content: flex-start !important; /* keep order */
-  direction: ltr !important; /* text inside buttons still LTR */
+  flex-direction: row !important; /* Always horizontal */
+  justify-content: flex-start !important; /* Buttons start from left, no shifting */
+  direction: ltr !important; /* Container is always LTR */
+  text-align: left !important; /* Align text left in container */
 }
 
 .navbar-buttons > * {
-  order: initial !important; /* ensure flex items keep natural order */
+  order: initial !important; /* Keep natural order: sanya, becane, c50, About, Contact, عربي */
+  direction: ltr !important; /* Each item is LTR */
 }
+
 .navbar-buttons button {
-  direction: rtl; /* text inside button reads Arabic correctly */
+  direction: rtl !important; /* Only button text is RTL for Arabic */
 }
