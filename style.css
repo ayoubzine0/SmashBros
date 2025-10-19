@@ -511,6 +511,33 @@ button, select {
   direction: rtl !important; /* Only button text is RTL for Arabic */
 }
 
+/* Cart items - better spacing & alignment */
+#cart-items {
+  list-style: none;
+  padding: 0;
+  margin: 10px 0 20px 0;  /* bottom margin added for space before checkout */
+}
+
+#cart-items li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;  /* more spacing between items */
+  border-bottom: 1px solid #f1c40f33;  /* subtle divider */
+  gap: 10px;
+}
+
+html[lang="ar"] #cart-items li {
+  flex-direction: row-reverse;
+  gap: 10px;
+}
+
+#cart-items li span {
+  display: inline-block;
+  max-width: 60%;
+  word-break: break-word;
+}
+
 
 
 
