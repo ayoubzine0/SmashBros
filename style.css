@@ -356,11 +356,6 @@ main {
   font-weight: 600;
 }
 
-/* RTL SUPPORT */
-html[lang="ar"] {
-  direction: rtl;
-}
-
 html[lang="ar"] #open-cart {
   flex-direction: row-reverse;
 }
@@ -469,3 +464,4 @@ button, select {
 .navbar-buttons button {
   direction: rtl !important; /* Only button text is RTL for Arabic */
 }
+
