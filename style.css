@@ -49,7 +49,7 @@ header {
 /* WEBSITE NAME */
 header h1 {
   color: #f1c40f;
-  font-size: 2rem;
+  font-size: 3rem;
   font-weight: 700;
 }
 
@@ -91,7 +91,7 @@ nav {
 
 .navbar-buttons {
   display: flex;
-  gap: 15px;
+  gap: 20px;
   flex-wrap: nowrap;
   justify-content: flex-end; /* desktop: buttons on the right */
 }
@@ -442,3 +442,4 @@ html[lang="ar"] #cart-items li {
     margin-right: 300px;
   }
 }
+
