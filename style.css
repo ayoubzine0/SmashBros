@@ -435,6 +435,12 @@ html[lang="ar"] #cart-items li {
     flex: 0 0 auto;
   }
 }
+ 
+/* Smaller font-size for mobile */
+  header h1 {
+    font-size: 2rem; /* Keeps it manageable on phones */
+  }
+}
 
 /* DESKTOP OVERRIDES */
 @media (min-width: 601px) {
@@ -442,4 +448,5 @@ html[lang="ar"] #cart-items li {
     margin-right: 300px;
   }
 }
+
 
