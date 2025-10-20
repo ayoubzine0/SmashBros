@@ -837,6 +837,22 @@ a {
   }
 }
 
+/* Make header stay at the top permanently */
+header {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  background: #111; /* Ensures it doesn't turn transparent when fixed */
+}
+
+/* Prevent the page content from hiding behind the header */
+main {
+  padding-top: 100px !important; /* Increase if header height is more */
+}
+
+
 
 
 
