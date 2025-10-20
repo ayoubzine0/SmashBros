@@ -49,9 +49,9 @@ header {
 
 /* TITLE IMAGE (replaces h1 text) */
 .title-image {
-  height: 1.5rem; /* Further reduced for smaller size on desktop */
+  height: 3rem; /* Further reduced for smaller size on desktop */
   width: auto; /* Maintains aspect ratio */
-  max-width: 2000px; /* Caps width to prevent it from being too wide */
+  max-width: 400px; /* Caps width to prevent it from being too wide */
   object-fit: contain;
   margin-left: -40px; /* Shifts left on desktop */
 }
@@ -457,6 +457,7 @@ html[lang="ar"] #cart-items li {
     gap: 20px;
     margin-left: 40px; /* move brand (logo + title) to the left */
   }
+
 
 
 
