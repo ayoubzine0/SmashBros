@@ -39,19 +39,68 @@ header {
   box-shadow: 0 4px 10px #f1c40f66;
 }
 
-/* BRAND */
+/* === HEADER BRAND STYLING (yellow + black) === */
 .brand {
   display: flex;
   align-items: center;
-  gap: 15px;
-  margin-left: -40px;
+  gap: 14px;
+  margin-left: -20px; /* slight left shift for desktop */
 }
 
-/* LOGO */
+/* Logo */
 .logo {
-  width: 180px !important;
-  height: 180px !important;
+  width: 130px !important;
+  height: auto !important;
   object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(0,0,0,0.4));
+}
+
+/* Fancy Title Styling */
+header h1 {
+  font-size: 2.8rem; /* bigger and bolder */
+  font-weight: 900;
+  letter-spacing: 2px;
+  color: #f1c40f; /* main yellow color */
+  text-transform: uppercase;
+  margin: 0;
+  line-height: 1;
+  text-shadow:
+    -2px -2px 0 #000,
+     2px -2px 0 #000,
+    -2px  2px 0 #000,
+     2px  2px 0 #000,
+     0 0 10px #f1c40f,
+     0 0 25px #f39c12;
+  transition: all 0.3s ease;
+}
+
+/* Hover effect for a glow pop */
+.brand:hover h1 {
+  color: #fff700;
+  text-shadow:
+    0 0 15px #f1c40f,
+    0 0 30px #f39c12,
+    0 0 45px #000;
+  transform: scale(1.03);
+}
+
+/* === MOBILE RESPONSIVE VERSION === */
+@media (max-width: 600px) {
+  .brand {
+    flex-direction: column;
+    align-items: center;
+    margin-left: 0;
+    text-align: center;
+  }
+
+  header h1 {
+    font-size: 2rem;
+    letter-spacing: 1px;
+  }
+
+  .logo {
+    width: 90px !important;
+  }
 }
 
 /* NAVIGATION */
@@ -449,61 +498,7 @@ html[lang="ar"] #cart-items li {
     margin-left: 40px; /* move brand (logo + title) to the left */
   }
 
-/* === HEADER BRAND DESIGN IMPROVEMENT === */
 
-/* Style and position the brand section */
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-left: -10px; /* move a bit to the left on desktop */
-}
-
-/* Title styling */
-header h1 {
-  font-size: 2.2rem;
-  font-weight: 700;
-  letter-spacing: 1px;
-  color: #f1c40f;
-  text-transform: uppercase;
-  margin: 0;
-  line-height: 1;
-  text-shadow: 0 0 10px #f1c40f55, 0 0 20px #000;
-}
-
-/* Logo refinement */
-.logo {
-  width: 120px !important;
-  height: auto !important;
-  object-fit: contain;
-  margin-right: 5px;
-}
-
-/* Hover glow for professional touch */
-.brand:hover h1 {
-  color: #fff;
-  text-shadow: 0 0 15px #f1c40f, 0 0 30px #e67e22;
-  transition: all 0.3s ease;
-}
-
-/* === RESPONSIVE VERSION (mobile) === */
-@media (max-width: 600px) {
-  .brand {
-    flex-direction: column;
-    align-items: center;
-    margin-left: 0;
-    text-align: center;
-  }
-
-  header h1 {
-    font-size: 1.6rem;
-    letter-spacing: 0.5px;
-  }
-
-  .logo {
-    width: 80px !important;
-  }
-}
 
 
 
