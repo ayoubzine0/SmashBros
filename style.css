@@ -87,21 +87,29 @@ nav {
   background: #fff;
 }
 
-/* Scrollable nav for mobile */
+/* Scrollable nav wrapper */
 .navbar-wrapper {
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+  -webkit-overflow-scrolling: touch; /* smooth scrolling for iOS */
   width: 100%;
+  scroll-behavior: auto; /* no automatic smooth scroll */
 }
 
+/* Button row */
 .navbar-buttons {
   display: flex;
   gap: 15px;
-  flex-wrap: nowrap; /* keep all buttons in a single row */
+  flex-wrap: nowrap; /* single row */
 }
 
+/* Optional: hide scrollbar */
 .navbar-buttons::-webkit-scrollbar {
-  display: none; /* hide scrollbar */
+  display: none;
+}
+
+/* Ensure no animation is applied */
+.navbar-buttons {
+  animation: none !important;
 }
 
 /* MAIN SECTION */
@@ -421,6 +429,7 @@ html[lang="ar"] #cart-items li {
     margin-right: 300px;
   }
 }
+
 
 
 
