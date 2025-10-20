@@ -49,7 +49,7 @@ header {
 
 /* TITLE IMAGE (replaces h1 text) */
 .title-image {
-  height: 10rem; /* A bit bigger on desktop */
+  height: 20rem; /* A bit bigger on desktop */
   width: 400px; /* Fixed width to force it wider */
   object-fit: contain;
   margin-left: -40px; /* Shifts left on desktop */
@@ -455,6 +455,7 @@ html[lang="ar"] #cart-items li {
     gap: 20px;
     margin-left: 40px; /* move brand (logo + title) to the left */
   }
+
 
 
 
