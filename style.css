@@ -44,6 +44,7 @@ header {
   display: flex;
   align-items: center;
   gap: 15px;
+  margin-left: -40px;
 }
 
 /* WEBSITE NAME */
@@ -453,6 +454,7 @@ html[lang="ar"] #cart-items li {
     margin-left: -40px;
   }
 }
+
 
 
 
