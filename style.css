@@ -87,36 +87,36 @@ nav {
   background: #fff;
 }
 
-/* Desktop (default) */
+/* Desktop - keep buttons on right */
 .navbar-wrapper {
-  overflow: visible; /* no scroll on desktop */
+  overflow: visible;
 }
 
 .navbar-buttons {
   display: flex;
   gap: 15px;
   flex-wrap: nowrap;
-  justify-content: flex-end; /* keep buttons on the right */
+  justify-content: flex-end; /* desktop: buttons on the right */
 }
 
 /* Mobile */
 @media (max-width: 600px) {
   .navbar-wrapper {
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* smooth scroll */
-    scroll-behavior: auto;
-    -ms-overflow-style: none; /* IE scrollbar hidden */
-    scrollbar-width: none; /* Firefox scrollbar hidden */
+    overflow-x: auto;          /* allow horizontal scroll */
+    -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+    scroll-behavior: auto;     /* no auto movement */
+    -ms-overflow-style: none;  /* hide scrollbar IE/Edge */
+    scrollbar-width: none;     /* hide scrollbar Firefox */
   }
 
-  /* hide scrollbars */
   .navbar-wrapper::-webkit-scrollbar {
-    display: none;
+    display: none;             /* hide scrollbar Chrome/Safari */
   }
 
   .navbar-buttons {
-    justify-content: flex-start; /* scrollable from left to right */
+    justify-content: flex-start; /* start at left, scrollable */
     gap: 12px;
+    min-width: max-content;      /* ensures buttons do not wrap */
   }
 }
 
@@ -437,6 +437,7 @@ html[lang="ar"] #cart-items li {
     margin-right: 300px;
   }
 }
+
 
 
 
