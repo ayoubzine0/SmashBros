@@ -437,24 +437,31 @@ html[lang="ar"] #cart-items li {
   }
 }
 
-/* MOBILE NAV SCROLLING */
+/* MOBILE NAV SCROLLING FIX */
 @media (max-width: 600px) {
-  nav.navbar-buttons {
+  .navbar-wrapper {
+    display: block;          /* ensure block */
+    width: 100%;             /* full width */
+    overflow-x: auto;        /* horizontal scroll */
+    -webkit-overflow-scrolling: touch; /* smooth on iOS */
+    scrollbar-width: none;   /* Firefox hide scrollbar */
+    -ms-overflow-style: none;/* IE/Edge hide scrollbar */
+  }
+
+  .navbar-wrapper::-webkit-scrollbar {
+    display: none;           /* Chrome/Safari hide scrollbar */
+  }
+
+  .navbar-buttons {
     display: flex;
+    flex-wrap: nowrap;
     gap: 10px;
-    overflow-x: auto;       /* allow horizontal scrolling */
-    -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
-    scroll-behavior: auto;  /* user scroll only, no automatic */
-    padding: 5px 0;
-    scrollbar-width: none;  /* hide scrollbar in Firefox */
+    min-width: max-content;  /* ensure content exceeds wrapper */
+    justify-content: flex-start;
   }
 
-  nav.navbar-buttons::-webkit-scrollbar {
-    display: none;          /* hide scrollbar in Chrome/Safari */
-  }
-
-  nav.navbar-buttons .nav-btn {
-    flex: 0 0 auto;         /* buttons do not shrink, stay in row */
+  .navbar-buttons .nav-btn {
+    flex: 0 0 auto;
   }
 }
 
