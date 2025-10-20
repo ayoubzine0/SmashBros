@@ -807,6 +807,11 @@ a {
   text-decoration: none;
   color: inherit;
 }
+@media (max-width: 600px) {
+  body {
+    background-size: 25px 25px; /* Half the size so it looks crisp */
+  }
+}
 
 
 
