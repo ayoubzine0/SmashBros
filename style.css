@@ -513,6 +513,12 @@ html[lang="ar"] #cart-items li {
     margin-left: 40px; /* move brand (logo + title) to the left */
   }
 
+/* FORCE NAV BUTTONS TO STAY RIGHT ON DESKTOP (any language) */
+.navbar-buttons {
+  justify-content: flex-end !important;
+  flex-direction: row !important;
+}
+
 
 
 
