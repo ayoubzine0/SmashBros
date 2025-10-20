@@ -62,7 +62,7 @@ header {
 
 /* TITLE (Professional look with subtle glow) */
 header h1 {
-  font-family: "Poppins", "Montserrat", sans-serif;
+  font-family: "Poppins", sans-serif;
   font-size: 2.6rem;
   font-weight: 800;
   color: #f4d03f; /* classy yellow tone */
@@ -497,6 +497,7 @@ html[lang="ar"] #cart-items li {
     gap: 20px;
     margin-left: 40px; /* move brand (logo + title) to the left */
   }
+
 
 
 
