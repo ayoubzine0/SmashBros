@@ -49,7 +49,7 @@ header {
 /* WEBSITE NAME */
 header h1 {
   color: #f1c40f;
-  font-size: 4.5rem !important; /* Even bigger on desktop with !important to override */
+  font-size: 4rem !important; /* Even bigger on desktop with !important to override */
   font-weight: 700;
 }
 
@@ -447,4 +447,5 @@ html[lang="ar"] #cart-items li {
     margin-right: 300px;
   }
 }
+
 
