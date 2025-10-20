@@ -49,11 +49,26 @@ header {
 
 /* TITLE IMAGE (replaces h1 text) */
 .title-image {
-  height: 9rem; /* Further reduced for smaller size on desktop */
-  width: auto; /* Maintains aspect ratio */
-  max-width: 1200px; /* Caps width to prevent it from being too wide */
+  height: 4.5rem; /* nice balance for desktop */
+  width: auto;
   object-fit: contain;
-  margin-left: -40px; /* Shifts left on desktop */
+  margin-left: -20px; /* slight left shift */
+}
+
+/* Larger and properly centered on big screens */
+@media (min-width: 601px) {
+  .title-image {
+    height: 6.5rem;  /* slightly bigger for desktop */
+    margin-left: -40px; /* more left offset if needed */
+  }
+}
+
+/* Smaller but clear on mobile */
+@media (max-width: 600px) {
+  .title-image {
+    height: 4rem; /* proportional smaller version */
+    margin-left: 0;
+  }
 }
 
 /* LOGO */
@@ -457,6 +472,7 @@ html[lang="ar"] #cart-items li {
     gap: 20px;
     margin-left: 40px; /* move brand (logo + title) to the left */
   }
+
 
 
 
