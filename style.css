@@ -449,11 +449,13 @@ html[lang="ar"] #cart-items li {
   }
 }
 
- /* Shift brand (title + logo) to the left on desktop */
-  .brand {
-    margin-left: -40px;
+ .brand {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-left: 40px; /* move brand (logo + title) to the left */
   }
-}
+
 
 
 
