@@ -437,6 +437,28 @@ html[lang="ar"] #cart-items li {
   }
 }
 
+/* MOBILE NAV SCROLLING */
+@media (max-width: 600px) {
+  nav.navbar-buttons {
+    display: flex;
+    gap: 10px;
+    overflow-x: auto;       /* allow horizontal scrolling */
+    -webkit-overflow-scrolling: touch; /* smooth scroll on iOS */
+    scroll-behavior: auto;  /* user scroll only, no automatic */
+    padding: 5px 0;
+    scrollbar-width: none;  /* hide scrollbar in Firefox */
+  }
+
+  nav.navbar-buttons::-webkit-scrollbar {
+    display: none;          /* hide scrollbar in Chrome/Safari */
+  }
+
+  nav.navbar-buttons .nav-btn {
+    flex: 0 0 auto;         /* buttons do not shrink, stay in row */
+  }
+}
+
+
 
 
 
