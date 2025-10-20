@@ -510,6 +510,23 @@ button, select {
   direction: rtl !important; /* Only button text is RTL for Arabic */
 }
 
+@media (max-width: 600px) {
+  .navbar-buttons {
+    overflow-x: auto !important;
+    white-space: nowrap !important;
+    -webkit-overflow-scrolling: touch; /* smooth scroll on iPhone */
+    scrollbar-width: none; /* hide scrollbar on Firefox */
+  }
+  .navbar-buttons::-webkit-scrollbar {
+    display: none; /* hide scrollbar on Chrome/Safari */
+  }
+  .navbar-buttons a,
+  .navbar-buttons button {
+    display: inline-block;
+    flex: 0 0 auto; /* prevent shrinking */
+  }
+}
+
 /* ============================ */
 /* Polished Cart Layout & Checkout Button */
 /* ============================ */
@@ -812,6 +829,7 @@ a {
     background-size: 25px 25px; /* Half the size so it looks crisp */
   }
 }
+
 
 
 
