@@ -140,6 +140,24 @@ header h1:hover {
   }
 }
 
+/* NAVIGATION: force buttons to stay on the right */
+.navbar-wrapper {
+  overflow: visible; /* normal desktop */
+}
+
+.navbar-buttons {
+  display: flex;
+  gap: 20px;
+  flex-wrap: nowrap;
+  justify-content: flex-end; /* always on right */
+}
+
+/* RTL SUPPORT: keep buttons right-aligned on desktop */
+html[lang="ar"] .navbar-buttons {
+  flex-direction: row;       /* keep horizontal */
+  justify-content: flex-end; /* keep on the right */
+}
+
 /* MAIN SECTION */
 main {
   display: flex;
@@ -498,6 +516,7 @@ html[lang="ar"] #cart-items li {
     gap: 20px;
     margin-left: 40px; /* move brand (logo + title) to the left */
   }
+
 
 
 
