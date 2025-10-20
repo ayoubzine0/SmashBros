@@ -448,5 +448,10 @@ html[lang="ar"] #cart-items li {
   }
 }
 
+/* Shift brand (title + logo) slightly left on desktop */
+  .brand {
+    margin-left: -20px;
+  }
+}
 
 
