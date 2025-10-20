@@ -87,6 +87,37 @@ nav {
   background: #fff;
 }
 
+/* Desktop: static buttons */
+.navbar-buttons-wrapper {
+  overflow: visible;
+}
+
+.navbar-buttons {
+  display: flex;
+  gap: 15px;
+  animation: none; /* no scrolling on desktop */
+}
+
+/* Mobile: scrolling nav buttons */
+@media (max-width: 600px) {
+  .navbar-buttons-wrapper {
+    overflow: hidden;
+    width: 100%;
+  }
+
+  .navbar-buttons {
+    display: flex;
+    gap: 15px;
+    animation: scrollLeftRight 15s linear infinite alternate;
+  }
+
+  @keyframes scrollLeftRight {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-20%); } /* adjust as needed */
+    100% { transform: translateX(0); }
+  }
+}
+
 /* MAIN SECTION */
 main {
   display: flex;
@@ -404,5 +435,6 @@ html[lang="ar"] #cart-items li {
     margin-right: 300px;
   }
 }
+
 
 
