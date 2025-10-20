@@ -49,7 +49,7 @@ header {
 
 /* TITLE IMAGE (replaces h1 text) */
 .title-image {
-  height: 4.5rem; /* nice balance for desktop */
+  height: 6rem; /* nice balance for desktop */
   width: auto;
   object-fit: contain;
   margin-left: -20px; /* slight left shift */
@@ -58,7 +58,7 @@ header {
 /* Larger and properly centered on big screens */
 @media (min-width: 601px) {
   .title-image {
-    height: 6.5rem;  /* slightly bigger for desktop */
+    height: 12rem;  /* slightly bigger for desktop */
     margin-left: -40px; /* more left offset if needed */
   }
 }
@@ -66,7 +66,7 @@ header {
 /* Smaller but clear on mobile */
 @media (max-width: 600px) {
   .title-image {
-    height: 4rem; /* proportional smaller version */
+    height: 8rem; /* proportional smaller version */
     margin-left: 0;
   }
 }
@@ -472,6 +472,7 @@ html[lang="ar"] #cart-items li {
     gap: 20px;
     margin-left: 40px; /* move brand (logo + title) to the left */
   }
+
 
 
 
