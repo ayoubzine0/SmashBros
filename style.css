@@ -824,9 +824,13 @@ a {
   text-decoration: none;
   color: inherit;
 }
+
 @media (max-width: 600px) {
   body {
-    background-size: 25px 25px; /* Half the size so it looks crisp */
+    background-image: none !important; /* remove the noisy pattern */
+    background-color: #0d0d0d !important; /* or #111 or #1a1a1a */
+    /* Optional gradient for more style: */
+    /* background: linear-gradient(180deg, #0d0d0d, #1a1a1a); */
   }
 }
 
