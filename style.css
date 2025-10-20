@@ -35,25 +35,22 @@ header {
   padding: 10px 25px;
   flex-wrap: wrap;
   direction: ltr;
-
-  /* ADD THIS GLOWING LINE */
-  border-bottom: 4px solid #f1c40f; /* yellow solid line */
-  box-shadow: 0 4px 10px #f1c40f66; /* optional glow */
+  border-bottom: 4px solid #f1c40f;
+  box-shadow: 0 4px 10px #f1c40f66;
 }
 
+/* BRAND */
 .brand {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 }
 
+/* WEBSITE NAME */
 header h1 {
   color: #f1c40f;
-  font-size: 1.8rem;
-}
-
-header h1 span {
-  color: #fff;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
 /* LOGO */
@@ -105,7 +102,7 @@ main {
   flex-direction: column;
   align-items: flex-start;
   padding: 18px;
-  padding-top: 20px; /* adjust to match your header height */
+  padding-top: 20px;
 }
 
 /* PRODUCT GRID */
@@ -131,7 +128,7 @@ main {
 
 .product:hover {
   transform: scale(1.08);
-  box-shadow: 0 0 25px #f1c40faa, inset 0 0 10px #e67e2288; /* glowing effect */
+  box-shadow: 0 0 25px #f1c40faa, inset 0 0 10px #e67e2288;
   border-color: #e67e22;
 }
 
@@ -374,6 +371,10 @@ html[lang="ar"] #cart-items li {
     text-align: center;
   }
 
+  .brand {
+    justify-content: center;
+  }
+
   nav {
     flex-direction: row;
     justify-content: center;
@@ -408,35 +409,25 @@ html[lang="ar"] #cart-items li {
     background-image: none !important;
     background-color: #0d0d0d !important;
   }
-}
 
-/* DESKTOP OVERRIDES */
-@media (min-width: 601px) {
-  body.cart-open #product-list {
-    margin-right: 300px;
-  }
-}
-
-/* MOBILE NAV SCROLLING FIX */
-@media (max-width: 600px) {
   .navbar-wrapper {
-    display: block;          /* ensure block */
-    width: 100%;             /* full width */
-    overflow-x: auto;        /* horizontal scroll */
-    -webkit-overflow-scrolling: touch; /* smooth on iOS */
-    scrollbar-width: none;   /* Firefox hide scrollbar */
-    -ms-overflow-style: none;/* IE/Edge hide scrollbar */
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   .navbar-wrapper::-webkit-scrollbar {
-    display: none;           /* Chrome/Safari hide scrollbar */
+    display: none;
   }
 
   .navbar-buttons {
     display: flex;
     flex-wrap: nowrap;
     gap: 10px;
-    min-width: max-content;  /* ensure content exceeds wrapper */
+    min-width: max-content;
     justify-content: flex-start;
   }
 
@@ -445,13 +436,9 @@ html[lang="ar"] #cart-items li {
   }
 }
 
-
-
-
-
-
-
-
-
-
-
+/* DESKTOP OVERRIDES */
+@media (min-width: 601px) {
+  body.cart-open #product-list {
+    margin-right: 300px;
+  }
+}
