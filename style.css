@@ -99,26 +99,6 @@ nav {
   justify-content: flex-end; /* desktop: buttons on the right */
 }
 
-/* Mobile: allow swipe left-right */
-@media (max-width: 600px) {
-  .navbar-wrapper {
-    overflow-x: auto;          /* horizontal scroll */
-    -webkit-overflow-scrolling: touch; /* smooth on iOS */
-    scrollbar-width: none;     /* Firefox: hide scrollbar */
-    -ms-overflow-style: none;  /* IE/Edge: hide scrollbar */
-  }
-
-  .navbar-wrapper::-webkit-scrollbar {
-    display: none; /* Chrome/Safari: hide scrollbar */
-  }
-
-  .navbar-buttons {
-    min-width: max-content;  /* force buttons in one row */
-    justify-content: flex-start; /* start at left */
-    gap: 12px;
-  }
-}
-
 /* MAIN SECTION */
 main {
   display: flex;
@@ -464,6 +444,7 @@ html[lang="ar"] #cart-items li {
     flex: 0 0 auto;
   }
 }
+
 
 
 
