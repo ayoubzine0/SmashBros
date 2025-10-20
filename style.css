@@ -49,7 +49,7 @@ header {
 /* WEBSITE NAME */
 header h1 {
   color: #f1c40f;
-  font-size: 6rem;
+  font-size: 6rem; /* Desktop: huge size */
   font-weight: 700;
 }
 
@@ -434,9 +434,8 @@ html[lang="ar"] #cart-items li {
   .navbar-buttons .nav-btn {
     flex: 0 0 auto;
   }
-}
- 
-/* Smaller font-size for mobile */
+
+  /* Smaller font-size for mobile */
   header h1 {
     font-size: 2rem; /* Keeps it manageable on phones */
   }
@@ -448,7 +447,3 @@ html[lang="ar"] #cart-items li {
     margin-right: 300px;
   }
 }
-
-
-
-
