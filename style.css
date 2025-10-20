@@ -28,7 +28,11 @@ header {
   justify-content: space-between;
   align-items: center;
   padding: 10px 25px;
-  z-index: 10;
+  position: fixed;      /* <-- stays always at top */
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
   flex-wrap: wrap;
   direction: ltr !important;
 }
@@ -85,7 +89,7 @@ main {
   flex-direction: column;
   align-items: flex-start;
   padding: 18px;
-  padding-top: 80px; /* ✅ Add this to prevent content from hiding behind sticky header */
+  padding-top: 80px; /* adjust to match your header height */
 }
 
 /* PRODUCT GRID */
@@ -832,6 +836,7 @@ a {
     /* background: linear-gradient(180deg, #0d0d0d, #1a1a1a); */
   }
 }
+
 
 
 
