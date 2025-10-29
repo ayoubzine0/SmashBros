@@ -50,17 +50,18 @@
 
   <!-- Product Popup -->
   <div id="product-popup" class="popup hidden">
-    <div class="popup-content">
-      <span class="close">✖</span>
-      <img id="popup-img" src="" alt="Product Image" />
-      <h2 id="popup-title"></h2>
-      <p id="popup-price"></p>
-      <p id="popup-stock"></p>
-      <label for="quantity">Qty:</label>
-      <select id="quantity"></select>
-      <button id="add-to-cart">Add to Cart</button>
-    </div>
+  <div class="popup-content">
+    <span class="close">✖</span>
+    <div id="popup-gallery" class="gallery"></div> <!-- Gallery -->
+    <img id="zoomed-image" src="" alt="Zoomed Image" /> <!-- Zoom overlay -->
+    <h2 id="popup-title"></h2>
+    <p id="popup-price"></p>
+    <p id="popup-stock"></p>
+    <label for="quantity">Qty:</label>
+    <select id="quantity"></select>
+    <button id="add-to-cart">Add to Cart</button>
   </div>
+</div>
 
   <!-- About Popup -->
   <div id="about-popup" class="popup hidden">
@@ -88,6 +89,7 @@
   <script src="script.js"></script>
 </body>
 </html>
+
 
 
 
