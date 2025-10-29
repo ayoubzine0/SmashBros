@@ -1,4 +1,3 @@
-// Bee Auto Parts Script - Updated with Gallery + Zoom (keep everything else intact)
 document.addEventListener("DOMContentLoaded", () => {
   const model = window.PAGE_MODEL || "sanya";
 
@@ -101,6 +100,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const img = document.createElement("img");
       img.src = src;
       img.alt = product.name_en;
+      img.className = "popup-slide-img";
       img.addEventListener("click", () => openZoom(src));
       galleryEl.appendChild(img);
     });
