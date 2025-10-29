@@ -427,3 +427,76 @@ document.addEventListener("DOMContentLoaded", () => {
   // Force initial cart update based on saved language
   updateCartDisplay();
 });
+
+// -----------------------------
+// Product gallery inside popup (3 images + arrows + click-to-zoom)
+// -----------------------------
+function createGallery(product) {
+  const galleryContainerId = "popup-gallery";
+  let galleryContainer = document.getElementById(galleryContainerId);
+
+  // Remove old gallery if exists
+  if (galleryContainer) galleryContainer.remove();
+
+  galleryContainer = document.createElement("div");
+  galleryContainer.id = galleryContainerId;
+  galleryContainer.className = "gallery";
+
+  // Example: 3 images (same for now, you can change later)
+  const images = [product.img, product.img, product.img];
+  images.forEach((src, index) => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.dataset.index = index;
+    img.addEventListener("click", () => toggleZoom(img));
+    galleryContainer.appendChild(img);
+  });
+
+  // Add arrows
+  const prev = document.createElement("div");
+  prev.className = "prev-img";
+  prev.textContent = "‹";
+  prev.addEventListener("click", (e) => {
+    e.stopPropagation();
+    scrollGallery(-1);
+  });
+  const next = document.createElement("div");
+  next.className = "next-img";
+  next.textContent = "›";
+  next.addEventListener("click", (e) => {
+    e.stopPropagation();
+    scrollGallery(1);
+  });
+
+  const popupContent = productPopup.querySelector(".popup-content");
+  popupContent.appendChild(prev);
+  popupContent.appendChild(next);
+  popupContent.appendChild(galleryContainer);
+
+  // Reset scroll position
+  galleryContainer.scrollLeft = 0;
+}
+
+function scrollGallery(direction) {
+  const gallery = document.getElementById("popup-gallery");
+  if (!gallery) return;
+  const scrollAmount = 120; // adjust based on thumbnail width
+  gallery.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
+}
+
+function toggleZoom(img) {
+  if (img.style.transform === "scale(2)") {
+    img.style.transform = "scale(1)";
+    img.style.cursor = "zoom-in";
+  } else {
+    img.style.transform = "scale(2)";
+    img.style.cursor = "zoom-out";
+  }
+}
+
+// Update openProductPopup to include gallery
+const originalOpenProductPopup = openProductPopup;
+openProductPopup = function (product) {
+  originalOpenProductPopup(product); // keep everything as is
+  createGallery(product);           // add gallery only
+};
