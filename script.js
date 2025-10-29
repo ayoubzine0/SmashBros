@@ -14,7 +14,7 @@ let currentModel = window.PAGE_MODEL || "sanya"; // page-specific model
 // Product data (kept intact)
 const allProducts = {
   sanya: [
-    { id: "s1", name_en: "Sanya Front Light", name_ar: "ضوء أمامي سانيا", price: 250, img: "https://i.imgur.com/ElRUCmo.jpeg", stock: 10 },
+    { id: "s1", name_en: "Jalahoodie Muza", name_ar: "ضوء أمامي سانيا", price: 250, img: "https://i.imgur.com/n747oql.png", stock: 10 },
     { id: "s2", name_en: "Sanya Engine Cover", name_ar: "غطاء المحرك سانيا", price: 400, img: "https://i.imgur.com/QMMMb3q.jpeg", stock: 5 },
     { id: "s3", name_en: "Speedometer", name_ar: "عداد السرعة", price: 400, img: "https://i.imgur.com/rzrAFd4.jpeg", stock: 5 },
     { id: "s4", name_en: "Sanya Headlight", name_ar: "المصباح الأمامي سانيا", price: 400, img: "https://i.imgur.com/mxSE7J5.jpeg", stock: 5 },
@@ -377,6 +377,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Force initial cart update based on saved language
   updateCartDisplay();
 });
+
 
 
 
