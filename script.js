@@ -1,4 +1,5 @@
 // script.js - fully fixed, bilingual, cart with all features preserved
+// + Added 3-image gallery per product and zoom feature
 
 // -----------------------------
 // CART + TRANSLATION + PRODUCT LOGIC
@@ -11,24 +12,24 @@ let currentCart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 let currentLang = localStorage.getItem(LANG_KEY) || "en";
 let currentModel = window.PAGE_MODEL || "sanya"; // page-specific model
 
-// Product data (kept intact)
+// Product data (now supports 3 images per product)
 const allProducts = {
   sanya: [
-    { id: "s1", name_en: "Jalahoodie Muza", name_ar: "ضوء أمامي سانيا", price: 250, img: "https://i.imgur.com/n747oql.png", stock: 10 },
-    { id: "s2", name_en: "Sanya Engine Cover", name_ar: "غطاء المحرك سانيا", price: 400, img: "https://i.imgur.com/QMMMb3q.jpeg", stock: 5 },
-    { id: "s3", name_en: "Speedometer", name_ar: "عداد السرعة", price: 400, img: "https://i.imgur.com/rzrAFd4.jpeg", stock: 5 },
-    { id: "s4", name_en: "Sanya Headlight", name_ar: "المصباح الأمامي سانيا", price: 400, img: "https://i.imgur.com/mxSE7J5.jpeg", stock: 5 },
-    { id: "s5", name_en: "Sanya Rear Shock Absorber", name_ar: "ممتص الصدمات الخلفي سانيا", price: 400, img: "https://i.imgur.com/2BmDVAS.png", stock: 5 },
-    { id: "s6", name_en: "Sanya Front Brake Lever", name_ar: "ذراع فرامل أمامية سانيا", price: 400, img: "https://i.imgur.com/E8LgIS1.jpeg", stock: 5 },
-    { id: "s7", name_en: "Sanya Exhaust Pipe", name_ar: "أنبوب العادم سانيا", price: 400, img: "https://i.imgur.com/DcfgHfQ.jpeg", stock: 5 }
+    { id: "s1", name_en: "Jalahoodie Muza", name_ar: "ضوء أمامي سانيا", price: 250, imgs: ["https://i.imgur.com/n747oql.png", "https://i.imgur.com/QMMMb3q.jpeg", "https://i.imgur.com/rzrAFd4.jpeg"], stock: 10 },
+    { id: "s2", name_en: "Sanya Engine Cover", name_ar: "غطاء المحرك سانيا", price: 400, imgs: ["https://i.imgur.com/QMMMb3q.jpeg", "https://i.imgur.com/mxSE7J5.jpeg", "https://i.imgur.com/2BmDVAS.png"], stock: 5 },
+    { id: "s3", name_en: "Speedometer", name_ar: "عداد السرعة", price: 400, imgs: ["https://i.imgur.com/rzrAFd4.jpeg", "https://i.imgur.com/E8LgIS1.jpeg", "https://i.imgur.com/DcfgHfQ.jpeg"], stock: 5 },
+    { id: "s4", name_en: "Sanya Headlight", name_ar: "المصباح الأمامي سانيا", price: 400, imgs: ["https://i.imgur.com/mxSE7J5.jpeg", "https://i.imgur.com/2BmDVAS.png", "https://i.imgur.com/E8LgIS1.jpeg"], stock: 5 },
+    { id: "s5", name_en: "Sanya Rear Shock Absorber", name_ar: "ممتص الصدمات الخلفي سانيا", price: 400, imgs: ["https://i.imgur.com/2BmDVAS.png", "https://i.imgur.com/E8LgIS1.jpeg", "https://i.imgur.com/DcfgHfQ.jpeg"], stock: 5 },
+    { id: "s6", name_en: "Sanya Front Brake Lever", name_ar: "ذراع فرامل أمامية سانيا", price: 400, imgs: ["https://i.imgur.com/E8LgIS1.jpeg", "https://i.imgur.com/DcfgHfQ.jpeg", "https://i.imgur.com/n747oql.png"], stock: 5 },
+    { id: "s7", name_en: "Sanya Exhaust Pipe", name_ar: "أنبوب العادم سانيا", price: 400, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg", "https://i.imgur.com/n747oql.png", "https://i.imgur.com/QMMMb3q.jpeg"], stock: 5 }
   ],
   becane: [
-    { id: "b1", name_en: "Becane Headlight", name_ar: "مصباح أمامي بيكان", price: 270, img: "https://i.imgur.com/DcfgHfQ.jpeg", stock: 8 },
-    { id: "b2", name_en: "Becane Exhaust", name_ar: "عادم بيكان", price: 500, img: "https://i.imgur.com/DcfgHfQ.jpeg", stock: 3 }
+    { id: "b1", name_en: "Becane Headlight", name_ar: "مصباح أمامي بيكان", price: 270, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/n747oql.png","https://i.imgur.com/QMMMb3q.jpeg"], stock: 8 },
+    { id: "b2", name_en: "Becane Exhaust", name_ar: "عادم بيكان", price: 500, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/E8LgIS1.jpeg","https://i.imgur.com/2BmDVAS.png"], stock: 3 }
   ],
   c50: [
-    { id: "c1", name_en: "C50 Chain", name_ar: "سلسلة C50", price: 180, img: "https://i.imgur.com/DcfgHfQ.jpeg", stock: 15 },
-    { id: "c2", name_en: "C50 Mirror", name_ar: "مرآة C50", price: 90, img: "https://i.imgur.com/DcfgHfQ.jpeg", stock: 20 }
+    { id: "c1", name_en: "C50 Chain", name_ar: "سلسلة C50", price: 180, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/n747oql.png","https://i.imgur.com/QMMMb3q.jpeg"], stock: 15 },
+    { id: "c2", name_en: "C50 Mirror", name_ar: "مرآة C50", price: 90, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/E8LgIS1.jpeg","https://i.imgur.com/2BmDVAS.png"], stock: 20 }
   ]
 };
 
@@ -48,7 +49,7 @@ function renderProducts(model) {
     const div = document.createElement("div");
     div.className = "product";
     div.innerHTML = `
-      <img src="${product.img}" alt="${product.name_en}" />
+      <img src="${product.imgs[0]}" alt="${product.name_en}" />
       <h3 class="product-title">${currentLang === "en" ? product.name_en : product.name_ar}</h3>
       <p class="product-price">${product.price} MAD</p>
       <div class="product-actions">
@@ -76,13 +77,23 @@ function openProductPopup(product) {
   if (!productPopup) return;
 
   const titleEl = document.getElementById("popup-title");
-  const imgEl = document.getElementById("popup-img");
+  const galleryEl = document.getElementById("popup-gallery");
   const priceEl = document.getElementById("popup-price");
   const stockEl = document.getElementById("popup-stock");
   const qtyLabel = document.querySelector("label[for='quantity']");
 
   titleEl.textContent = currentLang === "en" ? product.name_en : product.name_ar;
-  imgEl.src = product.img;
+
+  // Render gallery images
+  galleryEl.innerHTML = "";
+  (product.imgs || [product.imgs[0]]).forEach(src => {
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = product.name_en;
+    img.addEventListener("click", () => openZoom(src));
+    galleryEl.appendChild(img);
+  });
+
   priceEl.textContent = `${product.price} MAD`;
   stockEl.textContent = currentLang === "en" ? `In Stock: ${product.stock}` : `متوفر: ${product.stock}`;
   if (qtyLabel) qtyLabel.textContent = currentLang === "en" ? "Qty:" : "الكمية:";
@@ -104,6 +115,39 @@ function openProductPopup(product) {
   }
 
   productPopup.classList.remove("hidden");
+}
+
+// -----------------------------
+// Zoom feature
+// -----------------------------
+function openZoom(src) {
+  let zoomed = document.getElementById("zoomed-image");
+  if (!zoomed) {
+    zoomed = document.createElement("img");
+    zoomed.id = "zoomed-image";
+    zoomed.style.cssText = `
+      max-width: 90vw;
+      max-height: 90vh;
+      cursor: zoom-out;
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 9999;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #0008;
+    `;
+    document.body.appendChild(zoomed);
+  }
+  zoomed.src = src;
+  zoomed.style.display = "block";
+  zoomed.addEventListener("click", closeZoom);
+}
+
+function closeZoom() {
+  const zoomed = document.getElementById("zoomed-image");
+  if (zoomed) zoomed.style.display = "none";
 }
 
 // -----------------------------
@@ -377,8 +421,3 @@ document.addEventListener("DOMContentLoaded", () => {
   // Force initial cart update based on saved language
   updateCartDisplay();
 });
-
-
-
-
-
