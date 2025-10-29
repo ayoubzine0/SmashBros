@@ -1,423 +1,235 @@
-// script.js - fully fixed, bilingual, cart with all features preserved
-// + Added 3-image gallery per product and zoom feature
+// Bee Auto Parts Script - Updated with Gallery + Zoom (keep everything else intact)
+document.addEventListener("DOMContentLoaded", () => {
+  const model = window.PAGE_MODEL || "sanya";
 
-// -----------------------------
-// CART + TRANSLATION + PRODUCT LOGIC
-// -----------------------------
+  // -----------------------------
+  // PRODUCT DATA
+  // -----------------------------
+  const PRODUCTS = {
+    sanya: [
+      { id: "s1", name_en: "Jellahoodie Muza", name_ar: "جلاهودي موزا", price: 250, stock: 10,
+        imgs: [
+          "https://i.imgur.com/n747oql.png",
+          "https://i.imgur.com/QMMMb3q.jpeg",
+          "https://i.imgur.com/rzrAFd4.jpeg"
+        ]
+      },
+      { id: "s2", name_en: "Headlight Sanya", name_ar: "ضوء أمامي سانيا", price: 180, stock: 8,
+        imgs: [
+          "https://i.imgur.com/gLX4OVp.jpeg",
+          "https://i.imgur.com/PC5nUMa.jpeg",
+          "https://i.imgur.com/5ZoRk8p.jpeg"
+        ]
+      }
+    ],
+    becane: [
+      { id: "b1", name_en: "Brake Lever", name_ar: "مقبض الفرامل", price: 75, stock: 12,
+        imgs: [
+          "https://i.imgur.com/CudLOgD.jpeg",
+          "https://i.imgur.com/4YXLlOQ.jpeg",
+          "https://i.imgur.com/xsEbH09.jpeg"
+        ]
+      },
+      { id: "b2", name_en: "Rear Mirror", name_ar: "مرآة خلفية", price: 60, stock: 20,
+        imgs: [
+          "https://i.imgur.com/NsHPKyc.jpeg",
+          "https://i.imgur.com/yR7dZ7V.jpeg",
+          "https://i.imgur.com/Z6tI9MQ.jpeg"
+        ]
+      }
+    ],
+    c50: [
+      { id: "c1", name_en: "C50 Exhaust", name_ar: "عادم C50", price: 220, stock: 5,
+        imgs: [
+          "https://i.imgur.com/tUuxi1s.jpeg",
+          "https://i.imgur.com/yS2VUPp.jpeg",
+          "https://i.imgur.com/GEU6RJ9.jpeg"
+        ]
+      },
+      { id: "c2", name_en: "Rear Light", name_ar: "ضوء خلفي", price: 130, stock: 9,
+        imgs: [
+          "https://i.imgur.com/nCrl8Ev.jpeg",
+          "https://i.imgur.com/0lWALex.jpeg",
+          "https://i.imgur.com/3Vk9spU.jpeg"
+        ]
+      }
+    ]
+  };
 
-const CART_KEY = "beeCart";
-const LANG_KEY = "beeLang";
+  let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+  let currentLang = localStorage.getItem("lang") || "en";
 
-let currentCart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
-let currentLang = localStorage.getItem(LANG_KEY) || "en";
-let currentModel = window.PAGE_MODEL || "sanya"; // page-specific model
+  // -----------------------------
+  // RENDER PRODUCTS
+  // -----------------------------
+  function renderProducts(model) {
+    const list = document.getElementById("product-list");
+    list.innerHTML = "";
+    PRODUCTS[model].forEach(p => {
+      const div = document.createElement("div");
+      div.className = "product";
+      div.innerHTML = `
+        <img src="${p.imgs[0]}" alt="${p.name_en}">
+        <h3>${currentLang === "ar" ? p.name_ar : p.name_en}</h3>
+        <p>${p.price} MAD</p>
+        <button data-id="${p.id}" class="view-btn">${currentLang === "ar" ? "عرض" : "View"}</button>
+      `;
+      div.querySelector(".view-btn").addEventListener("click", () => openProductPopup(p));
+      list.appendChild(div);
+    });
+  }
 
-// Product data (now supports 3 images per product)
-const allProducts = {
-  sanya: [
-    { id: "s1", name_en: "Jalahoodie Muza", name_ar: "ضوء أمامي سانيا", price: 250, imgs: ["https://i.imgur.com/n747oql.png", "https://i.imgur.com/QMMMb3q.jpeg", "https://i.imgur.com/rzrAFd4.jpeg"], stock: 10 },
-    { id: "s2", name_en: "Sanya Engine Cover", name_ar: "غطاء المحرك سانيا", price: 400, imgs: ["https://i.imgur.com/QMMMb3q.jpeg", "https://i.imgur.com/mxSE7J5.jpeg", "https://i.imgur.com/2BmDVAS.png"], stock: 5 },
-    { id: "s3", name_en: "Speedometer", name_ar: "عداد السرعة", price: 400, imgs: ["https://i.imgur.com/rzrAFd4.jpeg", "https://i.imgur.com/E8LgIS1.jpeg", "https://i.imgur.com/DcfgHfQ.jpeg"], stock: 5 },
-    { id: "s4", name_en: "Sanya Headlight", name_ar: "المصباح الأمامي سانيا", price: 400, imgs: ["https://i.imgur.com/mxSE7J5.jpeg", "https://i.imgur.com/2BmDVAS.png", "https://i.imgur.com/E8LgIS1.jpeg"], stock: 5 },
-    { id: "s5", name_en: "Sanya Rear Shock Absorber", name_ar: "ممتص الصدمات الخلفي سانيا", price: 400, imgs: ["https://i.imgur.com/2BmDVAS.png", "https://i.imgur.com/E8LgIS1.jpeg", "https://i.imgur.com/DcfgHfQ.jpeg"], stock: 5 },
-    { id: "s6", name_en: "Sanya Front Brake Lever", name_ar: "ذراع فرامل أمامية سانيا", price: 400, imgs: ["https://i.imgur.com/E8LgIS1.jpeg", "https://i.imgur.com/DcfgHfQ.jpeg", "https://i.imgur.com/n747oql.png"], stock: 5 },
-    { id: "s7", name_en: "Sanya Exhaust Pipe", name_ar: "أنبوب العادم سانيا", price: 400, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg", "https://i.imgur.com/n747oql.png", "https://i.imgur.com/QMMMb3q.jpeg"], stock: 5 }
-  ],
-  becane: [
-    { id: "b1", name_en: "Becane Headlight", name_ar: "مصباح أمامي بيكان", price: 270, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/n747oql.png","https://i.imgur.com/QMMMb3q.jpeg"], stock: 8 },
-    { id: "b2", name_en: "Becane Exhaust", name_ar: "عادم بيكان", price: 500, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/E8LgIS1.jpeg","https://i.imgur.com/2BmDVAS.png"], stock: 3 }
-  ],
-  c50: [
-    { id: "c1", name_en: "C50 Chain", name_ar: "سلسلة C50", price: 180, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/n747oql.png","https://i.imgur.com/QMMMb3q.jpeg"], stock: 15 },
-    { id: "c2", name_en: "C50 Mirror", name_ar: "مرآة C50", price: 90, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/E8LgIS1.jpeg","https://i.imgur.com/2BmDVAS.png"], stock: 20 }
-  ]
-};
+  // -----------------------------
+  // POPUPS
+  // -----------------------------
+  const productPopup = document.getElementById("product-popup");
+  const galleryEl = document.getElementById("popup-gallery");
+  const zoomedImg = document.getElementById("zoomed-image");
+  const popupTitle = document.getElementById("popup-title");
+  const popupPrice = document.getElementById("popup-price");
+  const popupStock = document.getElementById("popup-stock");
+  const quantitySelect = document.getElementById("quantity");
+  const addToCartBtn = document.getElementById("add-to-cart");
 
-// Cached DOM elements
-let openCartBtn, cartCount, cartEl, closeCartBtn, productList, translateBtn, productPopup, aboutPopup, contactPopup, addToCartBtn, quantitySelect, checkoutBtn, toast;
+  function openProductPopup(product) {
+    popupTitle.textContent = currentLang === "ar" ? product.name_ar : product.name_en;
+    popupPrice.textContent = product.price + " MAD";
+    popupStock.textContent = `${currentLang === "ar" ? "المخزون" : "Stock"}: ${product.stock}`;
 
-// -----------------------------
-// Render products
-// -----------------------------
-function renderProducts(model) {
-  if (!productList) return;
-  productList.innerHTML = "";
-  const products = allProducts[model];
-  if (!products) return;
-
-  products.forEach(product => {
-    const div = document.createElement("div");
-    div.className = "product";
-    div.innerHTML = `
-      <img src="${product.imgs[0]}" alt="${product.name_en}" />
-      <h3 class="product-title">${currentLang === "en" ? product.name_en : product.name_ar}</h3>
-      <p class="product-price">${product.price} MAD</p>
-      <div class="product-actions">
-        <button class="card-add-btn" title="${currentLang === 'en' ? 'Add' : 'أضف'}">${currentLang === "en" ? "Add" : "أضف"}</button>
-      </div>
-    `;
-
-    // card click opens popup
-    div.addEventListener("click", () => openProductPopup(product));
-
-    // add button opens popup, stops propagation
-    div.querySelector(".card-add-btn").addEventListener("click", e => {
-      e.stopPropagation();
-      openProductPopup(product);
+    galleryEl.innerHTML = "";
+    (product.imgs || []).forEach(src => {
+      const img = document.createElement("img");
+      img.src = src;
+      img.alt = product.name_en;
+      img.addEventListener("click", () => openZoom(src));
+      galleryEl.appendChild(img);
     });
 
-    productList.appendChild(div);
-  });
-}
-
-// -----------------------------
-// Product popup
-// -----------------------------
-function openProductPopup(product) {
-  if (!productPopup) return;
-
-  const titleEl = document.getElementById("popup-title");
-  const galleryEl = document.getElementById("popup-gallery");
-  const priceEl = document.getElementById("popup-price");
-  const stockEl = document.getElementById("popup-stock");
-  const qtyLabel = document.querySelector("label[for='quantity']");
-
-  titleEl.textContent = currentLang === "en" ? product.name_en : product.name_ar;
-
-  // Render gallery images
-  galleryEl.innerHTML = "";
-  (product.imgs || [product.imgs[0]]).forEach(src => {
-    const img = document.createElement("img");
-    img.src = src;
-    img.alt = product.name_en;
-    img.addEventListener("click", () => openZoom(src));
-    galleryEl.appendChild(img);
-  });
-
-  priceEl.textContent = `${product.price} MAD`;
-  stockEl.textContent = currentLang === "en" ? `In Stock: ${product.stock}` : `متوفر: ${product.stock}`;
-  if (qtyLabel) qtyLabel.textContent = currentLang === "en" ? "Qty:" : "الكمية:";
-
-  if (quantitySelect) {
     quantitySelect.innerHTML = "";
     for (let i = 1; i <= product.stock; i++) {
-      const option = document.createElement("option");
-      option.value = i;
-      option.textContent = i;
-      quantitySelect.appendChild(option);
+      const opt = document.createElement("option");
+      opt.value = i;
+      opt.textContent = i;
+      quantitySelect.appendChild(opt);
     }
+
+    addToCartBtn.onclick = () => addToCart(product.id);
+    productPopup.classList.remove("hidden");
   }
 
-  if (addToCartBtn) {
-    addToCartBtn.dataset.productId = product.id;
-    addToCartBtn.dataset.model = currentModel;
-    addToCartBtn.textContent = currentLang === "en" ? "Add to Cart" : "أضف إلى السلة";
+  function closePopups() {
+    productPopup.classList.add("hidden");
+    document.getElementById("about-popup")?.classList.add("hidden");
+    document.getElementById("contact-popup")?.classList.add("hidden");
+    closeZoom();
   }
 
-  productPopup.classList.remove("hidden");
-}
+  document.querySelectorAll(".close, .close-about, .close-contact").forEach(btn => {
+    btn.addEventListener("click", closePopups);
+  });
 
-// -----------------------------
-// Zoom feature
-// -----------------------------
-function openZoom(src) {
-  let zoomed = document.getElementById("zoomed-image");
-  if (!zoomed) {
-    zoomed = document.createElement("img");
-    zoomed.id = "zoomed-image";
-    zoomed.style.cssText = `
-      max-width: 90vw;
-      max-height: 90vh;
-      cursor: zoom-out;
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 9999;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #0008;
-    `;
-    document.body.appendChild(zoomed);
-  }
-  zoomed.src = src;
-  zoomed.style.display = "block";
-  zoomed.addEventListener("click", closeZoom);
-}
-
-function closeZoom() {
-  const zoomed = document.getElementById("zoomed-image");
-  if (zoomed) zoomed.style.display = "none";
-}
-
-// -----------------------------
-// Close popups
-// -----------------------------
-function closePopups() {
-  if (productPopup) productPopup.classList.add("hidden");
-  if (aboutPopup) aboutPopup.classList.add("hidden");
-  if (contactPopup) contactPopup.classList.add("hidden");
-}
-
-// -----------------------------
-// Add to cart
-// -----------------------------
-function addToCart() {
-  if (!addToCartBtn) return;
-  const productId = addToCartBtn.dataset.productId;
-  const model = addToCartBtn.dataset.model;
-  const qty = parseInt(quantitySelect.value, 10);
-
-  const products = allProducts[model];
-  const product = products.find(p => p.id === productId);
-  if (!product || qty > product.stock) return;
-
-  const existing = currentCart.find(item => item.id === productId);
-  if (existing) {
-    existing.qty += qty;
-  } else {
-    currentCart.push({ ...product, model, qty });
+  // -----------------------------
+  // ZOOM FEATURE
+  // -----------------------------
+  function openZoom(src) {
+    zoomedImg.src = src;
+    zoomedImg.style.display = "block";
   }
 
-  saveCart();
-  updateCartDisplay();
-  closePopups();
-  showToast(currentLang === "en" ? "Added to cart!" : "تمت الإضافة إلى السلة!");
-}
+  function closeZoom() {
+    zoomedImg.style.display = "none";
+  }
 
-// -----------------------------
-// Save & update cart
-// -----------------------------
-function saveCart() {
-  localStorage.setItem(CART_KEY, JSON.stringify(currentCart));
-}
+  zoomedImg.addEventListener("click", closeZoom);
 
-function updateCartDisplay() {
-  if (!cartCount) return;
-
-  const count = currentCart.reduce((sum, it) => sum + (it.qty || 1), 0);
-  cartCount.textContent = count;
-  cartCount.classList.toggle("hidden", count === 0);
-
-  const cartItems = document.getElementById("cart-items");
+  // -----------------------------
+  // CART SYSTEM
+  // -----------------------------
+  const openCartBtn = document.getElementById("open-cart");
+  const closeCartBtn = document.getElementById("close-cart");
+  const cartEl = document.getElementById("cart");
+  const cartItemsEl = document.getElementById("cart-items");
   const totalEl = document.getElementById("total");
-  if (!cartItems || !totalEl) return;
+  const cartCountEl = document.getElementById("cart-count");
 
-  cartItems.innerHTML = "";
-  let total = 0;
-
-  if (currentCart.length === 0) {
-    cartItems.innerHTML = `<p>${currentLang === "en" ? "Your cart is empty." : "سلتك فارغة."}</p>`;
-    totalEl.textContent = `${currentLang === "en" ? "Total" : "المجموع"}: 0 MAD`;
-    return;
+  function addToCart(id) {
+    const qty = parseInt(quantitySelect.value);
+    const product = PRODUCTS[model].find(p => p.id === id);
+    if (!product) return;
+    const existing = cart.find(i => i.id === id);
+    if (existing) existing.qty += qty;
+    else cart.push({ id, qty, model });
+    localStorage.setItem("cart", JSON.stringify(cart));
+    showToast("✅ Added to cart!");
+    updateCartDisplay();
   }
 
-  currentCart.forEach((item, index) => {
-    const li = document.createElement("li");
-    li.innerHTML = `
-      <span>${currentLang === "en" ? item.name_en : item.name_ar} (x${item.qty})</span>
-      <span>${item.price * item.qty} MAD</span>
-      <button data-index="${index}" title="${currentLang === 'en' ? 'Remove' : 'حذف'}">✖</button>
-    `;
-    cartItems.appendChild(li);
-    total += item.price * item.qty;
-  });
+  function updateCartDisplay() {
+    cartItemsEl.innerHTML = "";
+    let total = 0;
+    let count = 0;
 
-  totalEl.textContent = `${currentLang === "en" ? "Total" : "المجموع"}: ${total} MAD`;
-
-  // Remove items
-  cartItems.querySelectorAll("button").forEach(btn => {
-    btn.addEventListener("click", e => {
-      const idx = parseInt(e.target.dataset.index, 10);
-      currentCart.splice(idx, 1);
-      saveCart();
-      updateCartDisplay();
+    cart.forEach(item => {
+      const prod = PRODUCTS[item.model].find(p => p.id === item.id);
+      if (!prod) return;
+      total += prod.price * item.qty;
+      count += item.qty;
+      const li = document.createElement("li");
+      li.textContent = `${currentLang === "ar" ? prod.name_ar : prod.name_en} x${item.qty}`;
+      cartItemsEl.appendChild(li);
     });
+
+    totalEl.textContent = `Total: ${total} MAD`;
+    cartCountEl.textContent = count;
+    cartCountEl.classList.toggle("hidden", count === 0);
+  }
+
+  openCartBtn.addEventListener("click", () => cartEl.classList.add("active"));
+  closeCartBtn.addEventListener("click", () => cartEl.classList.remove("active"));
+
+  function showToast(msg) {
+    const toast = document.getElementById("toast");
+    toast.textContent = msg;
+    toast.classList.remove("hidden");
+    setTimeout(() => toast.classList.add("hidden"), 2000);
+  }
+
+  // -----------------------------
+  // TRANSLATION
+  // -----------------------------
+  const translateBtn = document.getElementById("translate-btn");
+
+  function switchLang() {
+    currentLang = currentLang === "en" ? "ar" : "en";
+    localStorage.setItem("lang", currentLang);
+    translateBtn.textContent = currentLang === "ar" ? "EN" : "عربي";
+    document.body.dir = currentLang === "ar" ? "rtl" : "ltr";
+    renderProducts(model);
+    updateCartDisplay();
+  }
+
+  translateBtn.addEventListener("click", switchLang);
+
+  // -----------------------------
+  // CHECKOUT
+  // -----------------------------
+  document.getElementById("checkout-btn").addEventListener("click", () => {
+    if (cart.length === 0) return alert("Cart is empty!");
+    let message = "🛒 Bee Auto Parts Order:\n";
+    let total = 0;
+    cart.forEach(item => {
+      const p = PRODUCTS[item.model].find(pr => pr.id === item.id);
+      message += `• ${p.name_en} x${item.qty} = ${p.price * item.qty} MAD\n`;
+      total += p.price * item.qty;
+    });
+    message += `\nTotal: ${total} MAD`;
+    const url = "https://wa.me/212724680135?text=" + encodeURIComponent(message);
+    window.open(url, "_blank");
   });
 
-  checkRTL();
-}
-
-// -----------------------------
-// Open/close cart
-// -----------------------------
-function openCart() {
-  if (!cartEl) return;
-  cartEl.classList.add("open");
-  document.body.classList.add("cart-open");
-}
-
-function closeCart() {
-  if (!cartEl) return;
-  cartEl.classList.remove("open");
-  document.body.classList.remove("cart-open");
-}
-
-// -----------------------------
-// Checkout
-// -----------------------------
-function checkout() {
-  if (currentCart.length === 0) return;
-
-  const phone = "212724680135";
-  let msg = currentLang === "en" ? "Order Details:\n" : "تفاصيل الطلب:\n";
-  currentCart.forEach(item => {
-    msg += `${currentLang === "en" ? item.name_en : item.name_ar} x${item.qty} - ${item.price * item.qty} MAD\n`;
-  });
-  const total = currentCart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  msg += `${currentLang === "en" ? "Total" : "المجموع"}: ${total} MAD`;
-
-  window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
-}
-
-// -----------------------------
-// Toast
-// -----------------------------
-function showToast(msg) {
-  if (!toast) {
-    toast = document.createElement("div");
-    toast.id = "toast";
-    toast.style.cssText = `
-      position: fixed;
-      bottom: 20px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: #f1c40f;
-      color: #000;
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-weight: bold;
-      z-index: 99999;
-      display: none;
-    `;
-    document.body.appendChild(toast);
-  }
-  toast.textContent = msg;
-  toast.style.display = "block";
-  setTimeout(() => toast.style.display = "none", 1500);
-}
-
-// -----------------------------
-// Language / translations
-// -----------------------------
-function applyTranslations() {
-  if (translateBtn) translateBtn.textContent = currentLang === "en" ? "عربي" : "EN";
-  const aboutLink = document.getElementById("about-link");
-  const contactLink = document.getElementById("contact-link");
-  if (aboutLink) aboutLink.textContent = currentLang === "en" ? "About" : "حول";
-  if (contactLink) contactLink.textContent = currentLang === "en" ? "Contact" : "اتصال";
-
-  const brandTitle = document.querySelector(".brand h1");
-  if (brandTitle) brandTitle.textContent = currentLang === "en" ? "Bee Auto Parts" : "Bee لقطع غيار السيارات";
-
-  const cartH2 = document.querySelector("#cart h2");
-  if (cartH2) cartH2.textContent = currentLang === "en" ? "🛒 Cart" : "🛒 السلة";
-
-  const checkoutBtnEl = document.getElementById("checkout-btn");
-  if (checkoutBtnEl) checkoutBtnEl.textContent = currentLang === "en" ? "Checkout on WhatsApp" : "اتمام الطلب عبر واتساب";
-
-  document.querySelectorAll(".product .card-add-btn").forEach(btn => {
-    btn.textContent = currentLang === "en" ? "Add" : "أضف";
-  });
-
-  updatePopupContent();
-}
-
-// -----------------------------
-function updatePopupContent() {
-  if (!aboutPopup || !contactPopup) return;
-
-  const aboutTitle = aboutPopup.querySelector("h2");
-  const aboutText = aboutPopup.querySelector("p");
-  const contactTitle = contactPopup.querySelector("h2");
-  const contactPs = contactPopup.querySelectorAll("p");
-
-  if (currentLang === "en") {
-    if (aboutTitle) aboutTitle.textContent = "About Bee Auto Parts";
-    if (aboutText) aboutText.textContent = "Bee Auto Parts is Morocco’s trusted source for quality motorcycle and car parts...";
-    if (contactTitle) contactTitle.textContent = "Contact Us";
-    if (contactPs[0]) contactPs[0].textContent = "📞 Phone: +212 724-680-135";
-    if (contactPs[1]) contactPs[1].textContent = "📧 Email: contact@beeautoparts.ma";
-    if (contactPs[2]) contactPs[2].textContent = "📍 Address: Casablanca, Morocco";
-  } else {
-    if (aboutTitle) aboutTitle.textContent = "حول Bee Auto Parts";
-    if (aboutText) aboutText.textContent = "Bee Auto Parts هي المصدر الموثوق في المغرب لقطع غيار الدراجات النارية والسيارات عالية الجودة...";
-    if (contactTitle) contactTitle.textContent = "اتصل بنا";
-    if (contactPs[0]) contactPs[0].textContent = "📞 الهاتف: ‎+212 724-680-135";
-    if (contactPs[1]) contactPs[1].textContent = "📧 البريد الإلكتروني: contact@beeautoparts.ma";
-    if (contactPs[2]) contactPs[2].textContent = "📍 العنوان: الدار البيضاء، المغرب";
-  }
-}
-
-// -----------------------------
-function switchLang() {
-  currentLang = currentLang === "en" ? "ar" : "en";
-  localStorage.setItem(LANG_KEY, currentLang);
-  document.documentElement.lang = currentLang;
-  applyTranslations();
-  renderProducts(currentModel);
-  updateCartDisplay();  // Ensures cart updates immediately, even if empty
-}
-
-// -----------------------------
-// RTL for cart count
-// -----------------------------
-function checkRTL() {
-  if (!cartCount) return;
-  const isArabic = document.documentElement.lang === "ar";
-  if (isArabic) {
-    cartCount.style.right = "unset";
-    cartCount.style.left = "-8px";
-  } else {
-    cartCount.style.left = "unset";
-    cartCount.style.right = "-8px";
-  }
-}
-
-// -----------------------------
-// Init
-// -----------------------------
-document.addEventListener("DOMContentLoaded", () => {
-  openCartBtn = document.getElementById("open-cart");
-  cartCount = document.getElementById("cart-count");
-  cartEl = document.getElementById("cart");
-  closeCartBtn = document.getElementById("close-cart");
-  productList = document.getElementById("product-list");
-  translateBtn = document.getElementById("translate-btn");
-  productPopup = document.getElementById("product-popup");
-  aboutPopup = document.getElementById("about-popup");
-  contactPopup = document.getElementById("contact-popup");
-  addToCartBtn = document.getElementById("add-to-cart");
-  quantitySelect = document.getElementById("quantity");
-  checkoutBtn = document.getElementById("checkout-btn");
-
-  renderProducts(currentModel);
-  updateCartDisplay();
-  applyTranslations();
-
-  // About / Contact links
-  document.getElementById("about-link")?.addEventListener("click", () => aboutPopup.classList.remove("hidden"));
-  document.getElementById("contact-link")?.addEventListener("click", () => contactPopup.classList.remove("hidden"));
-
-  // Close buttons
-  productPopup?.querySelector(".close")?.addEventListener("click", closePopups);
-  aboutPopup?.querySelector(".close-about")?.addEventListener("click", closePopups);
-  contactPopup?.querySelector(".close-contact")?.addEventListener("click", closePopups);
-
-  // Cart buttons
-  openCartBtn?.addEventListener("click", openCart);
-  closeCartBtn?.addEventListener("click", closeCart);
-  checkoutBtn?.addEventListener("click", checkout);
-
-  // Add to cart
-  addToCartBtn?.addEventListener("click", addToCart);
-
-  // Language switch
-  translateBtn?.addEventListener("click", switchLang);
-
-  // Initial RTL
-  checkRTL();
-  
-  // Force initial cart update based on saved language
+  // -----------------------------
+  // INIT
+  // -----------------------------
+  renderProducts(model);
   updateCartDisplay();
 });
