@@ -553,6 +553,47 @@ html[lang="ar"] #cart-items li {
   cursor: zoom-out;
 }
 
+/* Product popup arrows */
+.popup-content .prev-img,
+.popup-content .next-img {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 30px;
+  color: rgba(0,0,0,0.7);
+  background: rgba(255,255,255,0.7);
+  padding: 5px 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  user-select: none;
+  z-index: 10;
+  transition: background 0.2s, color 0.2s;
+}
+.popup-content .prev-img:hover,
+.popup-content .next-img:hover {
+  background: rgba(0,0,0,0.6);
+  color: #fff;
+}
+.popup-content .prev-img { left: 10px; }
+.popup-content .next-img { right: 10px; }
+
+/* Ensure popup image stays contained and centered */
+#popup-img {
+  display: block;
+  max-width: 100%;
+  max-height: 70vh;
+  margin: 0 auto;
+  transition: transform 0.3s ease;
+  cursor: zoom-in;
+}
+
+/* Optional: adjust popup content spacing */
+.popup-content {
+  position: relative;
+  padding: 20px;
+  text-align: center;
+}
+
 
 
 
