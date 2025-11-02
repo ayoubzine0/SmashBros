@@ -1,4 +1,5 @@
 // script.js - fully fixed, bilingual, cart with all features preserved
+
 // -----------------------------
 // CART + TRANSLATION + PRODUCT LOGIC
 // -----------------------------
@@ -10,35 +11,24 @@ let currentCart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
 let currentLang = localStorage.getItem(LANG_KEY) || "en";
 let currentModel = window.PAGE_MODEL || "sanya"; // page-specific model
 
-// Product data (kept intact, adding array of images for gallery)
+// Product data (kept intact)
 const allProducts = {
   sanya: [
-    {
-      id: "s1",
-      name_en: "Sanya front light",
-      name_ar: "ضوء أمامي سانيا",
-      price: 250,
-      imgs: [
-        "https://i.imgur.com/qrnveRW.jpeg",
-        "https://i.imgur.com/qrnveRW.jpeg",
-        "https://i.imgur.com/qrnveRW.jpeg"
-      ],
-      stock: 10
-    },
-    { id: "s2", name_en: "Sanya Engine Cover", name_ar: "غطاء المحرك سانيا", price: 400, imgs: ["https://i.imgur.com/QMMMb3q.jpeg","https://i.imgur.com/QMMMb3q.jpeg","https://i.imgur.com/QMMMb3q.jpeg"], stock: 5 },
-    { id: "s3", name_en: "Speedometer", name_ar: "عداد السرعة", price: 400, imgs: ["https://i.imgur.com/rzrAFd4.jpeg","https://i.imgur.com/rzrAFd4.jpeg","https://i.imgur.com/rzrAFd4.jpeg"], stock: 5 },
-    { id: "s4", name_en: "Sanya Headlight", name_ar: "المصباح الأمامي سانيا", price: 400, imgs: ["https://i.imgur.com/mxSE7J5.jpeg","https://i.imgur.com/mxSE7J5.jpeg","https://i.imgur.com/mxSE7J5.jpeg"], stock: 5 },
-    { id: "s5", name_en: "Sanya Rear Shock Absorber", name_ar: "ممتص الصدمات الخلفي سانيا", price: 400, imgs: ["https://i.imgur.com/2BmDVAS.png","https://i.imgur.com/2BmDVAS.png","https://i.imgur.com/2BmDVAS.png"], stock: 5 },
-    { id: "s6", name_en: "Sanya Front Brake Lever", name_ar: "ذراع فرامل أمامية سانيا", price: 400, imgs: ["https://i.imgur.com/E8LgIS1.jpeg","https://i.imgur.com/E8LgIS1.jpeg","https://i.imgur.com/E8LgIS1.jpeg"], stock: 5 },
-    { id: "s7", name_en: "Sanya Exhaust Pipe", name_ar: "أنبوب العادم سانيا", price: 400, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/DcfgHfQ.jpeg"], stock: 5 }
+    { id: "s1", name_en: "Jalahoodie Muza", name_ar: "ضوء أمامي سانيا", price: 250, img: "https://i.imgur.com/n747oql.png", stock: 10 },
+    { id: "s2", name_en: "Sanya Engine Cover", name_ar: "غطاء المحرك سانيا", price: 400, img: "https://i.imgur.com/QMMMb3q.jpeg", stock: 5 },
+    { id: "s3", name_en: "Speedometer", name_ar: "عداد السرعة", price: 400, img: "https://i.imgur.com/rzrAFd4.jpeg", stock: 5 },
+    { id: "s4", name_en: "Sanya Headlight", name_ar: "المصباح الأمامي سانيا", price: 400, img: "https://i.imgur.com/mxSE7J5.jpeg", stock: 5 },
+    { id: "s5", name_en: "Sanya Rear Shock Absorber", name_ar: "ممتص الصدمات الخلفي سانيا", price: 400, img: "https://i.imgur.com/2BmDVAS.png", stock: 5 },
+    { id: "s6", name_en: "Sanya Front Brake Lever", name_ar: "ذراع فرامل أمامية سانيا", price: 400, img: "https://i.imgur.com/E8LgIS1.jpeg", stock: 5 },
+    { id: "s7", name_en: "Sanya Exhaust Pipe", name_ar: "أنبوب العادم سانيا", price: 400, img: "https://i.imgur.com/DcfgHfQ.jpeg", stock: 5 }
   ],
   becane: [
-    { id: "b1", name_en: "Becane Headlight", name_ar: "مصباح أمامي بيكان", price: 270, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/DcfgHfQ.jpeg"], stock: 8 },
-    { id: "b2", name_en: "Becane Exhaust", name_ar: "عادم بيكان", price: 500, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/DcfgHfQ.jpeg"], stock: 3 }
+    { id: "b1", name_en: "Becane Headlight", name_ar: "مصباح أمامي بيكان", price: 270, img: "https://i.imgur.com/DcfgHfQ.jpeg", stock: 8 },
+    { id: "b2", name_en: "Becane Exhaust", name_ar: "عادم بيكان", price: 500, img: "https://i.imgur.com/DcfgHfQ.jpeg", stock: 3 }
   ],
   c50: [
-    { id: "c1", name_en: "C50 Chain", name_ar: "سلسلة C50", price: 180, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/DcfgHfQ.jpeg"], stock: 15 },
-    { id: "c2", name_en: "C50 Mirror", name_ar: "مرآة C50", price: 90, imgs: ["https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/DcfgHfQ.jpeg","https://i.imgur.com/DcfgHfQ.jpeg"], stock: 20 }
+    { id: "c1", name_en: "C50 Chain", name_ar: "سلسلة C50", price: 180, img: "https://i.imgur.com/DcfgHfQ.jpeg", stock: 15 },
+    { id: "c2", name_en: "C50 Mirror", name_ar: "مرآة C50", price: 90, img: "https://i.imgur.com/DcfgHfQ.jpeg", stock: 20 }
   ]
 };
 
@@ -58,7 +48,7 @@ function renderProducts(model) {
     const div = document.createElement("div");
     div.className = "product";
     div.innerHTML = `
-      <img src="${product.imgs[0]}" alt="${product.name_en}" />
+      <img src="${product.img}" alt="${product.name_en}" />
       <h3 class="product-title">${currentLang === "en" ? product.name_en : product.name_ar}</h3>
       <p class="product-price">${product.price} MAD</p>
       <div class="product-actions">
@@ -82,8 +72,6 @@ function renderProducts(model) {
 // -----------------------------
 // Product popup
 // -----------------------------
-let currentImageIndex = 0;
-
 function openProductPopup(product) {
   if (!productPopup) return;
 
@@ -94,11 +82,11 @@ function openProductPopup(product) {
   const qtyLabel = document.querySelector("label[for='quantity']");
 
   titleEl.textContent = currentLang === "en" ? product.name_en : product.name_ar;
+  imgEl.src = product.img;
   priceEl.textContent = `${product.price} MAD`;
   stockEl.textContent = currentLang === "en" ? `In Stock: ${product.stock}` : `متوفر: ${product.stock}`;
   if (qtyLabel) qtyLabel.textContent = currentLang === "en" ? "Qty:" : "الكمية:";
 
-  // Populate quantity select
   if (quantitySelect) {
     quantitySelect.innerHTML = "";
     for (let i = 1; i <= product.stock; i++) {
@@ -114,57 +102,6 @@ function openProductPopup(product) {
     addToCartBtn.dataset.model = currentModel;
     addToCartBtn.textContent = currentLang === "en" ? "Add to Cart" : "أضف إلى السلة";
   }
-
-  // Gallery setup
-  currentImageIndex = 0;
-  imgEl.src = product.imgs[currentImageIndex];
-  imgEl.style.transform = "scale(1)";
-  imgEl.style.cursor = "zoom-in";
-
-  // Remove old arrows if exist
-  let oldPrev = productPopup.querySelector(".prev-img");
-  let oldNext = productPopup.querySelector(".next-img");
-  if (oldPrev) oldPrev.remove();
-  if (oldNext) oldNext.remove();
-
-  // Create arrows
-  const prevArrow = document.createElement("span");
-  prevArrow.textContent = "◀";
-  prevArrow.className = "prev-img";
-  prevArrow.style.cssText = "position:absolute;top:50%;left:5px;font-size:24px;cursor:pointer;user-select:none;";
-  prevArrow.addEventListener("click", e => {
-    e.stopPropagation();
-    currentImageIndex = (currentImageIndex - 1 + product.imgs.length) % product.imgs.length;
-    imgEl.src = product.imgs[currentImageIndex];
-    imgEl.style.transform = "scale(1)";
-    imgEl.style.cursor = "zoom-in";
-  });
-
-  const nextArrow = document.createElement("span");
-  nextArrow.textContent = "▶";
-  nextArrow.className = "next-img";
-  nextArrow.style.cssText = "position:absolute;top:50%;right:5px;font-size:24px;cursor:pointer;user-select:none;";
-  nextArrow.addEventListener("click", e => {
-    e.stopPropagation();
-    currentImageIndex = (currentImageIndex + 1) % product.imgs.length;
-    imgEl.src = product.imgs[currentImageIndex];
-    imgEl.style.transform = "scale(1)";
-    imgEl.style.cursor = "zoom-in";
-  });
-
-  productPopup.querySelector(".popup-content").appendChild(prevArrow);
-  productPopup.querySelector(".popup-content").appendChild(nextArrow);
-
-  // Click to toggle zoom
-  imgEl.onclick = () => {
-    if (imgEl.style.transform === "scale(1)") {
-      imgEl.style.transform = "scale(2)";
-      imgEl.style.cursor = "zoom-out";
-    } else {
-      imgEl.style.transform = "scale(1)";
-      imgEl.style.cursor = "zoom-in";
-    }
-  };
 
   productPopup.classList.remove("hidden");
 }
@@ -186,6 +123,7 @@ function addToCart() {
   const productId = addToCartBtn.dataset.productId;
   const model = addToCartBtn.dataset.model;
   const qty = parseInt(quantitySelect.value, 10);
+
   const products = allProducts[model];
   const product = products.find(p => p.id === productId);
   if (!product || qty > product.stock) return;
@@ -212,6 +150,7 @@ function saveCart() {
 
 function updateCartDisplay() {
   if (!cartCount) return;
+
   const count = currentCart.reduce((sum, it) => sum + (it.qty || 1), 0);
   cartCount.textContent = count;
   cartCount.classList.toggle("hidden", count === 0);
@@ -263,6 +202,7 @@ function openCart() {
   cartEl.classList.add("open");
   document.body.classList.add("cart-open");
 }
+
 function closeCart() {
   if (!cartEl) return;
   cartEl.classList.remove("open");
@@ -274,6 +214,7 @@ function closeCart() {
 // -----------------------------
 function checkout() {
   if (currentCart.length === 0) return;
+
   const phone = "212724680135";
   let msg = currentLang === "en" ? "Order Details:\n" : "تفاصيل الطلب:\n";
   currentCart.forEach(item => {
@@ -281,6 +222,7 @@ function checkout() {
   });
   const total = currentCart.reduce((sum, item) => sum + item.price * item.qty, 0);
   msg += `${currentLang === "en" ? "Total" : "المجموع"}: ${total} MAD`;
+
   window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, "_blank");
 }
 
@@ -292,15 +234,23 @@ function showToast(msg) {
     toast = document.createElement("div");
     toast.id = "toast";
     toast.style.cssText = `
-      position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%);
-      background: #f1c40f; color: #000; padding: 10px 20px; border-radius: 8px;
-      font-weight: bold; z-index: 99999; display: none;
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #f1c40f;
+      color: #000;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      z-index: 99999;
+      display: none;
     `;
     document.body.appendChild(toast);
   }
   toast.textContent = msg;
   toast.style.display = "block";
-  setTimeout(() => (toast.style.display = "none"), 1500);
+  setTimeout(() => toast.style.display = "none", 1500);
 }
 
 // -----------------------------
@@ -428,76 +378,6 @@ document.addEventListener("DOMContentLoaded", () => {
   updateCartDisplay();
 });
 
-// -----------------------------
-// Product gallery inside popup (3 images + arrows + click-to-zoom)
-// -----------------------------
-function createGallery(product) {
-  const galleryContainerId = "popup-gallery";
-  let galleryContainer = document.getElementById(galleryContainerId);
 
-  // Remove old gallery if exists
-  if (galleryContainer) galleryContainer.remove();
 
-  galleryContainer = document.createElement("div");
-  galleryContainer.id = galleryContainerId;
-  galleryContainer.className = "gallery";
-
-  // Example: 3 images (same for now, you can change later)
-  const images = [product.img, product.img, product.img];
-  images.forEach((src, index) => {
-    const img = document.createElement("img");
-    img.src = src;
-    img.dataset.index = index;
-    img.addEventListener("click", () => toggleZoom(img));
-    galleryContainer.appendChild(img);
-  });
-
-  // Add arrows
-  const prev = document.createElement("div");
-  prev.className = "prev-img";
-  prev.textContent = "‹";
-  prev.addEventListener("click", (e) => {
-    e.stopPropagation();
-    scrollGallery(-1);
-  });
-  const next = document.createElement("div");
-  next.className = "next-img";
-  next.textContent = "›";
-  next.addEventListener("click", (e) => {
-    e.stopPropagation();
-    scrollGallery(1);
-  });
-
-  const popupContent = productPopup.querySelector(".popup-content");
-  popupContent.appendChild(prev);
-  popupContent.appendChild(next);
-  popupContent.appendChild(galleryContainer);
-
-  // Reset scroll position
-  galleryContainer.scrollLeft = 0;
-}
-
-function scrollGallery(direction) {
-  const gallery = document.getElementById("popup-gallery");
-  if (!gallery) return;
-  const scrollAmount = 120; // adjust based on thumbnail width
-  gallery.scrollBy({ left: direction * scrollAmount, behavior: "smooth" });
-}
-
-function toggleZoom(img) {
-  if (img.style.transform === "scale(2)") {
-    img.style.transform = "scale(1)";
-    img.style.cursor = "zoom-in";
-  } else {
-    img.style.transform = "scale(2)";
-    img.style.cursor = "zoom-out";
-  }
-}
-
-// Update openProductPopup to include gallery
-const originalOpenProductPopup = openProductPopup;
-openProductPopup = function (product) {
-  originalOpenProductPopup(product); // keep everything as is
-  createGallery(product);           // add gallery only
-};
 
