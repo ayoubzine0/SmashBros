@@ -518,3 +518,9 @@ html[lang="ar"] #cart-items li {
   justify-content: flex-end !important;
   flex-direction: row !important;
 }
+
+/* --- Zoom Adjustment --- */
+html {
+  zoom: 0.8; /* makes everything appear like 80% browser zoom */
+}
+
