@@ -15,13 +15,13 @@ const allProducts = {
   sanya: [
     {
       id: "s1",
-      name_en: "Jalahoodie Muza",
+      name_en: "Sanya front light",
       name_ar: "ضوء أمامي سانيا",
       price: 250,
       imgs: [
-        "https://i.imgur.com/n747oql.png",
-        "https://i.imgur.com/n747oql.png",
-        "https://i.imgur.com/n747oql.png"
+        "https://i.imgur.com/qrnveRW.jpeg",
+        "https://i.imgur.com/qrnveRW.jpeg",
+        "https://i.imgur.com/qrnveRW.jpeg"
       ],
       stock: 10
     },
@@ -500,3 +500,4 @@ openProductPopup = function (product) {
   originalOpenProductPopup(product); // keep everything as is
   createGallery(product);           // add gallery only
 };
+
